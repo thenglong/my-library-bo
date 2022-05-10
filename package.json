@@ -1,5 +1,5 @@
 {
-  "name": "open-liz-library-back-office",
+  "name": "liz-library-bo",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
