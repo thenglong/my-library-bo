@@ -1,0 +1,4 @@
+{
+  "*.+(js|jsx|ts|tsx)": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix --max-warnings 0",
+  "*.+(json|css|md)": "prettier --write"
+}
