@@ -1,4 +1,4 @@
-export const AUTH_BASE_URL = "/app"
-export const APP_BASE_URL = "/app"
+export const APP_PREFIX_PATH = "/app"
+export const AUTH_PREFIX_PATH = ""
 
-export const LOGIN_ROUTE = `${AUTH_BASE_URL}/login`
+export const LOGIN_ROUTE = `${AUTH_PREFIX_PATH}/login`
