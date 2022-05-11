@@ -1,17 +1,17 @@
-import { Box, Card, Container, Typography } from "@mui/material";
-import { Helmet } from "react-helmet-async";
+import { Box, Card, Container, Typography } from "@mui/material"
+import { Helmet } from "react-helmet-async"
 
-import Logo from "components/logo";
-import DemoEmailPassword from "components/pages/login-page/demo-email-password";
-import LifeQuote from "components/pages/login-page/life-quote";
-import LoginForm from "components/pages/login-page/login-form";
+import Logo from "components/logo"
+import DemoEmailPassword from "components/pages/login-page/demo-email-password"
+import LifeQuote from "components/pages/login-page/life-quote"
+import LoginForm from "components/pages/login-page/login-form"
 import {
   Content,
   MainContent,
   SidebarContent,
   SidebarWrapper,
-} from "components/pages/login-page/login-page-styled";
-import Scrollbar from "components/scrollbar";
+} from "components/pages/login-page/login-page-styled"
+import Scrollbar from "components/scrollbar"
 
 function LoginCover() {
   return (
@@ -72,7 +72,7 @@ function LoginCover() {
         </MainContent>
       </Content>
     </>
-  );
+  )
 }
 
-export default LoginCover;
+export default LoginCover

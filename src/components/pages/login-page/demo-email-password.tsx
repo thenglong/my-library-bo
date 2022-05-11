@@ -1,4 +1,4 @@
-import { Alert, Tooltip } from "@mui/material";
+import { Alert, Tooltip } from "@mui/material"
 
 const DemoEmailPassword = () => {
   return (
@@ -7,7 +7,7 @@ const DemoEmailPassword = () => {
         Use <b>liz.demo@mailinator.com</b> and password <b>123123</b>
       </Alert>
     </Tooltip>
-  );
-};
+  )
+}
 
-export default DemoEmailPassword;
+export default DemoEmailPassword

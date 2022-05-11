@@ -1,14 +1,14 @@
-import { ComponentProps, ReactNode } from "react";
+import { ComponentProps, ReactNode } from "react"
 
-import { Box, useTheme } from "@mui/material";
-import { Scrollbars as CustomerScrollbar } from "react-custom-scrollbars-2";
+import { Box, useTheme } from "@mui/material"
+import { Scrollbars as CustomerScrollbar } from "react-custom-scrollbars-2"
 
 interface ScrollbarProps extends ComponentProps<typeof CustomerScrollbar> {
-  children: ReactNode;
+  children: ReactNode
 }
 
 const Scrollbar = ({ children, ...rest }: ScrollbarProps) => {
-  const theme = useTheme();
+  const theme = useTheme()
 
   return (
     <CustomerScrollbar
@@ -27,13 +27,13 @@ const Scrollbar = ({ children, ...rest }: ScrollbarProps) => {
               },
             }}
           />
-        );
+        )
       }}
       {...rest}
     >
       {children}
     </CustomerScrollbar>
-  );
-};
+  )
+}
 
-export default Scrollbar;
+export default Scrollbar

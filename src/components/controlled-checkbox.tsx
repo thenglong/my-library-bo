@@ -1,14 +1,14 @@
-import { ComponentProps } from "react";
+import { ComponentProps } from "react"
 
-import { Checkbox, FormControlLabel } from "@mui/material";
-import { Controller } from "react-hook-form";
-import { Control } from "react-hook-form/dist/types/form";
+import { Checkbox, FormControlLabel } from "@mui/material"
+import { Controller } from "react-hook-form"
+import { Control } from "react-hook-form/dist/types/form"
 
 interface ControlledCheckboxProps {
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  control: Control<any>;
-  name: string;
-  label: ComponentProps<typeof FormControlLabel>["label"];
+  control: Control<any>
+  name: string
+  label: ComponentProps<typeof FormControlLabel>["label"]
 }
 
 const ControlledCheckbox = ({
@@ -34,7 +34,7 @@ const ControlledCheckbox = ({
       }
       label={label}
     />
-  );
-};
+  )
+}
 
-export default ControlledCheckbox;
+export default ControlledCheckbox

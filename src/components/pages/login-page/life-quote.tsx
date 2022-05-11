@@ -1,9 +1,9 @@
-import { Box, Tooltip, Typography } from "@mui/material";
+import { Box, Tooltip, Typography } from "@mui/material"
 
 import {
   CardImage,
   TypographyH1,
-} from "components/pages/login-page/login-page-styled";
+} from "components/pages/login-page/login-page-styled"
 
 const items = [
   {
@@ -31,7 +31,7 @@ const items = [
       "https://avatars.dicebear.com/api/initials/:e.svg?background=%23FEB326",
     width: "35%",
   },
-];
+]
 
 const LifeQuote = () => {
   return (
@@ -76,7 +76,7 @@ const LifeQuote = () => {
         A reader lives a thousand lives before he dies, said Jojen
       </Typography>
     </>
-  );
-};
+  )
+}
 
-export default LifeQuote;
+export default LifeQuote

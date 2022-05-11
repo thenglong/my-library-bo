@@ -1,7 +1,7 @@
-import LoginPage from "components/pages/login-page";
+import LoginPage from "components/pages/login-page"
 
 function App() {
-  return <LoginPage />;
+  return <LoginPage />
 }
 
-export default App;
+export default App

@@ -1,18 +1,19 @@
-import { ReactNode } from "react";
+import { ReactNode } from "react"
 
-import { LocalizationProvider } from "@mui/lab";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import { CssBaseline } from "@mui/material";
-import { SnackbarProvider } from "notistack";
-import { HelmetProvider } from "react-helmet-async";
-import { Provider as ReduxProvider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
+import { LocalizationProvider } from "@mui/lab"
+import AdapterDateFns from "@mui/lab/AdapterDateFns"
+import { CssBaseline } from "@mui/material"
+import { SnackbarProvider } from "notistack"
+import { HelmetProvider } from "react-helmet-async"
+import { Provider as ReduxProvider } from "react-redux"
+import { BrowserRouter } from "react-router-dom"
 
-import store from "redux/store";
-import ThemeProvider from "theme/ThemeProvider";
+import { SidebarProvider } from "contexts/SidebarContext"
+import store from "redux/store"
+import ThemeProvider from "theme/ThemeProvider"
 
 interface AppProviderProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
 const AppProvider = ({ children }: AppProviderProps) => {
@@ -28,16 +29,16 @@ const AppProvider = ({ children }: AppProviderProps) => {
                 horizontal: "right",
               }}
             >
-              {/*<SidebarProvider>*/}
-              <CssBaseline />
-              <BrowserRouter>{children}</BrowserRouter>
-              {/*</SidebarProvider>*/}
+              <SidebarProvider>
+                <CssBaseline />
+                <BrowserRouter>{children}</BrowserRouter>
+              </SidebarProvider>
             </SnackbarProvider>
           </LocalizationProvider>
         </ThemeProvider>
       </ReduxProvider>
     </HelmetProvider>
-  );
-};
+  )
+}
 
-export default AppProvider;
+export default AppProvider

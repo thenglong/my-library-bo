@@ -1,5 +1,5 @@
-import { Box, styled, Tooltip, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Box, styled, Tooltip, Typography } from "@mui/material"
+import { Link } from "react-router-dom"
 
 const LogoWrapper = styled(Link)(
   ({ theme }) => `
@@ -9,13 +9,13 @@ const LogoWrapper = styled(Link)(
         text-decoration: none;
         font-weight: ${theme.typography.fontWeightBold};
 `
-);
+)
 
 const LogoTextWrapper = styled(Box)(
   ({ theme }) => `
         padding-left: ${theme.spacing(1)};
 `
-);
+)
 
 const VersionBadge = styled(Box)(
   ({ theme }) => `
@@ -28,14 +28,14 @@ const VersionBadge = styled(Box)(
         line-height: 1;
         font-size: ${theme.typography.pxToRem(11)};
 `
-);
+)
 
 const LogoText = styled(Box)(
   ({ theme }) => `
         font-size: ${theme.typography.pxToRem(15)};
         font-weight: ${theme.typography.fontWeightBold};
 `
-);
+)
 
 function Logo() {
   return (
@@ -57,7 +57,7 @@ function Logo() {
         </LogoTextWrapper>
       </Box>
     </LogoWrapper>
-  );
+  )
 }
 
-export default Logo;
+export default Logo

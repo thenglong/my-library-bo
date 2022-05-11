@@ -1,4 +1,4 @@
-import { yupResolver } from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup"
 import {
   Box,
   Button,
@@ -7,26 +7,26 @@ import {
   Link,
   styled,
   Typography,
-} from "@mui/material";
-import { useForm } from "react-hook-form";
-import { Link as RouterLink } from "react-router-dom";
-import * as yup from "yup";
+} from "@mui/material"
+import { useForm } from "react-hook-form"
+import { Link as RouterLink } from "react-router-dom"
+import * as yup from "yup"
 
-import { ReactComponent as GoogleLogo } from "assets/svgs/google.svg";
-import ControlledCheckbox from "components/controlled-checkbox";
-import ControlledTextField from "components/controlled-text-field";
+import { ReactComponent as GoogleLogo } from "assets/svgs/google.svg"
+import ControlledCheckbox from "components/controlled-checkbox"
+import ControlledTextField from "components/controlled-text-field"
 
 const GoogleLogoWrapper = styled(GoogleLogo)(
   ({ theme }) => `
     margin-right: ${theme.spacing(1)};
 `
-);
+)
 
 const defaultValues = {
   email: "",
   password: "",
   remember: false,
-};
+}
 
 const schema = yup.object().shape({
   email: yup
@@ -36,7 +36,7 @@ const schema = yup.object().shape({
     .required("The email field is required"),
   password: yup.string().max(255).required("The password field is required"),
   remember: yup.boolean(),
-});
+})
 
 const LoginForm = () => {
   const {
@@ -46,15 +46,15 @@ const LoginForm = () => {
   } = useForm<typeof defaultValues>({
     defaultValues,
     resolver: yupResolver(schema),
-  });
+  })
 
   const onSubmit = handleSubmit((_data) => {
     //
-  });
+  })
 
   const handleGoogleClick = () => {
     //
-  };
+  }
 
   return (
     <>
@@ -134,7 +134,7 @@ const LoginForm = () => {
         </Button>
       </form>
     </>
-  );
-};
+  )
+}
 
-export default LoginForm;
+export default LoginForm

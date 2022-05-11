@@ -1,4 +1,4 @@
-import { Box, Card, styled, Typography } from "@mui/material";
+import { Box, Card, styled, Typography } from "@mui/material"
 
 export const SidebarContent = styled("div")(
   ({ theme }) => `
@@ -6,7 +6,7 @@ export const SidebarContent = styled("div")(
   flex-direction: column;
   padding: ${theme.spacing(6)};
 `
-);
+)
 
 export const SidebarWrapper = styled("div")(
   ({ theme }) => `
@@ -21,7 +21,7 @@ export const SidebarWrapper = styled("div")(
       display: flex;
     }
 `
-);
+)
 
 export const CardImage = styled(Card)(
   ({ theme }) => `
@@ -33,13 +33,13 @@ export const CardImage = styled(Card)(
     border: 1px solid ${theme.colors.alpha.black[10]};
     transition: ${theme.transitions.create(["border"])};
 `
-);
+)
 
 export const TypographyH1 = styled(Typography)(
   ({ theme }) => `
     font-size: ${theme.typography.pxToRem(33)};
 `
-);
+)
 
 export const MainContent = styled(Box)(
   ({ theme }) => `
@@ -51,10 +51,10 @@ export const MainContent = styled(Box)(
     padding: 0;
   }
 `
-);
+)
 
 export const Content = styled(Box)`
   display: flex;
   width: 100%;
   flex: 1;
-`;
+`
