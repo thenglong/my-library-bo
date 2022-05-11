@@ -1,0 +1,140 @@
+import { yupResolver } from "@hookform/resolvers/yup";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Divider,
+  Link,
+  styled,
+  Typography,
+} from "@mui/material";
+import { useForm } from "react-hook-form";
+import { Link as RouterLink } from "react-router-dom";
+import * as yup from "yup";
+
+import { ReactComponent as GoogleLogo } from "assets/svgs/google.svg";
+import ControlledCheckbox from "components/controlled-checkbox";
+import ControlledTextField from "components/controlled-text-field";
+
+const GoogleLogoWrapper = styled(GoogleLogo)(
+  ({ theme }) => `
+    margin-right: ${theme.spacing(1)};
+`
+);
+
+const defaultValues = {
+  email: "",
+  password: "",
+  remember: false,
+};
+
+const schema = yup.object().shape({
+  email: yup
+    .string()
+    .email("Please enter a valid email")
+    .max(255)
+    .required("The email field is required"),
+  password: yup.string().max(255).required("The password field is required"),
+  remember: yup.boolean(),
+});
+
+const LoginForm = () => {
+  const {
+    handleSubmit,
+    formState: { errors, touchedFields, isSubmitting },
+    control,
+  } = useForm<typeof defaultValues>({
+    defaultValues,
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = handleSubmit((_data) => {
+    //
+  });
+
+  const handleGoogleClick = () => {
+    //
+  };
+
+  return (
+    <>
+      <Button
+        fullWidth
+        onClick={handleGoogleClick}
+        size="large"
+        variant="outlined"
+      >
+        <GoogleLogoWrapper />
+        Sign in with Google
+      </Button>
+
+      <Divider
+        sx={{
+          mt: 4,
+          mb: 2,
+        }}
+      >
+        or
+      </Divider>
+
+      <form noValidate onSubmit={onSubmit}>
+        <ControlledTextField
+          isError={Boolean(touchedFields.email && errors.email)}
+          label="Email address"
+          placeholder="Your email address here..."
+          name="email"
+          type="email"
+          control={control}
+          touched={touchedFields.email}
+          errorMessage={errors.email?.message}
+        />
+        <ControlledTextField
+          isError={Boolean(touchedFields.password && errors.password)}
+          label="Password"
+          placeholder="Your password here..."
+          name="password"
+          type="password"
+          control={control}
+          touched={touchedFields.password}
+          errorMessage={errors.password?.message}
+        />
+
+        <Box alignItems="center" display="flex" justifyContent="space-between">
+          <ControlledCheckbox
+            control={control}
+            name="remember"
+            label={
+              <Typography variant="body2" fontWeight={700}>
+                Stay signed in
+              </Typography>
+            }
+          />
+
+          <Link<typeof RouterLink>
+            component={RouterLink}
+            to="/forgot-password" // TODO: forgot password page
+          >
+            <strong>Forgot password?</strong>
+          </Link>
+        </Box>
+
+        <Button
+          sx={{
+            mt: 3,
+          }}
+          color="primary"
+          startIcon={isSubmitting ? <CircularProgress size="1rem" /> : null}
+          disabled={isSubmitting}
+          size="large"
+          fullWidth
+          type="submit"
+          variant="contained"
+        >
+          Sign in
+        </Button>
+      </form>
+    </>
+  );
+};
+
+export default LoginForm;
