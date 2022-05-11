@@ -5,8 +5,9 @@ import { Controller } from "react-hook-form";
 import { Control } from "react-hook-form/dist/types/form";
 
 interface ControlledCheckboxProps {
-  name: string;
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   control: Control<any>;
+  name: string;
   label: ComponentProps<typeof FormControlLabel>["label"];
 }
 

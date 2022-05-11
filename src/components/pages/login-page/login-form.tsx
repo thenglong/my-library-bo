@@ -4,7 +4,6 @@ import {
   Button,
   CircularProgress,
   Divider,
-  FormHelperText,
   Link,
   styled,
   Typography,
@@ -13,10 +12,11 @@ import { useForm } from "react-hook-form";
 import { Link as RouterLink } from "react-router-dom";
 import * as yup from "yup";
 
-import ControlledCheckbox from "components/pages/login-page/controlled-checkbox";
-import ControlledTextField from "components/pages/login-page/controlled-text-field";
+import { ReactComponent as GoogleLogo } from "assets/svgs/google.svg";
+import ControlledCheckbox from "components/controlled-checkbox";
+import ControlledTextField from "components/controlled-text-field";
 
-const ImgWrapper = styled("img")(
+const GoogleLogoWrapper = styled(GoogleLogo)(
   ({ theme }) => `
     margin-right: ${theme.spacing(1)};
 `
@@ -25,22 +25,20 @@ const ImgWrapper = styled("img")(
 const defaultValues = {
   email: "",
   password: "",
-  terms: false,
+  remember: false,
 };
 
 const schema = yup.object().shape({
   email: yup
     .string()
-    .email("The email provided should be a valid email address")
+    .email("Please enter a valid email")
     .max(255)
     .required("The email field is required"),
   password: yup.string().max(255).required("The password field is required"),
-  terms: yup
-    .boolean()
-    .oneOf([true], "You must agree to our terms and conditions"),
+  remember: yup.boolean(),
 });
 
-const LoginFirebaseAuth = () => {
+const LoginForm = () => {
   const {
     handleSubmit,
     formState: { errors, touchedFields, isSubmitting },
@@ -50,7 +48,9 @@ const LoginFirebaseAuth = () => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const onSubmit = handleSubmit((_data) => {
+    //
+  });
 
   const handleGoogleClick = () => {
     //
@@ -64,9 +64,10 @@ const LoginFirebaseAuth = () => {
         size="large"
         variant="outlined"
       >
-        <ImgWrapper alt="Google" src="/static/images/logo/google.svg" />
+        <GoogleLogoWrapper />
         Sign in with Google
       </Button>
+
       <Divider
         sx={{
           mt: 4,
@@ -75,6 +76,7 @@ const LoginFirebaseAuth = () => {
       >
         or
       </Divider>
+
       <form noValidate onSubmit={onSubmit}>
         <ControlledTextField
           isError={Boolean(touchedFields.email && errors.email)}
@@ -100,29 +102,21 @@ const LoginFirebaseAuth = () => {
         <Box alignItems="center" display="flex" justifyContent="space-between">
           <ControlledCheckbox
             control={control}
-            name="terms"
+            name="remember"
             label={
-              <Typography variant="body2">
-                {"I accept the"}{" "}
-                <Link component="a" href="#">
-                  terms and conditions
-                </Link>
-                .
+              <Typography variant="body2" fontWeight={700}>
+                Stay signed in
               </Typography>
             }
           />
 
           <Link<typeof RouterLink>
             component={RouterLink}
-            to="/account/recover-password"
+            to="/forgot-password" // TODO: forgot password page
           >
-            <b>Forgot password?</b>
+            <strong>Forgot password?</strong>
           </Link>
         </Box>
-
-        {Boolean(touchedFields.terms && errors.terms) && (
-          <FormHelperText error>{errors.terms?.message}</FormHelperText>
-        )}
 
         <Button
           sx={{
@@ -143,4 +137,4 @@ const LoginFirebaseAuth = () => {
   );
 };
 
-export default LoginFirebaseAuth;
+export default LoginForm;
