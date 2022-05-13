@@ -5,6 +5,8 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns"
 import { CssBaseline } from "@mui/material"
 import { SnackbarProvider } from "notistack"
 import { HelmetProvider } from "react-helmet-async"
+import { QueryClient, QueryClientProvider } from "react-query"
+import { ReactQueryDevtools } from "react-query/devtools"
 import { Provider as ReduxProvider } from "react-redux"
 import { BrowserRouter } from "react-router-dom"
 
@@ -15,6 +17,8 @@ import ThemeProvider from "theme/ThemeProvider"
 interface AppProviderProps {
   children: ReactNode
 }
+
+const queryClient = new QueryClient()
 
 const AppProvider = ({ children }: AppProviderProps) => {
   return (
@@ -31,7 +35,12 @@ const AppProvider = ({ children }: AppProviderProps) => {
             >
               <SidebarProvider>
                 <CssBaseline />
-                <BrowserRouter>{children}</BrowserRouter>
+                <BrowserRouter>
+                  <QueryClientProvider client={queryClient}>
+                    <ReactQueryDevtools initialIsOpen={false} />
+                    {children}
+                  </QueryClientProvider>
+                </BrowserRouter>
               </SidebarProvider>
             </SnackbarProvider>
           </LocalizationProvider>

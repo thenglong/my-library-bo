@@ -15,6 +15,8 @@ import * as yup from "yup"
 import { ReactComponent as GoogleLogo } from "assets/svgs/google.svg"
 import ControlledCheckbox from "components/controlled-checkbox"
 import ControlledTextField from "components/controlled-text-field"
+import useSignInWithEmailAndPassword from "hooks/firebase/use-sign-in-with-email-and-password"
+import useSignInGooglePopup from "hooks/firebase/use-sign-in-with-google-popup"
 
 const GoogleLogoWrapper = styled(GoogleLogo)(
   ({ theme }) => `
@@ -23,9 +25,9 @@ const GoogleLogoWrapper = styled(GoogleLogo)(
 )
 
 const defaultValues = {
-  email: "",
-  password: "",
-  remember: false,
+  email: "liz.demo@mailinator.com",
+  password: "123123",
+  staySignedIn: true,
 }
 
 const schema = yup.object().shape({
@@ -35,7 +37,7 @@ const schema = yup.object().shape({
     .max(255)
     .required("The email field is required"),
   password: yup.string().max(255).required("The password field is required"),
-  remember: yup.boolean(),
+  staySignedIn: yup.boolean(),
 })
 
 const LoginForm = () => {
@@ -48,19 +50,16 @@ const LoginForm = () => {
     resolver: yupResolver(schema),
   })
 
-  const onSubmit = handleSubmit((_data) => {
-    //
-  })
+  const { signInAsync } = useSignInWithEmailAndPassword()
+  const onSubmit = handleSubmit((data) => signInAsync(data))
 
-  const handleGoogleClick = () => {
-    //
-  }
+  const { signIn: signInWithGoogle } = useSignInGooglePopup()
 
   return (
     <>
       <Button
         fullWidth
-        onClick={handleGoogleClick}
+        onClick={() => signInWithGoogle()}
         size="large"
         variant="outlined"
       >
@@ -102,7 +101,7 @@ const LoginForm = () => {
         <Box alignItems="center" display="flex" justifyContent="space-between">
           <ControlledCheckbox
             control={control}
-            name="remember"
+            name="staySignedIn"
             label={
               <Typography variant="body2" fontWeight={700}>
                 Stay signed in

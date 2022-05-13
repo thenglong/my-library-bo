@@ -1,6 +1,7 @@
-import { HTMLInputTypeAttribute, InputHTMLAttributes } from "react"
+import { HTMLInputTypeAttribute, InputHTMLAttributes, useState } from "react"
 
-import { TextField } from "@mui/material"
+import { Visibility, VisibilityOff } from "@mui/icons-material"
+import { IconButton, InputAdornment, TextField } from "@mui/material"
 import { Controller } from "react-hook-form"
 import { Control } from "react-hook-form/dist/types/form"
 
@@ -26,6 +27,12 @@ const ControlledTextField = ({
   isError,
   errorMessage,
 }: ControlledTextFieldProps) => {
+  const [inputType, setInputType] = useState(type)
+
+  const togglePasswordVisibility = () => {
+    setInputType(inputType === "password" ? "text" : "password")
+  }
+
   return (
     <Controller
       control={control}
@@ -39,8 +46,23 @@ const ControlledTextField = ({
           label={label}
           placeholder={placeholder}
           margin="normal"
-          type={type}
+          type={inputType}
           variant="outlined"
+          InputProps={{
+            endAdornment:
+              type === "password" ? (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={togglePasswordVisibility}
+                    // onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {inputType === "text" ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ) : null,
+          }}
         />
       )}
     />

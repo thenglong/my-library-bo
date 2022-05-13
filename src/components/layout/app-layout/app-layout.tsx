@@ -1,3 +1,5 @@
+import { Suspense } from "react"
+
 import { Box, useTheme } from "@mui/material"
 import { Outlet } from "react-router-dom"
 
@@ -32,7 +34,9 @@ const AppLayout = () => {
           }}
         >
           <Box flexGrow={1}>
-            <Outlet />
+            <Suspense fallback={<div>Loading...</div>}>
+              <Outlet />
+            </Suspense>
           </Box>
         </Box>
       </Box>

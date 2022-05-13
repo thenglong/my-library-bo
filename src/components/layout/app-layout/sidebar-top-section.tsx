@@ -19,60 +19,60 @@ import {
   styled,
   ListItemButton,
 } from "@mui/material"
-import { useAuthState } from "react-firebase-hooks/auth"
 import { NavLink, useNavigate, useLocation } from "react-router-dom"
 
+import useFirebaseAuthState from "hooks/firebase/use-firebase-auth-state"
 import firebaseService from "services/firebase-service"
 
 const UserBoxButton = styled(Button)(
   ({ theme }) => `
-      padding: ${theme.spacing(1)};
-      background-color: ${alpha(theme.colors.alpha.black[100], 0.08)};
-  
-      .MuiButton-label {
-        justify-content: flex-start;
-      }
-  
-      &:hover {
-        background-color: ${alpha(theme.colors.alpha.black[100], 0.12)};
-      }
-  `
+        padding: ${theme.spacing(1)};
+        background-color: ${alpha(theme.colors.alpha.black[100], 0.08)};
+    
+        .MuiButton-label {
+          justify-content: flex-start;
+        }
+    
+        &:hover {
+          background-color: ${alpha(theme.colors.alpha.black[100], 0.12)};
+        }
+    `
 )
 
 const MenuUserBox = styled(Box)(
   ({ theme }) => `
-      background: ${theme.colors.alpha.black[5]};
-      padding: ${theme.spacing(2)};
-  `
+        background: ${theme.colors.alpha.black[5]};
+        padding: ${theme.spacing(2)};
+    `
 )
 
 const UserBoxText = styled(Box)(
   ({ theme }) => `
-      text-align: left;
-      padding-left: ${theme.spacing(1)};
-  `
+        text-align: left;
+        padding-left: ${theme.spacing(1)};
+    `
 )
 
 const UserBoxLabel = styled(Typography)(
   ({ theme }) => `
-      font-weight: ${theme.typography.fontWeightBold};
-      color: ${theme.sidebar.menuItemColor};
-      display: block;
-  
-      &.popoverTypo {
-        color: ${theme.palette.secondary.main};
-      }
-  `
+        font-weight: ${theme.typography.fontWeightBold};
+        color: ${theme.sidebar.menuItemColor};
+        display: block;
+    
+        &.popoverTypo {
+          color: ${theme.palette.secondary.main};
+        }
+    `
 )
 
 const UserBoxDescription = styled(Typography)(
   ({ theme }) => `
-      color: ${alpha(theme.sidebar.menuItemColor || "#000", 0.6)};
-  
-      &.popoverTypo {
-        color: ${theme.palette.secondary.light};
-      }
-  `
+        color: ${alpha(theme.sidebar.menuItemColor || "#000", 0.6)};
+    
+        &.popoverTypo {
+          color: ${theme.palette.secondary.light};
+        }
+    `
 )
 
 const { auth } = firebaseService
@@ -80,7 +80,7 @@ const { auth } = firebaseService
 function SidebarTopSection() {
   const location = useLocation()
   const navigate = useNavigate()
-  const [user] = useAuthState(auth)
+  const { user } = useFirebaseAuthState()
 
   const ref = useRef(null)
   const [isOpen, setOpen] = useState(false)

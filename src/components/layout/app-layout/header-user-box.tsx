@@ -18,9 +18,9 @@ import {
   styled,
   ListItemButton,
 } from "@mui/material"
-import { useAuthState } from "react-firebase-hooks/auth"
 import { NavLink, useNavigate, useLocation } from "react-router-dom"
 
+import useFirebaseAuthState from "hooks/firebase/use-firebase-auth-state"
 import firebaseService from "services/firebase-service"
 
 const UserBoxButton = styled(Button)(
@@ -61,7 +61,7 @@ const UserBoxDescription = styled(Typography)(
 function HeaderUserbox() {
   const location = useLocation()
   const navigate = useNavigate()
-  const [user] = useAuthState(firebaseService.auth)
+  const { user } = useFirebaseAuthState()
 
   const ref = useRef(null)
   const [isOpen, setOpen] = useState(false)
