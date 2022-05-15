@@ -15,72 +15,58 @@ import {
   ListItem,
   ListItemText,
   Popover,
+  IconButton,
   Typography,
   styled,
-  ListItemButton,
+  useTheme,
 } from "@mui/material"
+import { useTranslation } from "react-i18next"
 import { NavLink, useNavigate, useLocation } from "react-router-dom"
 
 import useFirebaseAuthState from "hooks/firebase/use-firebase-auth-state"
-import firebaseService from "services/firebase-service"
-
-const UserBoxButton = styled(Button)(
-  ({ theme }) => `
-        padding: ${theme.spacing(1)};
-        background-color: ${alpha(theme.colors.alpha.black[100], 0.08)};
-    
-        .MuiButton-label {
-          justify-content: flex-start;
-        }
-    
-        &:hover {
-          background-color: ${alpha(theme.colors.alpha.black[100], 0.12)};
-        }
-    `
-)
 
 const MenuUserBox = styled(Box)(
   ({ theme }) => `
-        background: ${theme.colors.alpha.black[5]};
-        padding: ${theme.spacing(2)};
-    `
+    background: ${theme.colors.alpha.black[5]};
+    padding: ${theme.spacing(2)};
+`
 )
 
 const UserBoxText = styled(Box)(
   ({ theme }) => `
-        text-align: left;
-        padding-left: ${theme.spacing(1)};
-    `
+    text-align: left;
+    padding-left: ${theme.spacing(1)};
+`
 )
 
 const UserBoxLabel = styled(Typography)(
   ({ theme }) => `
-        font-weight: ${theme.typography.fontWeightBold};
-        color: ${theme.sidebar.menuItemColor};
-        display: block;
-    
-        &.popoverTypo {
-          color: ${theme.palette.secondary.main};
-        }
-    `
+    font-weight: ${theme.typography.fontWeightBold};
+    color: ${theme.sidebar.menuItemColor};
+    display: block;
+
+    &.popoverTypo {
+      color: ${theme.palette.secondary.main};
+    }
+`
 )
 
 const UserBoxDescription = styled(Typography)(
   ({ theme }) => `
-        color: ${alpha(theme.sidebar.menuItemColor || "#000", 0.6)};
-    
-        &.popoverTypo {
-          color: ${theme.palette.secondary.light};
-        }
-    `
+    color: ${alpha(theme.sidebar.menuItemColor, 0.6)};
+
+    &.popoverTypo {
+      color: ${theme.palette.secondary.light};
+    }
+`
 )
 
-const { auth } = firebaseService
-
 function SidebarTopSection() {
-  const location = useLocation()
+  const { t } = useTranslation()
+  const theme = useTheme()
+
   const navigate = useNavigate()
-  const { user } = useFirebaseAuthState()
+  const location = useLocation()
 
   const ref = useRef(null)
   const [isOpen, setOpen] = useState(false)
@@ -96,7 +82,7 @@ function SidebarTopSection() {
   const handleLogout = async () => {
     try {
       handleClose()
-      await auth.signOut()
+      await logout()
       navigate("/")
     } catch (err) {
       // eslint-disable-next-line no-console
@@ -104,35 +90,63 @@ function SidebarTopSection() {
     }
   }
 
+  const { user } = useFirebaseAuthState()
+
   return (
-    <>
-      <UserBoxButton fullWidth color="secondary" ref={ref} onClick={handleOpen}>
-        <Avatar
-          variant="rounded"
-          alt={user?.displayName || ""}
-          src={user?.photoURL || ""}
-        />
-        <Box
-          display="flex"
-          flex={1}
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          <UserBoxText>
-            <UserBoxLabel variant="body1">{user?.displayName}</UserBoxLabel>
-            <UserBoxDescription variant="body2">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Distinctio, illo.
-            </UserBoxDescription>
-          </UserBoxText>
-          <UnfoldMoreTwoToneIcon
-            fontSize="small"
-            sx={{
-              ml: 1,
-            }}
-          />
-        </Box>
-      </UserBoxButton>
+    <Box
+      sx={{
+        textAlign: "center",
+        mx: 2,
+        pt: 1,
+        position: "relative",
+      }}
+    >
+      <Avatar
+        sx={{
+          width: 68,
+          height: 68,
+          mb: 2,
+          mx: "auto",
+        }}
+        alt={user.displayName}
+        src={user.photoURL}
+      />
+
+      <Typography
+        variant="h4"
+        sx={{
+          color: `${theme.colors.alpha.trueWhite[100]}`,
+        }}
+      >
+        {user.displayName}
+      </Typography>
+      <Typography
+        variant="subtitle1"
+        sx={{
+          color: `${theme.colors.alpha.trueWhite[70]}`,
+        }}
+      >
+        {user.jobtitle}
+      </Typography>
+      <IconButton
+        size="small"
+        sx={{
+          position: "absolute",
+          right: theme.spacing(0),
+          color: `${theme.colors.alpha.trueWhite[70]}`,
+          top: theme.spacing(0),
+          background: `${theme.colors.alpha.trueWhite[10]}`,
+
+          "&:hover": {
+            color: `${theme.colors.alpha.trueWhite[100]}`,
+            background: `${alpha(theme.colors.alpha.trueWhite[100], 0.2)}`,
+          },
+        }}
+        ref={ref}
+        onClick={handleOpen}
+      >
+        <UnfoldMoreTwoToneIcon fontSize="small" />
+      </IconButton>
       <Popover
         disableScrollLock
         anchorEl={ref.current}
@@ -155,16 +169,15 @@ function SidebarTopSection() {
         >
           <Avatar
             variant="rounded"
-            alt={user?.displayName || ""}
-            src={user?.photoURL || ""}
+            alt={user.displayName}
+            src={user.photoURL}
           />
           <UserBoxText>
             <UserBoxLabel className="popoverTypo" variant="body1">
-              {user?.displayName}
+              {user.displayName}
             </UserBoxLabel>
             <UserBoxDescription className="popoverTypo" variant="body2">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla,
-              voluptatum!
+              {user.jobtitle}
             </UserBoxDescription>
           </UserBoxText>
         </MenuUserBox>
@@ -188,20 +201,21 @@ function SidebarTopSection() {
             component={NavLink}
           >
             <AccountBoxTwoToneIcon fontSize="small" />
-            <ListItemText primary="Profile" />
+            <ListItemText primary={t("Profile")} />
           </ListItem>
-          <ListItemButton
+          <ListItem
             onClick={() => {
               handleClose()
             }}
+            button
             to={`/${
               location.pathname.split("/")[1]
             }/applications/mailbox/inbox`}
             component={NavLink}
           >
             <InboxTwoToneIcon fontSize="small" />
-            <ListItemText primary="Inbox" />
-          </ListItemButton>
+            <ListItemText primary={t("Inbox")} />
+          </ListItem>
           <ListItem
             onClick={() => {
               handleClose()
@@ -213,7 +227,7 @@ function SidebarTopSection() {
             component={NavLink}
           >
             <AccountTreeTwoToneIcon fontSize="small" />
-            <ListItemText primary="Projects" />
+            <ListItemText primary={t("Projects")} />
           </ListItem>
         </List>
         <Divider />
@@ -224,11 +238,11 @@ function SidebarTopSection() {
                 mr: 1,
               }}
             />
-            Sign out
+            {t("Sign out")}
           </Button>
         </Box>
       </Popover>
-    </>
+    </Box>
   )
 }
 
