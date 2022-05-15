@@ -1,25 +1,27 @@
-import { useState, useContext } from "react"
+import { FC, ReactNode, useContext, useState } from "react"
 
 import ExpandLessTwoToneIcon from "@mui/icons-material/ExpandLessTwoTone"
 import ExpandMoreTwoToneIcon from "@mui/icons-material/ExpandMoreTwoTone"
 import {
-  Button,
-  Tooltip,
   Badge,
+  Button,
   Collapse,
   ListItem,
-  tooltipClasses,
   styled,
+  Tooltip,
+  tooltipClasses,
 } from "@mui/material"
 import clsx from "clsx"
 import PropTypes from "prop-types"
 import { useTranslation } from "react-i18next"
-import { NavLink as RouterLink } from "react-router-dom"
 
+import Link from "components/link"
 import { SidebarContext } from "contexts/SidebarContext"
 
-const TooltipWrapper = styled(({ className, ...props }) => (
-  <Tooltip {...props} classes={{ popper: className }} />
+const TooltipWrapper = styled<typeof Tooltip>(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }}>
+    {props.children}
+  </Tooltip>
 ))(({ theme }) => ({
   [`& .${tooltipClasses.tooltip}`]: {
     backgroundColor: theme.colors.alpha.trueWhite[100],
@@ -35,6 +37,17 @@ const TooltipWrapper = styled(({ className, ...props }) => (
   },
 }))
 
+interface SidebarMenuItemProps {
+  children?: ReactNode
+  active?: boolean
+  link?: string
+  icon?: FC
+  badge?: string
+  badgeTooltip?: string
+  open?: boolean
+  name: string
+}
+
 const SidebarMenuItem = ({
   children,
   link,
@@ -45,7 +58,7 @@ const SidebarMenuItem = ({
   active: _,
   name,
   ...rest
-}) => {
+}: SidebarMenuItemProps) => {
   const [menuToggle, setMenuToggle] = useState(openParent)
   const { t } = useTranslation()
   const { closeSidebar } = useContext(SidebarContext)
@@ -87,12 +100,11 @@ const SidebarMenuItem = ({
 
   return (
     <ListItem component="div" key={name} {...rest}>
-      <Button
+      <Button<typeof Link>
         disableRipple
-        activeClassName="Mui-active"
-        component={RouterLink}
+        component={Link}
         onClick={closeSidebar}
-        to={link}
+        to={link || ""}
         startIcon={Icon && <Icon />}
       >
         {t(name)}

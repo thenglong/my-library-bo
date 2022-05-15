@@ -14,12 +14,12 @@ import {
   useTheme,
 } from "@mui/material"
 
+import HeaderButtons from "components/layout/app-layout/Header/Buttons"
+import HeaderMenu from "components/layout/app-layout/Header/Menu"
+import HeaderSearch from "components/layout/app-layout/Header/Search"
 import { SidebarContext } from "contexts/SidebarContext"
 
-import HeaderButtons from "./Buttons"
-import HeaderMenu from "./Menu"
-import HeaderSearch from "./Search"
-import HeaderUserbox from "./Userbox"
+import HeaderUserBox from "./Userbox"
 
 const HeaderWrapper = styled(Box)(
   ({ theme }) => `
@@ -28,7 +28,7 @@ const HeaderWrapper = styled(Box)(
         padding: ${theme.spacing(0, 2)};
         right: 0;
         z-index: 6;
-        background-color: ${alpha(theme.header.background, 0.95)};
+        background-color: ${alpha(theme.header.background as string, 0.95)};
         backdrop-filter: blur(3px);
         position: fixed;
         justify-content: space-between;
@@ -75,7 +75,7 @@ function Header() {
       </Stack>
       <Box display="flex" alignItems="center">
         <HeaderButtons />
-        <HeaderUserbox />
+        <HeaderUserBox />
         <Box
           component="span"
           sx={{

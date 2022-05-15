@@ -22,6 +22,7 @@ declare module "@mui/material/styles" {
         pink1: string
         pink2: string
         green1: string
+        green2: string
         black1: string
       }
       shadows: {

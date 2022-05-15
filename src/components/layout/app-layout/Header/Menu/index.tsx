@@ -26,7 +26,7 @@ import {
 } from "@mui/material"
 import { useTranslation } from "react-i18next"
 
-import Text from "components/Text"
+import Text from "components/text"
 
 const LabelWrapper = styled(Box)(
   ({ theme }) => `

@@ -28,7 +28,7 @@ import {
 import { useTranslation } from "react-i18next"
 
 import Scrollbar from "components/scrollbar"
-import Text from "components/Text"
+import Text from "components/text"
 
 const AvatarGradient = styled(Avatar)(
   ({ theme }) => `

@@ -1,4 +1,10 @@
-import { Fragment, forwardRef, useState } from "react"
+import {
+  ComponentProps,
+  FormEventHandler,
+  forwardRef,
+  Fragment,
+  useState,
+} from "react"
 
 import AppSettingsAltTwoToneIcon from "@mui/icons-material/AppSettingsAltTwoTone"
 import CloseTwoToneIcon from "@mui/icons-material/CloseTwoTone"
@@ -9,33 +15,39 @@ import RestoreTwoToneIcon from "@mui/icons-material/RestoreTwoTone"
 import SearchTwoToneIcon from "@mui/icons-material/SearchTwoTone"
 import StarTwoToneIcon from "@mui/icons-material/StarTwoTone"
 import {
-  Link,
-  Box,
-  Divider,
-  IconButton,
-  List,
-  CircularProgress,
-  ListItem,
-  Grid,
-  InputBase,
-  Tooltip,
-  Typography,
-  Card,
-  Dialog,
   alpha,
+  Box,
+  Card,
+  CircularProgress,
+  Dialog,
+  Divider,
+  Grid,
+  IconButton,
+  InputBase,
+  Link,
+  List,
+  ListItem,
   Slide,
   styled,
+  Tooltip,
+  Typography,
   useTheme,
 } from "@mui/material"
 import { useTranslation } from "react-i18next"
 
 import Scrollbar from "components/scrollbar"
 
-const wait = (time) => new Promise((res) => setTimeout(res, time))
+const wait = (time: number) => new Promise((res) => setTimeout(res, time))
 
-const Transition = forwardRef(function Transition(props, ref) {
-  return <Slide direction="down" ref={ref} {...props} />
-})
+const Transition = forwardRef<unknown, ComponentProps<typeof Slide>>(
+  function Transition(props, ref) {
+    return (
+      <Slide direction="down" ref={ref} {...props}>
+        {props.children}
+      </Slide>
+    )
+  }
+)
 
 const DialogWrapper = styled(Dialog)(
   () => `
@@ -96,7 +108,11 @@ const ListButton = styled(Box)(
 `
 )
 
-const searchTerms = {
+interface SearchTerm {
+  [key: string]: { title: string }[]
+}
+
+const searchTerms: SearchTerm = {
   Dashboards: [
     {
       title: "Automation UI",
@@ -140,7 +156,7 @@ function HeaderSearch() {
   const [searchLoading, setSearchLoading] = useState(false)
   const [searchResults, setSearchResults] = useState(false)
 
-  const submitSearch = async (event) => {
+  const submitSearch: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault()
     setSearchResults(false)
     setSearchLoading(true)
@@ -149,7 +165,8 @@ function HeaderSearch() {
     setSearchResults(true)
   }
 
-  const handleSearchChange = async (event) => {
+  /* eslint-disable-next-line */
+  const handleSearchChange = async (event: any) => {
     event.preventDefault()
 
     if (event.target.value) {
@@ -290,7 +307,7 @@ function HeaderSearch() {
                       >
                         {type}
                       </Typography>
-                      {searchTerms[type].map((result) => (
+                      {searchTerms[type as keyof SearchTerm].map((result) => (
                         <Fragment key={result.title}>
                           <ListButton>
                             <Box display="flex" alignItems="flex-start">

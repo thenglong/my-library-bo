@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { ComponentProps, useRef, useState } from "react"
 
 import AccessTimeTwoToneIcon from "@mui/icons-material/AccessTimeTwoTone"
 import ArrowForwardTwoToneIcon from "@mui/icons-material/ArrowForwardTwoTone"
@@ -33,12 +33,13 @@ import {
   Typography,
 } from "@mui/material"
 import Link from "@mui/material/Link"
+import { ApexOptions } from "apexcharts"
 import Chart from "react-apexcharts"
 import { useTranslation } from "react-i18next"
 import { Link as RouterLink } from "react-router-dom"
 
 import Scrollbar from "components/scrollbar"
-import Text from "components/Text"
+import Text from "components/text"
 
 const BoxComposed = styled(Box)(
   () => `
@@ -167,7 +168,10 @@ function HeaderNotifications() {
     { value: "reports", label: t("Reports") },
   ]
 
-  const handleTabsChange = (_event, value) => {
+  const handleTabsChange: ComponentProps<typeof TabsWrapper>["onChange"] = (
+    _event,
+    value
+  ) => {
     setCurrentTab(value)
   }
 
@@ -179,7 +183,7 @@ function HeaderNotifications() {
     setOpen(false)
   }
 
-  const chartOptions = {
+  const chartOptions: ApexOptions = {
     chart: {
       background: "transparent",
       toolbar: {

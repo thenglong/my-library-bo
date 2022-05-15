@@ -23,7 +23,7 @@ import frFlag from "country-flag-icons/3x2/FR.svg"
 import usFlag from "country-flag-icons/3x2/US.svg"
 import { useTranslation } from "react-i18next"
 
-import Text from "components/Text"
+import Text from "components/text"
 import internationalization from "i18n/i18n"
 
 const SectionHeading = styled(Typography)(
@@ -55,7 +55,7 @@ function LanguageSwitcher() {
   const getLanguage = i18n.language
   const theme = useTheme()
 
-  const switchLanguage = ({ lng }) => {
+  const switchLanguage = ({ lng }: { lng: string }) => {
     internationalization.changeLanguage(lng)
   }
   const ref = useRef(null)

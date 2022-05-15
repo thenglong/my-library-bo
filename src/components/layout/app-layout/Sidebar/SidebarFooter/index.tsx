@@ -14,8 +14,12 @@ import {
 import { useTranslation } from "react-i18next"
 import { Link as RouterLink, useNavigate } from "react-router-dom"
 
-const LightTooltip = styled(({ className, ...props }) => (
-  <Tooltip {...props} classes={{ popper: className }} />
+import firebaseService from "services/firebase-service"
+
+const LightTooltip = styled<typeof Tooltip>(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }}>
+    {props.children}
+  </Tooltip>
 ))(({ theme }) => ({
   [`& .${tooltipClasses.tooltip}`]: {
     backgroundColor: theme.colors.alpha.trueWhite[100],
@@ -36,7 +40,7 @@ function SidebarFooter() {
 
   const handleLogout = async () => {
     try {
-      await logout()
+      await firebaseService.auth.signOut()
       navigate("/")
     } catch (err) {
       // eslint-disable-next-line no-console

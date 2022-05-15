@@ -1,8 +1,9 @@
 import { Box, alpha, lighten, useTheme } from "@mui/material"
 import { Outlet } from "react-router-dom"
 
+import Sidebar from "components/layout/app-layout/Sidebar"
+
 import Header from "./Header"
-import Sidebar from "./Sidebar"
 
 const ExtendedSidebarLayout = () => {
   const theme = useTheme()

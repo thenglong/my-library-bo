@@ -1,9 +1,11 @@
+import { ReactNode } from "react"
+
 import { ListSubheader, alpha, Box, List, styled } from "@mui/material"
 import { useTranslation } from "react-i18next"
 import { useLocation, matchPath } from "react-router-dom"
 
 import SidebarMenuItem from "./item"
-import menuItems from "./items"
+import menuItems, { MenuItem } from "./items"
 
 const MenuWrapper = styled(Box)(
   ({ theme }) => `
@@ -147,15 +149,32 @@ const SubMenuWrapper = styled(Box)(
 `
 )
 
-const renderSidebarMenuItems = ({ items, path }) => (
+const renderSidebarMenuItems = ({
+  items,
+  path,
+}: {
+  items: MenuItem[]
+  path: string
+}) => (
   <SubMenuWrapper>
     <List component="div">
-      {items.reduce((ev, item) => reduceChildRoutes({ ev, item, path }), [])}
+      {items.reduce(
+        (ev, item) => reduceChildRoutes({ ev, item, path }),
+        [] as ReactNode[]
+      )}
     </List>
   </SubMenuWrapper>
 )
 
-const reduceChildRoutes = ({ ev, path, item }) => {
+const reduceChildRoutes = ({
+  ev,
+  path,
+  item,
+}: {
+  ev: ReactNode[]
+  path: string
+  item: MenuItem
+}) => {
   const key = item.name
 
   const exactMatch = item.link

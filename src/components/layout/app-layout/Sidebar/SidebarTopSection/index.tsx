@@ -24,6 +24,7 @@ import { useTranslation } from "react-i18next"
 import { NavLink, useNavigate, useLocation } from "react-router-dom"
 
 import useFirebaseAuthState from "hooks/firebase/use-firebase-auth-state"
+import firebaseService from "services/firebase-service"
 
 const MenuUserBox = styled(Box)(
   ({ theme }) => `
@@ -53,7 +54,7 @@ const UserBoxLabel = styled(Typography)(
 
 const UserBoxDescription = styled(Typography)(
   ({ theme }) => `
-    color: ${alpha(theme.sidebar.menuItemColor, 0.6)};
+    color: ${alpha(theme.sidebar.menuItemColor as string, 0.6)};
 
     &.popoverTypo {
       color: ${theme.palette.secondary.light};
@@ -82,7 +83,7 @@ function SidebarTopSection() {
   const handleLogout = async () => {
     try {
       handleClose()
-      await logout()
+      await firebaseService.auth.signOut()
       navigate("/")
     } catch (err) {
       // eslint-disable-next-line no-console
@@ -108,8 +109,8 @@ function SidebarTopSection() {
           mb: 2,
           mx: "auto",
         }}
-        alt={user.displayName}
-        src={user.photoURL}
+        alt={user?.displayName || ""}
+        src={user?.photoURL || ""}
       />
 
       <Typography
@@ -118,7 +119,7 @@ function SidebarTopSection() {
           color: `${theme.colors.alpha.trueWhite[100]}`,
         }}
       >
-        {user.displayName}
+        {user?.displayName}
       </Typography>
       <Typography
         variant="subtitle1"
@@ -126,7 +127,7 @@ function SidebarTopSection() {
           color: `${theme.colors.alpha.trueWhite[70]}`,
         }}
       >
-        {user.jobtitle}
+        Lorem ipsum.
       </Typography>
       <IconButton
         size="small"
@@ -169,15 +170,15 @@ function SidebarTopSection() {
         >
           <Avatar
             variant="rounded"
-            alt={user.displayName}
-            src={user.photoURL}
+            alt={user?.displayName || ""}
+            src={user?.photoURL || ""}
           />
           <UserBoxText>
             <UserBoxLabel className="popoverTypo" variant="body1">
-              {user.displayName}
+              {user?.displayName}
             </UserBoxLabel>
             <UserBoxDescription className="popoverTypo" variant="body2">
-              {user.jobtitle}
+              Lorem ipsum.
             </UserBoxDescription>
           </UserBoxText>
         </MenuUserBox>

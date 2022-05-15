@@ -18,12 +18,14 @@ import {
   styled,
   useTheme,
 } from "@mui/material"
+import { ApexOptions } from "apexcharts"
 import Chart from "react-apexcharts"
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router-dom"
 
-import Text from "components/Text"
+import Text from "components/text"
 import useFirebaseAuthState from "hooks/firebase/use-firebase-auth-state"
+import firebaseService from "services/firebase-service"
 
 const DotLegend = styled("span")(
   ({ theme }) => `
@@ -111,7 +113,7 @@ const UserBoxDescription = styled(Typography)(
 `
 )
 
-function HeaderUserbox() {
+function HeaderUserBox() {
   const { t } = useTranslation()
   const theme = useTheme()
 
@@ -131,7 +133,7 @@ function HeaderUserbox() {
   const handleLogout = async () => {
     try {
       handleClose()
-      await logout()
+      await firebaseService.auth.signOut()
       navigate("/")
     } catch (err) {
       // eslint-disable-next-line no-console
@@ -139,7 +141,7 @@ function HeaderUserbox() {
     }
   }
 
-  const Box1Options = {
+  const Box1Options: ApexOptions = {
     chart: {
       background: "transparent",
       toolbar: {
@@ -212,7 +214,7 @@ function HeaderUserbox() {
   return (
     <>
       <UserBoxButton color="primary" ref={ref} onClick={handleOpen}>
-        <UserAvatar alt={user.displayName} src={user.photoUrl} />
+        <UserAvatar alt={user?.displayName || ""} src={user?.photoURL || ""} />
       </UserBoxButton>
       <Popover
         disableScrollLock
@@ -236,13 +238,13 @@ function HeaderUserbox() {
         >
           <Avatar
             variant="rounded"
-            alt={user.displayName}
-            src={user.photoURL}
+            alt={user?.displayName || ""}
+            src={user?.photoURL || ""}
           />
           <UserBoxText>
-            <UserBoxLabel variant="body1">{user.displayName}</UserBoxLabel>
+            <UserBoxLabel variant="body1">{user?.displayName}</UserBoxLabel>
             <UserBoxDescription variant="body2">
-              {user.jobtitle}
+              Lorem ipsum.
             </UserBoxDescription>
           </UserBoxText>
         </MenuUserBox>
@@ -339,4 +341,4 @@ function HeaderUserbox() {
   )
 }
 
-export default HeaderUserbox
+export default HeaderUserBox

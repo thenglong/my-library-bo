@@ -1,3 +1,5 @@
+import { FC } from "react"
+
 import AccountTreeTwoToneIcon from "@mui/icons-material/AccountTreeTwoTone"
 import AnalyticsTwoToneIcon from "@mui/icons-material/AnalyticsTwoTone"
 import AssignmentIndTwoToneIcon from "@mui/icons-material/AssignmentIndTwoTone"
@@ -11,7 +13,21 @@ import StorefrontTwoToneIcon from "@mui/icons-material/StorefrontTwoTone"
 import SupportTwoToneIcon from "@mui/icons-material/SupportTwoTone"
 import VpnKeyTwoToneIcon from "@mui/icons-material/VpnKeyTwoTone"
 
-const menuItems = [
+export interface MenuItem {
+  link?: string
+  icon?: FC
+  badge?: string
+  items?: MenuItem[]
+  name: string
+  badgeTooltip?: string
+}
+
+export interface MenuItems {
+  items: MenuItem[]
+  heading: string
+}
+
+const menuItems: MenuItems[] = [
   {
     heading: "General",
     items: [
