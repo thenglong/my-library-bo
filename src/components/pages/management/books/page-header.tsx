@@ -1,5 +1,4 @@
 import { useState } from "react"
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import "react-quill/dist/quill.snow.css"
 
 import AddTwoToneIcon from "@mui/icons-material/AddTwoTone"
@@ -114,9 +113,9 @@ const AvatarDanger = styled(Avatar)(
     `
 )
 
-const projectTags = [
+const bookTags = [
   { title: "Development" },
-  { title: "Design Project" },
+  { title: "Design Book" },
   { title: "Marketing Research" },
   { title: "Software" },
 ]
@@ -173,16 +172,16 @@ function PageHeader() {
 
   const [value, setValue] = useState(null)
 
-  const handleCreateProjectOpen = () => {
+  const handleCreateBookOpen = () => {
     setOpen(true)
   }
 
-  const handleCreateProjectClose = () => {
+  const handleCreateBookClose = () => {
     setOpen(false)
   }
 
-  const handleCreateProjectSuccess = () => {
-    enqueueSnackbar(t("A new project has been created successfully"), {
+  const handleCreateBookSuccess = () => {
+    enqueueSnackbar(t("A new book has been created successfully"), {
       variant: "success",
       anchorOrigin: {
         vertical: "top",
@@ -210,7 +209,7 @@ function PageHeader() {
             sx={{
               mt: { xs: 2, sm: 0 },
             }}
-            onClick={handleCreateProjectOpen}
+            onClick={handleCreateBookOpen}
             variant="contained"
             startIcon={<AddTwoToneIcon fontSize="small" />}
           >
@@ -222,7 +221,7 @@ function PageHeader() {
         fullWidth
         maxWidth="md"
         open={open}
-        onClose={handleCreateProjectClose}
+        onClose={handleCreateBookClose}
       >
         <DialogTitle
           sx={{
@@ -233,7 +232,7 @@ function PageHeader() {
             {t("Create new book")}
           </Typography>
           <Typography variant="subtitle2">
-            {t("Use this dialog window to add a new project")}
+            {t("Use this dialog window to add a new book")}
           </Typography>
         </DialogTitle>
         <Formik
@@ -255,12 +254,12 @@ function PageHeader() {
               resetForm()
               setStatus({ success: true })
               setSubmitting(false)
-              handleCreateProjectSuccess()
+              handleCreateBookSuccess()
             } catch (err) {
               // eslint-disable-next-line no-console
               console.error(err)
               setStatus({ success: false })
-              setErrors({ submit: (err as any).message })
+              setErrors({ submit: (err as Error).message })
               setSubmitting(false)
             }
           }}
@@ -298,7 +297,7 @@ function PageHeader() {
                       }}
                       alignSelf="center"
                     >
-                      <b>{t("Project title")}:</b>
+                      <b>{t("Book title")}:</b>
                     </Box>
                   </Grid>
                   <Grid
@@ -315,7 +314,7 @@ function PageHeader() {
                       fullWidth
                       helperText={touched.title && errors.title}
                       name="title"
-                      placeholder={t("Project title here...")}
+                      placeholder={t("Book title here...")}
                       onBlur={handleBlur}
                       onChange={handleChange}
                       value={values.title}
@@ -379,14 +378,14 @@ function PageHeader() {
                         m: 0,
                       }}
                       limitTags={2}
-                      options={projectTags}
+                      options={bookTags}
                       getOptionLabel={(option) => option.title}
                       renderInput={(params) => (
                         <TextField
                           {...params}
                           fullWidth
                           variant="outlined"
-                          placeholder={t("Select project tags...")}
+                          placeholder={t("Select book tags...")}
                         />
                       )}
                     />
@@ -533,7 +532,7 @@ function PageHeader() {
                           InputLabelProps={{
                             shrink: true,
                           }}
-                          placeholder={t("Select project members...")}
+                          placeholder={t("Select book members...")}
                         />
                       )}
                       renderTags={(members, getTagProps) =>
@@ -618,13 +617,13 @@ function PageHeader() {
                       variant="contained"
                       size="large"
                     >
-                      {t("Create project")}
+                      {t("Create Book")}
                     </Button>
                     <Button
                       color="secondary"
                       size="large"
                       variant="outlined"
-                      onClick={handleCreateProjectClose}
+                      onClick={handleCreateBookClose}
                     >
                       {t("Cancel")}
                     </Button>

@@ -1,6 +1,6 @@
 import { useQuery } from "react-query"
 
-import sampleBooks from "data/books"
+import sampleBooks from "data/sample-books"
 
 const fetchBooks = () => {
   return Promise.resolve(sampleBooks)

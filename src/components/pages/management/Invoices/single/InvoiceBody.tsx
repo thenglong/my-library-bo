@@ -25,7 +25,7 @@ import numeral from "numeral"
 import PropTypes from "prop-types"
 import { useTranslation } from "react-i18next"
 
-import Logo from "components/logo-sign"
+import Logo from "components/logo"
 import useFirebaseAuthState from "hooks/firebase/use-firebase-auth-state"
 
 const BoxWrapper = styled(Box)(

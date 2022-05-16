@@ -1,20 +1,17 @@
 import { useContext } from "react"
 
 import {
-  Box,
-  Drawer,
   alpha,
-  styled,
-  Divider,
-  useTheme,
-  lighten,
+  Box,
   darken,
+  Drawer,
+  lighten,
+  styled,
+  useTheme,
 } from "@mui/material"
 
-import SidebarFooter from "components/layout/app-layout/Sidebar/SidebarFooter"
 import SidebarMenu from "components/layout/app-layout/Sidebar/SidebarMenu"
-import SidebarTopSection from "components/layout/app-layout/Sidebar/SidebarTopSection"
-import Logo from "components/logo-sign"
+import Logo from "components/logo"
 import Scrollbar from "components/scrollbar"
 import { SidebarContext } from "contexts/SidebarContext"
 
@@ -65,29 +62,8 @@ function Sidebar() {
               <Logo />
             </Box>
           </Box>
-          <Divider
-            sx={{
-              my: theme.spacing(3),
-              mx: theme.spacing(2),
-              background: theme.colors.alpha.trueWhite[10],
-            }}
-          />
-          <SidebarTopSection />
-          <Divider
-            sx={{
-              my: theme.spacing(3),
-              mx: theme.spacing(2),
-              background: theme.colors.alpha.trueWhite[10],
-            }}
-          />
           <SidebarMenu />
         </Scrollbar>
-        <Divider
-          sx={{
-            background: theme.colors.alpha.trueWhite[10],
-          }}
-        />
-        <SidebarFooter />
       </SidebarWrapper>
       <Drawer
         sx={{
@@ -118,24 +94,8 @@ function Sidebar() {
                 <Logo />
               </Box>
             </Box>
-            <Divider
-              sx={{
-                my: theme.spacing(3),
-                mx: theme.spacing(2),
-                background: theme.colors.alpha.trueWhite[10],
-              }}
-            />
-            <SidebarTopSection />
-            <Divider
-              sx={{
-                my: theme.spacing(3),
-                mx: theme.spacing(2),
-                background: theme.colors.alpha.trueWhite[10],
-              }}
-            />
             <SidebarMenu />
           </Scrollbar>
-          <SidebarFooter />
         </SidebarWrapper>
       </Drawer>
     </>

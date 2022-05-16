@@ -19,7 +19,7 @@ function Footer() {
       >
         <Box>
           <Typography variant="subtitle1">
-            &copy; 2021 - Tokyo White React Javascript Admin Dashboard
+            &copy; Unknown - {new Date().getFullYear()}
           </Typography>
         </Box>
         <Typography

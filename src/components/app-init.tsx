@@ -1,6 +1,6 @@
 import { Box } from "@mui/material"
 
-import Logo from "components/logo-sign"
+import Logo from "components/logo"
 
 function AppInit() {
   return (

@@ -1,57 +1,44 @@
-import { useState, forwardRef, ComponentProps } from "react"
+import {
+  ChangeEvent,
+  ComponentProps,
+  forwardRef,
+  useState,
+  MouseEvent,
+} from "react"
 
 import CloseIcon from "@mui/icons-material/Close"
-import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone"
 import GridViewTwoToneIcon from "@mui/icons-material/GridViewTwoTone"
-import LaunchTwoToneIcon from "@mui/icons-material/LaunchTwoTone"
 import SearchTwoToneIcon from "@mui/icons-material/SearchTwoTone"
 import TableRowsTwoToneIcon from "@mui/icons-material/TableRowsTwoTone"
 import {
-  Avatar,
   Autocomplete,
+  Avatar,
   Box,
-  Card,
-  Checkbox,
-  Grid,
-  Slide,
-  Divider,
-  Tooltip,
-  IconButton,
-  InputAdornment,
-  MenuItem,
-  Link,
-  AvatarGroup,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TablePagination,
-  TableContainer,
-  TableRow,
-  ToggleButton,
-  ToggleButtonGroup,
-  LinearProgress,
-  TextField,
   Button,
-  Typography,
+  Card,
   Dialog,
   FormControl,
-  Select,
+  Grid,
+  IconButton,
+  InputAdornment,
   InputLabel,
-  Zoom,
-  CardMedia,
   lighten,
+  MenuItem,
+  Select,
+  Slide,
   styled,
+  TextField,
+  ToggleButton,
+  ToggleButtonGroup,
+  Typography,
+  Zoom,
 } from "@mui/material"
-import clsx from "clsx"
-import { formatDistance, format } from "date-fns"
 import { useSnackbar } from "notistack"
-import PropTypes from "prop-types"
 import { useTranslation } from "react-i18next"
 
 import Label from "components/label"
-import BulkActions from "components/pages/management/books/bulk-actions"
-import Text from "components/text"
+import BookGridView from "components/pages/management/books/book-grid-view"
+import BookTableView from "components/pages/management/books/book-table-view"
 import { Book } from "typings/api-model"
 
 const DialogWrapper = styled(Dialog)(
@@ -75,7 +62,7 @@ const AvatarError = styled(Avatar)(
   `
 )
 
-const CardWrapper = styled(Card)(
+export const CardWrapper = styled(Card)(
   ({ theme }) => `
   
     position: relative;
@@ -110,7 +97,7 @@ const ButtonError = styled(Button)(
       `
 )
 
-const IconButtonError = styled(IconButton)(
+export const IconButtonError = styled(IconButton)(
   ({ theme }) => `
        background: ${theme.colors.error.lighter};
        color: ${theme.colors.error.main};
@@ -128,7 +115,7 @@ const Transition = forwardRef<unknown, ComponentProps<typeof Slide>>(
   }
 )
 
-const getProjectStatusLabel = (projectStatus: any) => {
+const getBookStatusLabel = (bookStatus: any) => {
   const map: any = {
     not_started: {
       text: "Not started",
@@ -144,48 +131,9 @@ const getProjectStatusLabel = (projectStatus: any) => {
     },
   }
 
-  const { text, color } = map[projectStatus]
+  const { text, color } = map[bookStatus]
 
   return <Label color={color}>{text}</Label>
-}
-
-const applyFilters = (projects: any[], query: string, filters: any) => {
-  return projects.filter((project: any) => {
-    let matches = true
-
-    if (query) {
-      const properties = ["name"]
-      let containsQuery = false
-
-      properties.forEach((property) => {
-        if (project[property].toLowerCase().includes(query.toLowerCase())) {
-          containsQuery = true
-        }
-      })
-
-      if (filters.status && project.status !== filters.status) {
-        matches = false
-      }
-
-      if (!containsQuery) {
-        matches = false
-      }
-    }
-
-    Object.keys(filters).forEach((key) => {
-      const value = filters[key]
-
-      if (value && project[key] !== value) {
-        matches = false
-      }
-    })
-
-    return matches
-  })
-}
-
-const applyPagination = (projects: any[], page: number, limit: any) => {
-  return projects.slice(page * limit, page * limit + limit)
 }
 
 interface BookResults {
@@ -193,20 +141,13 @@ interface BookResults {
 }
 
 const BookResults = ({ books }: BookResults) => {
-  const [selectedBooks, setSelectedBooks] = useState<Book[]>([])
+  const [selectedBooks, setSelectedBooks] = useState<Book["id"][]>([])
   const { t } = useTranslation()
   const { enqueueSnackbar } = useSnackbar()
 
-  const [page, setPage] = useState(0)
-  const [limit, setLimit] = useState(5)
-  const [query, setQuery] = useState("")
-  const [filters, setFilters] = useState<any>({
-    status: null,
-  })
-
-  const projectTags = [
+  const bookTags = [
     { title: "Development" },
-    { title: "Design Project" },
+    { title: "Design Book" },
     { title: "Marketing Research" },
     { title: "Software" },
   ]
@@ -230,58 +171,31 @@ const BookResults = ({ books }: BookResults) => {
     },
   ]
 
-  const handleQueryChange = (event: any) => {
-    event.persist()
-    setQuery(event.target.value)
+  const handleSelectAllBooks = (event: ChangeEvent<HTMLInputElement>) => {
+    setSelectedBooks(event.target.checked ? books.map((book) => book.id) : [])
   }
 
-  const handleStatusChange = (e: any) => {
-    let value: any = null
-
-    if (e.target.value !== "all") {
-      value = e.target.value
-    }
-
-    setFilters((prevFilters: any) => ({
-      ...prevFilters,
-      status: value,
-    }))
-  }
-
-  const handleSelectAllProjects = (event: any) => {
-    setSelectedBooks(
-      event.target.checked ? books.map((project: any) => project.id) : []
-    )
-  }
-
-  const handleSelectOneProject = (_event: any, projectId: any) => {
-    if (!selectedBooks.includes(projectId)) {
-      setSelectedBooks((prevSelected: any) => [...prevSelected, projectId])
+  const handleSelectOneBook = (bookId: Book["id"]) => {
+    if (!selectedBooks.includes(bookId)) {
+      setSelectedBooks((prevSelected) => [...prevSelected, bookId])
     } else {
-      setSelectedBooks((prevSelected: any) =>
-        prevSelected.filter((id: any) => id !== projectId)
+      setSelectedBooks((prevSelected) =>
+        prevSelected.filter((id) => id !== bookId)
       )
     }
   }
 
-  const handlePageChange = (_event: any, newPage: any) => {
-    setPage(newPage)
-  }
-
-  const handleLimitChange = (event: any) => {
-    setLimit(parseInt(event.target.value))
-  }
-
-  const filteredProjects = applyFilters(books, query, filters)
-  const paginatedProjects = applyPagination(filteredProjects, page, limit)
-  const selectedBulkActions = selectedBooks.length > 0
-  const selectedSomeProjects =
+  const isSelectedBulkActions = selectedBooks.length > 0
+  const isSelectedSomeBooks =
     selectedBooks.length > 0 && selectedBooks.length < books.length
-  const selectedAllProjects = selectedBooks.length === books.length
+  const isSelectedAllBooks = selectedBooks.length === books.length
 
   const [toggleView, setToggleView] = useState("table_view")
 
-  const handleViewOrientation = (_event: any, newValue: any) => {
+  const handleViewOrientation = (
+    _event: MouseEvent<HTMLElement>,
+    newValue: string
+  ) => {
     setToggleView(newValue)
   }
 
@@ -298,7 +212,7 @@ const BookResults = ({ books }: BookResults) => {
   const handleDeleteCompleted = () => {
     setOpenConfirmDelete(false)
 
-    enqueueSnackbar(t("The projects has been deleted successfully"), {
+    enqueueSnackbar(t("The books has been deleted successfully"), {
       variant: "success",
       anchorOrigin: {
         vertical: "top",
@@ -330,9 +244,7 @@ const BookResults = ({ books }: BookResults) => {
                     </InputAdornment>
                   ),
                 }}
-                onChange={handleQueryChange}
-                placeholder={t("Search by project name...")}
-                value={query}
+                placeholder={t("Search by book name...")}
                 fullWidth
                 variant="outlined"
               />
@@ -346,7 +258,7 @@ const BookResults = ({ books }: BookResults) => {
                   m: 0,
                 }}
                 limitTags={2}
-                options={projectTags}
+                options={bookTags}
                 getOptionLabel={(option) => option.title}
                 renderInput={(params) => (
                   <TextField
@@ -363,12 +275,8 @@ const BookResults = ({ books }: BookResults) => {
           <Grid item xs={12} sm={6} md={3}>
             <Box p={1}>
               <FormControl fullWidth variant="outlined">
-                <InputLabel>{t("Status")}</InputLabel>
-                <Select
-                  value={filters.status || "all"}
-                  onChange={handleStatusChange}
-                  label={t("Status")}
-                >
+                <InputLabel>{t("Category")}</InputLabel>
+                <Select label={t("Category")}>
                   {statusOptions.map((statusOption) => (
                     <MenuItem key={statusOption.id} value={statusOption.id}>
                       {statusOption.name}
@@ -404,488 +312,31 @@ const BookResults = ({ books }: BookResults) => {
       </Card>
 
       {toggleView === "table_view" && (
-        <Card>
-          {selectedBulkActions && (
-            <Box p={2}>
-              <BulkActions />
-            </Box>
-          )}
-          {!selectedBulkActions && (
-            <Box
-              p={2}
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-            >
-              <Box>
-                <Typography component="span" variant="subtitle1">
-                  {t("Showing")}:
-                </Typography>{" "}
-                <b>{paginatedProjects.length}</b> <b>{t("books")}</b>
-              </Box>
-              <TablePagination
-                component="div"
-                count={filteredProjects.length}
-                onPageChange={handlePageChange}
-                onRowsPerPageChange={handleLimitChange}
-                page={page}
-                rowsPerPage={limit}
-                rowsPerPageOptions={[5, 10, 15]}
-              />
-            </Box>
-          )}
-          <Divider />
-
-          {paginatedProjects.length === 0 ? (
-            <>
-              <Typography
-                sx={{
-                  py: 10,
-                }}
-                variant="h3"
-                fontWeight="normal"
-                color="text.secondary"
-                align="center"
-              >
-                {t(
-                  "We couldn't find any projects matching your search criteria"
-                )}
-              </Typography>
-            </>
-          ) : (
-            <>
-              <TableContainer>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          checked={selectedAllProjects}
-                          indeterminate={selectedSomeProjects}
-                          onChange={handleSelectAllProjects}
-                        />
-                      </TableCell>
-                      <TableCell>{t("Name")}</TableCell>
-                      <TableCell>{t("Tags")}</TableCell>
-                      <TableCell>{t("Time Left")}</TableCell>
-                      <TableCell>{t("Members")}</TableCell>
-                      <TableCell>{t("Progress")}</TableCell>
-                      <TableCell>{t("Status")}</TableCell>
-                      <TableCell align="center">{t("Actions")}</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {paginatedProjects.map((project) => {
-                      const isProjectSelected = selectedBooks.includes(
-                        project.id
-                      )
-                      return (
-                        <TableRow
-                          hover
-                          key={project.id}
-                          selected={isProjectSelected}
-                        >
-                          <TableCell padding="checkbox">
-                            <Checkbox
-                              checked={isProjectSelected}
-                              onChange={(event) =>
-                                handleSelectOneProject(event, project.id)
-                              }
-                              value={isProjectSelected}
-                            />
-                          </TableCell>
-                          <TableCell>
-                            <Typography noWrap variant="h5">
-                              {project.name}
-                            </Typography>
-                          </TableCell>
-                          <TableCell>
-                            {project.tags.map((value: any) => {
-                              return (
-                                <span key={value}>
-                                  <Link href="#">{value}</Link>,{" "}
-                                </span>
-                              )
-                            })}
-                          </TableCell>
-                          <TableCell>
-                            <Typography
-                              noWrap
-                              variant="subtitle1"
-                              color="text.primary"
-                            >
-                              {t("Due")}
-                              <b>
-                                {" "}
-                                {formatDistance(
-                                  project.startDate,
-                                  project.dueDate,
-                                  {
-                                    addSuffix: true,
-                                  }
-                                )}
-                              </b>
-                            </Typography>
-                            <Typography noWrap color="text.secondary">
-                              {t("Started")}:{" "}
-                              {format(project.dueDate, "MMMM dd yyyy")}
-                            </Typography>
-                          </TableCell>
-                          <TableCell>
-                            <Box display="flex" justifyContent="flex-start">
-                              {project.memberIds.length > 0 && (
-                                <AvatarGroup max={4}>
-                                  {project.memberIds.map((member: any) => (
-                                    <Tooltip
-                                      arrow
-                                      placement="top"
-                                      key={member.id}
-                                      title={member.name}
-                                    >
-                                      <Avatar
-                                        sx={{
-                                          width: 30,
-                                          height: 30,
-                                        }}
-                                        key={member.id}
-                                        src={member.avatar}
-                                      />
-                                    </Tooltip>
-                                  ))}
-                                </AvatarGroup>
-                              )}
-                            </Box>
-                          </TableCell>
-                          <TableCell align="center">
-                            <Box
-                              sx={{
-                                minWidth: 175,
-                              }}
-                              display="flex"
-                              alignItems="center"
-                            >
-                              <LinearProgress
-                                sx={{
-                                  flex: 1,
-                                  mr: 1,
-                                }}
-                                value={project.progress}
-                                color="primary"
-                                variant="determinate"
-                              />
-                              <Typography variant="subtitle1">
-                                {project.progress}%
-                              </Typography>
-                            </Box>
-                          </TableCell>
-                          <TableCell>
-                            <Typography noWrap>
-                              {getProjectStatusLabel(project.status)}
-                            </Typography>
-                          </TableCell>
-                          <TableCell align="center">
-                            <Typography noWrap>
-                              <Tooltip title={t("View")} arrow>
-                                <IconButton color="primary">
-                                  <LaunchTwoToneIcon fontSize="small" />
-                                </IconButton>
-                              </Tooltip>
-                              <Tooltip title={t("Delete")} arrow>
-                                <IconButton
-                                  onClick={handleConfirmDelete}
-                                  color="primary"
-                                >
-                                  <DeleteTwoToneIcon fontSize="small" />
-                                </IconButton>
-                              </Tooltip>
-                            </Typography>
-                          </TableCell>
-                        </TableRow>
-                      )
-                    })}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <Box p={2}>
-                <TablePagination
-                  component="div"
-                  count={filteredProjects.length}
-                  onPageChange={handlePageChange}
-                  onRowsPerPageChange={handleLimitChange}
-                  page={page}
-                  rowsPerPage={limit}
-                  rowsPerPageOptions={[5, 10, 15]}
-                />
-              </Box>
-            </>
-          )}
-        </Card>
+        <BookTableView
+          books={books}
+          onSelectOne={handleSelectOneBook}
+          isSelectedAll={isSelectedAllBooks}
+          isSelectedBulkActions={isSelectedBulkActions}
+          onConfirmDelete={handleConfirmDelete}
+          selectedBookIds={selectedBooks}
+          isSelectedSome={isSelectedSomeBooks}
+          onSelectAll={handleSelectAllBooks}
+        />
       )}
+
       {toggleView === "grid_view" && (
-        <>
-          {paginatedProjects.length !== 0 && (
-            <Card
-              sx={{
-                p: 2,
-                mb: 3,
-              }}
-            >
-              <Box
-                display="flex"
-                alignItems="center"
-                justifyContent="space-between"
-              >
-                <>
-                  <Box display="flex" alignItems="center">
-                    <Tooltip
-                      arrow
-                      placement="top"
-                      title={t("Select all projects")}
-                    >
-                      <Checkbox
-                        checked={selectedAllProjects}
-                        indeterminate={selectedSomeProjects}
-                        onChange={handleSelectAllProjects}
-                      />
-                    </Tooltip>
-                  </Box>
-                  {selectedBulkActions && (
-                    <Box flex={1} pl={2}>
-                      <BulkActions />
-                    </Box>
-                  )}
-                  {!selectedBulkActions && (
-                    <TablePagination
-                      component="div"
-                      count={filteredProjects.length}
-                      onPageChange={handlePageChange}
-                      onRowsPerPageChange={handleLimitChange}
-                      page={page}
-                      rowsPerPage={limit}
-                      rowsPerPageOptions={[5, 10, 15]}
-                    />
-                  )}
-                </>
-              </Box>
-            </Card>
-          )}
-          {paginatedProjects.length === 0 ? (
-            <Typography
-              sx={{
-                py: 10,
-              }}
-              variant="h3"
-              fontWeight="normal"
-              color="text.secondary"
-              align="center"
-            >
-              {t("We couldn't find any projects matching your search criteria")}
-            </Typography>
-          ) : (
-            <>
-              <Grid container spacing={3}>
-                {paginatedProjects.map((project) => {
-                  const isProjectSelected = selectedBooks.includes(project.id)
-
-                  return (
-                    <Grid item xs={12} sm={6} md={4} key={project.name}>
-                      <CardWrapper
-                        className={clsx({
-                          "Mui-selected": isProjectSelected,
-                        })}
-                      >
-                        <Box
-                          sx={{
-                            position: "relative",
-                            zIndex: "2",
-                          }}
-                        >
-                          <Box
-                            pl={2}
-                            py={1}
-                            pr={1}
-                            display="flex"
-                            alignItems="center"
-                            justifyContent="space-between"
-                          >
-                            <Box>
-                              <Typography component="span">
-                                <b>{t("Tags")}:</b>{" "}
-                              </Typography>
-                              {project.tags.map((value: any) => {
-                                return (
-                                  <span key={value}>
-                                    <Link href="#">{value}</Link>,{" "}
-                                  </span>
-                                )
-                              })}
-                            </Box>
-                            <Checkbox
-                              checked={isProjectSelected}
-                              onChange={(event) =>
-                                handleSelectOneProject(event, project.id)
-                              }
-                              value={isProjectSelected}
-                            />
-                          </Box>
-                          <Divider />
-                          <CardMedia
-                            sx={{
-                              minHeight: 180,
-                            }}
-                            image={project.screenshot}
-                          />
-                          <Divider />
-                          <Box p={2}>
-                            {getProjectStatusLabel(project.status)}
-
-                            <Typography
-                              sx={{
-                                mt: 2,
-                              }}
-                              variant="h4"
-                              gutterBottom
-                            >
-                              {project.name}
-                            </Typography>
-
-                            <Typography noWrap variant="subtitle2">
-                              {project.description}
-                            </Typography>
-                          </Box>
-                          <Box
-                            px={2}
-                            display="flex"
-                            alignItems="flex-end"
-                            justifyContent="space-between"
-                          >
-                            <Box>
-                              <Typography variant="subtitle2">
-                                {t("Started")}:{" "}
-                              </Typography>
-                              <Typography variant="h5">
-                                {format(project.dueDate, "MMMM dd yyyy")}
-                              </Typography>
-                            </Box>
-                            <Box>
-                              <Typography variant="subtitle2">
-                                {t("Due in")}:{" "}
-                                <Text color="black">
-                                  {formatDistance(
-                                    project.startDate,
-                                    project.dueDate,
-                                    {
-                                      addSuffix: true,
-                                    }
-                                  )}{" "}
-                                  days
-                                </Text>
-                              </Typography>
-                            </Box>
-                          </Box>
-
-                          <Box px={2} pb={2} display="flex" alignItems="center">
-                            <LinearProgress
-                              sx={{
-                                flex: 1,
-                                mr: 1,
-                              }}
-                              value={project.progress}
-                              color="primary"
-                              variant="determinate"
-                            />
-                            <Typography variant="subtitle1">
-                              {project.progress}%
-                            </Typography>
-                          </Box>
-                          <Divider />
-                          <Box
-                            p={2}
-                            display="flex"
-                            alignItems="center"
-                            justifyContent="space-between"
-                          >
-                            <Box display="flex" justifyContent="flex-start">
-                              {project.memberIds.length > 0 && (
-                                <AvatarGroup max={4}>
-                                  {project.memberIds.map((member: any) => (
-                                    <Tooltip
-                                      arrow
-                                      placement="top"
-                                      key={member.id}
-                                      title={member.name}
-                                    >
-                                      <Avatar
-                                        sx={{
-                                          width: 30,
-                                          height: 30,
-                                        }}
-                                        key={member.id}
-                                        src={member.avatar}
-                                      />
-                                    </Tooltip>
-                                  ))}
-                                </AvatarGroup>
-                              )}
-                            </Box>
-                            <Box>
-                              <Button
-                                sx={{
-                                  mr: 1,
-                                }}
-                                size="small"
-                                variant="contained"
-                                color="primary"
-                              >
-                                {t("Edit")}
-                              </Button>
-                              <Tooltip title={t("Delete")} arrow>
-                                <IconButtonError
-                                  onClick={handleConfirmDelete}
-                                  color="primary"
-                                >
-                                  <DeleteTwoToneIcon fontSize="small" />
-                                </IconButtonError>
-                              </Tooltip>
-                            </Box>
-                          </Box>
-                        </Box>
-                      </CardWrapper>
-                    </Grid>
-                  )
-                })}
-              </Grid>
-              <Card
-                sx={{
-                  p: 2,
-                  mt: 3,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Box>
-                  <Typography component="span" variant="subtitle1">
-                    {t("Showing")}
-                  </Typography>{" "}
-                  <b>{limit}</b> {t("of")} <b>{filteredProjects.length}</b>{" "}
-                  <b>{t("books")}</b>
-                </Box>
-                <TablePagination
-                  component="div"
-                  count={filteredProjects.length}
-                  onPageChange={handlePageChange}
-                  onRowsPerPageChange={handleLimitChange}
-                  page={page}
-                  rowsPerPage={limit}
-                  labelRowsPerPage=""
-                  rowsPerPageOptions={[5, 10, 15]}
-                />
-              </Card>
-            </>
-          )}
-        </>
+        <BookGridView
+          books={books}
+          onSelectOne={handleSelectOneBook}
+          isSelectedAll={isSelectedAllBooks}
+          isSelectedBulkActions={isSelectedBulkActions}
+          onConfirmDelete={handleConfirmDelete}
+          selectedBookIds={selectedBooks}
+          isSelectedSome={isSelectedSomeBooks}
+          onSelectAll={handleSelectAllBooks}
+        />
       )}
+
       {!toggleView && (
         <Card
           sx={{
@@ -904,7 +355,7 @@ const BookResults = ({ books }: BookResults) => {
             gutterBottom
           >
             {t(
-              "Choose between table or grid views for displaying the projects list."
+              "Choose between table or grid views for displaying the books list."
             )}
           </Typography>
         </Card>
@@ -937,7 +388,7 @@ const BookResults = ({ books }: BookResults) => {
             }}
             variant="h3"
           >
-            {t("Do you really want to delete this project")}?
+            {t("Do you really want to delete this book")}?
           </Typography>
 
           <Typography
@@ -981,14 +432,6 @@ const BookResults = ({ books }: BookResults) => {
       </DialogWrapper>
     </>
   )
-}
-
-BookResults.propTypes = {
-  projects: PropTypes.array.isRequired,
-}
-
-BookResults.defaultProps = {
-  projects: [],
 }
 
 export default BookResults
