@@ -214,7 +214,7 @@ function PageHeader() {
             variant="contained"
             startIcon={<AddTwoToneIcon fontSize="small" />}
           >
-            {t("Create new project")}
+            {t("Create new book")}
           </Button>
         </Grid>
       </Grid>
@@ -230,7 +230,7 @@ function PageHeader() {
           }}
         >
           <Typography variant="h4" gutterBottom>
-            {t("Create new project")}
+            {t("Create new book")}
           </Typography>
           <Typography variant="subtitle2">
             {t("Use this dialog window to add a new project")}

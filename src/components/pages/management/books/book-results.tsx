@@ -50,9 +50,9 @@ import PropTypes from "prop-types"
 import { useTranslation } from "react-i18next"
 
 import Label from "components/label"
+import BulkActions from "components/pages/management/books/bulk-actions"
 import Text from "components/text"
-
-import BulkActions from "./BulkActions"
+import { Book } from "typings/api-model"
 
 const DialogWrapper = styled(Dialog)(
   () => `
@@ -127,7 +127,6 @@ const Transition = forwardRef<unknown, ComponentProps<typeof Slide>>(
     return <Slide direction="down" ref={ref} {...props} />
   }
 )
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
 const getProjectStatusLabel = (projectStatus: any) => {
   const map: any = {
@@ -189,8 +188,12 @@ const applyPagination = (projects: any[], page: number, limit: any) => {
   return projects.slice(page * limit, page * limit + limit)
 }
 
-const Results = ({ projects }: any) => {
-  const [selectedItems, setSelectedProjects] = useState<any>([])
+interface BookResults {
+  books: Book[]
+}
+
+const BookResults = ({ books }: BookResults) => {
+  const [selectedBooks, setSelectedBooks] = useState<Book[]>([])
   const { t } = useTranslation()
   const { enqueueSnackbar } = useSnackbar()
 
@@ -246,16 +249,16 @@ const Results = ({ projects }: any) => {
   }
 
   const handleSelectAllProjects = (event: any) => {
-    setSelectedProjects(
-      event.target.checked ? projects.map((project: any) => project.id) : []
+    setSelectedBooks(
+      event.target.checked ? books.map((project: any) => project.id) : []
     )
   }
 
   const handleSelectOneProject = (_event: any, projectId: any) => {
-    if (!selectedItems.includes(projectId)) {
-      setSelectedProjects((prevSelected: any) => [...prevSelected, projectId])
+    if (!selectedBooks.includes(projectId)) {
+      setSelectedBooks((prevSelected: any) => [...prevSelected, projectId])
     } else {
-      setSelectedProjects((prevSelected: any) =>
+      setSelectedBooks((prevSelected: any) =>
         prevSelected.filter((id: any) => id !== projectId)
       )
     }
@@ -269,12 +272,12 @@ const Results = ({ projects }: any) => {
     setLimit(parseInt(event.target.value))
   }
 
-  const filteredProjects = applyFilters(projects, query, filters)
+  const filteredProjects = applyFilters(books, query, filters)
   const paginatedProjects = applyPagination(filteredProjects, page, limit)
-  const selectedBulkActions = selectedItems.length > 0
+  const selectedBulkActions = selectedBooks.length > 0
   const selectedSomeProjects =
-    selectedItems.length > 0 && selectedItems.length < projects.length
-  const selectedAllProjects = selectedItems.length === projects.length
+    selectedBooks.length > 0 && selectedBooks.length < books.length
+  const selectedAllProjects = selectedBooks.length === books.length
 
   const [toggleView, setToggleView] = useState("table_view")
 
@@ -473,7 +476,7 @@ const Results = ({ projects }: any) => {
                   </TableHead>
                   <TableBody>
                     {paginatedProjects.map((project) => {
-                      const isProjectSelected = selectedItems.includes(
+                      const isProjectSelected = selectedBooks.includes(
                         project.id
                       )
                       return (
@@ -682,7 +685,7 @@ const Results = ({ projects }: any) => {
             <>
               <Grid container spacing={3}>
                 {paginatedProjects.map((project) => {
-                  const isProjectSelected = selectedItems.includes(project.id)
+                  const isProjectSelected = selectedBooks.includes(project.id)
 
                   return (
                     <Grid item xs={12} sm={6} md={4} key={project.name}>
@@ -980,12 +983,12 @@ const Results = ({ projects }: any) => {
   )
 }
 
-Results.propTypes = {
+BookResults.propTypes = {
   projects: PropTypes.array.isRequired,
 }
 
-Results.defaultProps = {
+BookResults.defaultProps = {
   projects: [],
 }
 
-export default Results
+export default BookResults

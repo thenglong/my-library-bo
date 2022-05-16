@@ -1,35 +1,16 @@
-import { useState, useEffect, useCallback } from "react"
-
 import { Grid } from "@mui/material"
 import { Helmet } from "react-helmet-async"
 
 import Footer from "components/footer"
 import PageTitleWrapper from "components/page-title-wrapper"
-import PageHeader from "components/pages/management/books/PageHeader"
-import Results from "components/pages/management/books/Results"
-import useRefMounted from "hooks/use-ref-mounted"
-import axios from "utils/axios"
+import BookResults from "components/pages/management/books/book-results"
+import PageHeader from "components/pages/management/books/page-header"
+import useBooksQuery from "hooks/queries/use-books-query"
 
 function ManagementProjects() {
-  const isMountedRef = useRefMounted()
-  const [projects, setProjects] = useState([])
+  const { data: books } = useBooksQuery()
 
-  const getProjects = useCallback(async () => {
-    try {
-      const response = await axios.get("/api/projects")
-
-      if (isMountedRef.current) {
-        setProjects(response.data.projects)
-      }
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error(err)
-    }
-  }, [isMountedRef])
-
-  useEffect(() => {
-    getProjects()
-  }, [getProjects])
+  if (!books) return null
 
   return (
     <>
@@ -51,7 +32,7 @@ function ManagementProjects() {
         spacing={4}
       >
         <Grid item xs={12}>
-          <Results projects={projects} />
+          <BookResults books={books} />
         </Grid>
       </Grid>
       <Footer />

@@ -31,9 +31,12 @@ import { useTranslation } from "react-i18next"
 import SwiperCore, { Navigation, Thumbs } from "swiper"
 // eslint-disable-next-line import/no-unresolved
 import { Swiper, SwiperSlide } from "swiper/react"
-import "swiper/swiper.min.css"
-import "swiper/modules/navigation/navigation.min.css"
-import "swiper/modules/pagination/pagination.min.css"
+// eslint-disable-next-line import/no-unresolved
+import "swiper/css"
+// eslint-disable-next-line import/no-unresolved
+import "swiper/css/navigation"
+// eslint-disable-next-line import/no-unresolved
+import "swiper/css/pagination"
 
 import ReviewsTab from "components/pages/management/Products/single/ReviewsTab"
 import Text from "components/text"

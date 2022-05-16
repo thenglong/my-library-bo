@@ -5,7 +5,7 @@ import { Navigate, Outlet, RouteObject } from "react-router-dom"
 import AppLayout from "components/layout/app-layout"
 import AuthLayout from "components/layout/auth-layout"
 import { APP_PREFIX_PATH, AUTH_PREFIX_PATH } from "constants/routes-constants"
-import managementRoutes from "routes/management"
+import managementRoutes from "routes/management-routes"
 
 const LoginPage = lazy(() => import("components/pages/login-page"))
 
