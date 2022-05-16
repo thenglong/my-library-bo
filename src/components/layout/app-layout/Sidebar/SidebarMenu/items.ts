@@ -4,14 +4,10 @@ import AccountTreeTwoToneIcon from "@mui/icons-material/AccountTreeTwoTone"
 import AnalyticsTwoToneIcon from "@mui/icons-material/AnalyticsTwoTone"
 import AssignmentIndTwoToneIcon from "@mui/icons-material/AssignmentIndTwoTone"
 import BackupTableTwoToneIcon from "@mui/icons-material/BackupTableTwoTone"
-import DesignServicesTwoToneIcon from "@mui/icons-material/DesignServicesTwoTone"
-import ErrorTwoToneIcon from "@mui/icons-material/ErrorTwoTone"
 import HealthAndSafetyTwoToneIcon from "@mui/icons-material/HealthAndSafetyTwoTone"
 import ReceiptTwoToneIcon from "@mui/icons-material/ReceiptTwoTone"
 import SmartToyTwoToneIcon from "@mui/icons-material/SmartToyTwoTone"
 import StorefrontTwoToneIcon from "@mui/icons-material/StorefrontTwoTone"
-import SupportTwoToneIcon from "@mui/icons-material/SupportTwoTone"
-import VpnKeyTwoToneIcon from "@mui/icons-material/VpnKeyTwoTone"
 
 export interface MenuItem {
   link?: string
@@ -38,7 +34,7 @@ const menuItems: MenuItems[] = [
         items: [
           {
             name: "Extended sidebar",
-            link: "/extended-sidebar/dashboards",
+            link: "/app/dashboards",
             badge: "v3.0",
             badgeTooltip: "Added in version 3.0",
           },
@@ -73,7 +69,7 @@ const menuItems: MenuItems[] = [
       {
         name: "Dashboards",
         icon: SmartToyTwoToneIcon,
-        link: "/extended-sidebar/dashboards",
+        link: "/app/dashboards",
         items: [
           {
             name: "Reports",
@@ -129,7 +125,7 @@ const menuItems: MenuItems[] = [
           },
           {
             name: "Healthcare",
-            link: "/extended-sidebar/dashboards/healthcare",
+            link: "/app/dashboards/healthcare",
             items: [
               {
                 name: "Doctors",
@@ -164,7 +160,7 @@ const menuItems: MenuItems[] = [
         icon: HealthAndSafetyTwoToneIcon,
         badge: "",
         badgeTooltip: "Tokyo 3.0 contains over 250 new data display blocks",
-        link: "/extended-sidebar/blocks",
+        link: "/app/blocks",
         items: [
           {
             name: "Charts large",
@@ -231,7 +227,7 @@ const menuItems: MenuItems[] = [
       {
         name: "Applications",
         icon: AnalyticsTwoToneIcon,
-        link: "/extended-sidebar/applications",
+        link: "/app/applications",
         items: [
           {
             name: "Calendar",
@@ -267,7 +263,7 @@ const menuItems: MenuItems[] = [
       {
         name: "Users",
         icon: AssignmentIndTwoToneIcon,
-        link: "/extended-sidebar/management/users",
+        link: "/app/management/users",
         items: [
           {
             name: "List",
@@ -280,14 +276,14 @@ const menuItems: MenuItems[] = [
         ],
       },
       {
-        name: "Projects",
+        name: "Books",
         icon: AccountTreeTwoToneIcon,
-        link: "/extended-sidebar/management/projects/list",
+        link: "/app/management/books/list",
       },
       {
         name: "Commerce",
         icon: StorefrontTwoToneIcon,
-        link: "/extended-sidebar/management/commerce",
+        link: "/app/management/commerce",
         items: [
           {
             name: "Shop",
@@ -310,7 +306,7 @@ const menuItems: MenuItems[] = [
       {
         name: "Invoices",
         icon: ReceiptTwoToneIcon,
-        link: "/extended-sidebar/management/invoices",
+        link: "/app/management/invoices",
         items: [
           {
             name: "List",
@@ -321,90 +317,6 @@ const menuItems: MenuItems[] = [
             link: "management/invoices/single",
           },
         ],
-      },
-    ],
-  },
-  {
-    heading: "Extra Pages",
-    items: [
-      {
-        name: "Auth Pages",
-        icon: VpnKeyTwoToneIcon,
-        link: "/auth",
-        items: [
-          {
-            name: "Login",
-            items: [
-              {
-                name: "Basic",
-                link: "/account/login-basic",
-              },
-              {
-                name: "Cover",
-                link: "/account/login-cover",
-              },
-            ],
-          },
-          {
-            name: "Register",
-            items: [
-              {
-                name: "Basic",
-                link: "/account/register-basic",
-              },
-              {
-                name: "Cover",
-                link: "/account/register-cover",
-              },
-              {
-                name: "Wizard",
-                link: "/account/register-wizard",
-              },
-            ],
-          },
-          {
-            name: "Recover Password",
-            link: "/account/recover-password",
-          },
-        ],
-      },
-      {
-        name: "Status",
-        icon: ErrorTwoToneIcon,
-        link: "/status",
-        items: [
-          {
-            name: "Error 404",
-            link: "/status/404",
-          },
-          {
-            name: "Error 500",
-            link: "/status/500",
-          },
-          {
-            name: "Maintenance",
-            link: "/status/maintenance",
-          },
-          {
-            name: "Coming Soon",
-            link: "/status/coming-soon",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    heading: "Foundation",
-    items: [
-      {
-        name: "Overview",
-        link: "/overview",
-        icon: DesignServicesTwoToneIcon,
-      },
-      {
-        name: "Documentation",
-        icon: SupportTwoToneIcon,
-        link: "/docs",
       },
     ],
   },

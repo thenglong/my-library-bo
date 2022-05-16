@@ -2,7 +2,7 @@ import { Backdrop, CircularProgress } from "@mui/material"
 import { useRoutes } from "react-router-dom"
 
 import useFirebaseAuthState from "hooks/firebase/use-firebase-auth-state"
-import { getRoutes } from "utils/routes"
+import { getRoutes } from "routes"
 
 function App() {
   const { isLoading, user: firebaseUser, error } = useFirebaseAuthState()
@@ -16,7 +16,7 @@ function App() {
   if (isLoading)
     return (
       <Backdrop open>
-        <CircularProgress />
+        <CircularProgress size={64} disableShrink thickness={3} />
       </Backdrop>
     )
 

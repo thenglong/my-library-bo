@@ -14,7 +14,7 @@ import {
 import SidebarFooter from "components/layout/app-layout/Sidebar/SidebarFooter"
 import SidebarMenu from "components/layout/app-layout/Sidebar/SidebarMenu"
 import SidebarTopSection from "components/layout/app-layout/Sidebar/SidebarTopSection"
-import Logo from "components/LogoSign"
+import Logo from "components/logo-sign"
 import Scrollbar from "components/scrollbar"
 import { SidebarContext } from "contexts/SidebarContext"
 

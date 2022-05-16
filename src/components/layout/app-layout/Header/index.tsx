@@ -15,7 +15,6 @@ import {
 } from "@mui/material"
 
 import HeaderButtons from "components/layout/app-layout/Header/Buttons"
-import HeaderMenu from "components/layout/app-layout/Header/Menu"
 import HeaderSearch from "components/layout/app-layout/Header/Search"
 import { SidebarContext } from "contexts/SidebarContext"
 
@@ -71,7 +70,6 @@ function Header() {
         spacing={2}
       >
         <HeaderSearch />
-        <HeaderMenu />
       </Stack>
       <Box display="flex" alignItems="center">
         <HeaderButtons />

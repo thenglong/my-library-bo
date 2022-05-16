@@ -228,7 +228,7 @@ function SidebarTopSection() {
             component={NavLink}
           >
             <AccountTreeTwoToneIcon fontSize="small" />
-            <ListItemText primary={t("Projects")} />
+            <ListItemText primary={t("Books")} />
           </ListItem>
         </List>
         <Divider />
