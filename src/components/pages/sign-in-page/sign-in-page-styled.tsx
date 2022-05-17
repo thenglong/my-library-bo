@@ -1,4 +1,4 @@
-import { Box, Card, styled, Typography } from "@mui/material"
+import { Box, Card, styled } from "@mui/material"
 
 export const SidebarContent = styled("div")(
   ({ theme }) => `
@@ -32,12 +32,6 @@ export const CardImage = styled(Card)(
     justify-content: center;
     border: 1px solid ${theme.colors.alpha.black[10]};
     transition: ${theme.transitions.create(["border"])};
-`
-)
-
-export const TypographyH1 = styled(Typography)(
-  ({ theme }) => `
-    font-size: ${theme.typography.pxToRem(33)};
 `
 )
 

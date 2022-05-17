@@ -47,12 +47,11 @@ const SignInPage = () => {
               }}
             >
               <Box textAlign="center">
-                <Typography
-                  variant="h2"
-                  sx={{
-                    mb: 1,
-                  }}
-                >
+                <Box sx={{ display: { md: "none", sm: "revert" } }}>
+                  <Logo />
+                </Box>
+
+                <Typography variant="h2" my={3}>
                   {t("Sign in")}
                 </Typography>
                 <Typography
@@ -69,7 +68,9 @@ const SignInPage = () => {
               <SignInForm />
             </Card>
 
-            <LanguageSwitcher />
+            <Box mb={2}>
+              <LanguageSwitcher />
+            </Box>
           </Container>
         </MainContent>
       </Content>

@@ -1,9 +1,8 @@
 import { Box, Theme, Tooltip, Typography, useTheme } from "@mui/material"
+import Lottie from "lottie-react"
 
-import {
-  CardImage,
-  TypographyH1,
-} from "components/pages/sign-in-page/sign-in-page-styled"
+import { CardImage } from "components/pages/sign-in-page/sign-in-page-styled"
+import bookLover from "data/lottie/book-lover.json"
 import { getInitialImage } from "utils/ui-utils"
 
 const getItems = (theme: Theme) => {
@@ -37,14 +36,15 @@ const LifeQuote = () => {
 
   return (
     <>
-      <TypographyH1
-        variant="h1"
+      <Typography
+        variant="subtitle1"
         sx={{
-          mb: 7,
+          mb: 3,
         }}
       >
-        Join us today or nowhere
-      </TypographyH1>
+        There are no wrong turnings. Only paths we had not known we were meant
+        to walk.
+      </Typography>
       <Box
         sx={{
           width: "100%",
@@ -61,18 +61,16 @@ const LifeQuote = () => {
           </Tooltip>
         ))}
       </Box>
+
       <Typography
         variant="subtitle1"
-        sx={{
-          my: 3,
-        }}
+        color="text.primary"
+        fontWeight="bold"
+        mt={2}
       >
-        There are no wrong turnings. Only paths we had not known we were meant
-        to walk.
-      </Typography>
-      <Typography variant="subtitle1" color="text.primary" fontWeight="bold">
         Finding Your Path
       </Typography>
+      <Lottie animationData={bookLover} />
       <Typography variant="subtitle1">
         A reader lives a thousand lives before he dies, said Jojen
       </Typography>

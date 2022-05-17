@@ -1,6 +1,6 @@
 import { useQuery } from "react-query"
 
-import sampleBooks from "data/sample-books"
+import sampleBooks from "data/sample/sample-books"
 import wait from "utils/wait"
 
 const fetchBooks = async () => {

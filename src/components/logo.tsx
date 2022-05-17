@@ -11,6 +11,7 @@ const LogoWrapper = styled(Link)(
         display: inline-flex;
         text-decoration: none;
         font-weight: ${theme.typography.fontWeightBold};
+        text-align: left;
 `
 )
 
