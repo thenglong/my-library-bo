@@ -87,7 +87,7 @@ const BookResults = ({ books }: BookResults) => {
   const { t } = useTranslation()
   const { enqueueSnackbar } = useSnackbar()
 
-  const bookTags = [
+  const bookCategories = [
     { title: "Development" },
     { title: "Design Book" },
     { title: "Marketing Research" },
@@ -96,20 +96,12 @@ const BookResults = ({ books }: BookResults) => {
 
   const statusOptions = [
     {
-      id: "all",
-      name: "All",
+      id: "available",
+      name: t("Available"),
     },
     {
-      id: "not_started",
-      name: t("Not started"),
-    },
-    {
-      id: "completed",
-      name: t("Completed"),
-    },
-    {
-      id: "in_progress",
-      name: t("In Progress"),
+      id: "unavailable",
+      name: t("Unavailable"),
     },
   ]
 
@@ -200,15 +192,15 @@ const BookResults = ({ books }: BookResults) => {
                   m: 0,
                 }}
                 limitTags={2}
-                options={bookTags}
+                options={bookCategories}
                 getOptionLabel={(option) => option.title}
                 renderInput={(params) => (
                   <TextField
                     {...params}
                     fullWidth
                     variant="outlined"
-                    label={t("Tags")}
-                    placeholder={t("Select tags...")}
+                    label={t("Categories")}
+                    placeholder={t("Select categories...")}
                   />
                 )}
               />
@@ -217,8 +209,8 @@ const BookResults = ({ books }: BookResults) => {
           <Grid item xs={12} sm={6} md={3}>
             <Box p={1}>
               <FormControl fullWidth variant="outlined">
-                <InputLabel>{t("Category")}</InputLabel>
-                <Select label={t("Category")}>
+                <InputLabel>{t("Status")}</InputLabel>
+                <Select label={t("Status")}>
                   {statusOptions.map((statusOption) => (
                     <MenuItem key={statusOption.id} value={statusOption.id}>
                       {statusOption.name}

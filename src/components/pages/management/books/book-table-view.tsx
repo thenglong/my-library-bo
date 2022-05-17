@@ -3,15 +3,12 @@ import { ChangeEvent } from "react"
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone"
 import LaunchTwoToneIcon from "@mui/icons-material/LaunchTwoTone"
 import {
-  Avatar,
-  AvatarGroup,
   Box,
   Card,
   Checkbox,
   CircularProgress,
   Divider,
   IconButton,
-  LinearProgress,
   Link,
   Table,
   TableBody,
@@ -122,9 +119,14 @@ const BookTableView = ({
                   <TableCell>{t("Cover")}</TableCell>
                   <TableCell>{t("Title")}</TableCell>
                   <TableCell>{t("Categories")}</TableCell>
-                  <TableCell>{t("Time Left")}</TableCell>
-                  <TableCell>{t("Members")}</TableCell>
-                  <TableCell>{t("Progress")}</TableCell>
+                  <TableCell>{t("Date")}</TableCell>
+                  <TableCell>{t("Author(s)")}</TableCell>
+                  <TableCell>{t("Language")}</TableCell>
+                  <TableCell>{t("Country")}</TableCell>
+                  <TableCell>{t("Year")}</TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap" }}>
+                    {t("Total Page")}
+                  </TableCell>
                   <TableCell>{t("Status")}</TableCell>
                   <TableCell align="center">{t("Actions")}</TableCell>
                 </TableRow>
@@ -145,6 +147,7 @@ const BookTableView = ({
                         <Image
                           src={`${process.env.PUBLIC_URL}/${book.imageLink}`}
                           showLoading={<CircularProgress />}
+                          style={{ height: 100, width: 70 }}
                         />
                       </TableCell>
                       <TableCell>
@@ -167,9 +170,8 @@ const BookTableView = ({
                           variant="subtitle1"
                           color="text.primary"
                         >
-                          {t("Due")}
+                          {t("Last Rental")}:{" "}
                           <b>
-                            {" "}
                             {formatDistance(
                               new Date(),
                               addDays(new Date(), 1),
@@ -180,72 +182,42 @@ const BookTableView = ({
                           </b>
                         </Typography>
                         <Typography noWrap color="text.secondary">
-                          {t("Started")}: {format(new Date(), "MMMM dd yyyy")}
+                          {t("Created At")}:{" "}
+                          {format(new Date(), "MMMM dd yyyy")}
                         </Typography>
                       </TableCell>
                       <TableCell>
-                        <Box display="flex" justifyContent="flex-start">
-                          {/* book author */}
-                          <AvatarGroup max={4}>
-                            <Tooltip arrow placement="top" title="Author">
-                              <Avatar
-                                sx={{
-                                  width: 30,
-                                  height: 30,
-                                }}
-                                src="https://avatars.dicebear.com/api/initials/:author_melo.svg"
-                              />
-                            </Tooltip>
-                            <Tooltip arrow placement="top" title="Author">
-                              <Avatar
-                                sx={{
-                                  width: 30,
-                                  height: 30,
-                                }}
-                                src="https://avatars.dicebear.com/api/initials/:author_melo.svg"
-                              />
-                            </Tooltip>
-                            <Tooltip arrow placement="top" title="Author">
-                              <Avatar
-                                sx={{
-                                  width: 30,
-                                  height: 30,
-                                }}
-                                src="https://avatars.dicebear.com/api/initials/:author_melo.svg"
-                              />
-                            </Tooltip>
-                          </AvatarGroup>
-                        </Box>
+                        <Typography noWrap variant="subtitle1">
+                          {book.author}
+                        </Typography>
                       </TableCell>
-                      <TableCell align="center">
-                        <Box
-                          sx={{
-                            minWidth: 175,
-                          }}
-                          display="flex"
-                          alignItems="center"
-                        >
-                          <LinearProgress
-                            sx={{
-                              flex: 1,
-                              mr: 1,
-                            }}
-                            value={getRandomInt(1, 100)}
-                            color="primary"
-                            variant="determinate"
-                          />
-                          <Typography variant="subtitle1">
-                            {getRandomInt(1, 100)}%
-                          </Typography>
-                        </Box>
+                      <TableCell>
+                        <Typography noWrap variant="subtitle1">
+                          {book.language}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography noWrap variant="subtitle1">
+                          {book.country}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography noWrap variant="subtitle1">
+                          {book.year}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography noWrap variant="subtitle1">
+                          {book.pages}
+                        </Typography>
                       </TableCell>
                       <TableCell>
                         <Typography noWrap>
                           <BookStatusLabel
                             bookStatus={
                               getRandomInt(1, 2) === 1
-                                ? "inStock"
-                                : "outOfStock"
+                                ? "available"
+                                : "unavailable"
                             }
                           />
                         </Typography>
