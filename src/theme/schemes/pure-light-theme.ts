@@ -2,15 +2,15 @@ import { alpha, createTheme, lighten, darken } from "@mui/material"
 import "@mui/lab/themeAugmentation"
 
 const themeColors = {
-  primary: "#5569ff",
-  secondary: "#6E759F",
-  success: "#57CA22",
-  warning: "#FFA319",
-  error: "#FF1943",
-  info: "#33C2FF",
+  primary: "#d9296b",
+  secondary: "#2486ad",
+  success: "#378017",
+  warning: "#ab6d10",
+  error: "#af263f",
+  info: "#227ea6",
   black: "#223354",
   white: "#ffffff",
-  primaryAlt: "#000C57",
+  primaryAlt: "#761a3a",
 }
 
 const colors = {
@@ -373,7 +373,7 @@ export const PureLightTheme = createTheme({
           pointerEvents: "none",
         },
         "#nprogress .bar": {
-          background: "#E84D8A",
+          background: colors.primary.main,
           height: ".25rem",
         },
         "#nprogress .spinner-icon": {

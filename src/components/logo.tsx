@@ -17,7 +17,7 @@ const LogoWrapper = styled(Link)(
 const LogoSignWrapper = styled("h1")(
   ({ theme }) => `
         color: ${theme.palette.success.contrastText};
-        background: #E84D8A;
+        background: ${theme.palette.primary.main};
         border-radius: 50%;
         margin: 0;
         height: 45px;
@@ -36,7 +36,7 @@ const LogoTextWrapper = styled(Box)(
 
 const VersionBadge = styled(Box)(
   ({ theme }) => `
-        background: ${theme.palette.success.main};
+        background: ${theme.palette.secondary.main};
         color: ${theme.palette.success.contrastText};
         padding: ${theme.spacing(0.4, 1)};
         border-radius: ${theme.general.borderRadiusSm};
@@ -51,7 +51,7 @@ const LogoText = styled(Box)(
   ({ theme }) => `
         font-size: ${theme.typography.pxToRem(15)};
         font-weight: ${theme.typography.fontWeightBold};
-        color: #E84D8A;
+        color: ${theme.palette.primary.main};
         margin-top: .25rem;
 
 `
@@ -60,17 +60,16 @@ const LogoText = styled(Box)(
 const Logo = () => {
   const { t } = useTranslation()
   const theme = useTheme()
-
   const displayName = firebaseService.auth.currentUser?.displayName ?? ""
 
   return (
     <LogoWrapper to="/">
-      <LogoSignWrapper>ll</LogoSignWrapper>
+      <LogoSignWrapper>{t("M")}</LogoSignWrapper>
       <LogoTextWrapper>
         <Tooltip
-          title={`${t(
-            `Are you happy${displayName ? ` ${displayName}` : ""}?`
-          )}`}
+          title={`${t(`Are you happy`)}${
+            displayName ? ` ${displayName}` : ""
+          }?`}
           arrow
           placement="right"
         >
@@ -85,7 +84,7 @@ const Logo = () => {
                 top: "-5%",
                 right: "-5%",
                 transition: `${theme.transitions.create(["all"])}`,
-                backgroundColor: "#E84D8A",
+                backgroundColor: "primary.main",
               },
             }}
             variant="dot"

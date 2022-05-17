@@ -1,6 +1,7 @@
 import { Box, Card, Container, Typography } from "@mui/material"
 import { Helmet } from "react-helmet-async"
 
+import LanguageSwitcher from "components/layout/app-layout/language-switcher"
 import Logo from "components/logo"
 import LifeQuote from "components/pages/login-page/life-quote"
 import LoginForm from "components/pages/login-page/login-form"
@@ -65,6 +66,8 @@ const LoginPage = () => (
             </Box>
             <LoginForm />
           </Card>
+
+          <LanguageSwitcher />
         </Container>
       </MainContent>
     </Content>

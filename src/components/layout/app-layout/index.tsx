@@ -7,7 +7,7 @@ import Header from "components/layout/app-layout/header"
 import Sidebar from "components/layout/app-layout/sidebar"
 import SuspenseLoader from "components/suspense-loader"
 
-const ExtendedSidebarLayout = () => {
+const AppLayout = () => {
   const theme = useTheme()
 
   return (
@@ -53,7 +53,10 @@ const ExtendedSidebarLayout = () => {
             },
           }}
         >
-          <Box display="block">
+          <Box
+            display="block"
+            minHeight={`calc(100vh - ${theme.header.height})`}
+          >
             <Suspense fallback={<SuspenseLoader />}>
               <Outlet />
             </Suspense>
@@ -64,4 +67,4 @@ const ExtendedSidebarLayout = () => {
   )
 }
 
-export default ExtendedSidebarLayout
+export default AppLayout

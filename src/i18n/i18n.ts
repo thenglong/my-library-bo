@@ -2,12 +2,12 @@ import i18n from "i18next"
 import languageDetector from "i18next-browser-languagedetector"
 import { initReactI18next } from "react-i18next"
 
-import enJSON from "./translations/en"
-import kmJSON from "./translations/km"
+import en from "./translations/en"
+import km from "./translations/km"
 
 const resources = {
-  en: { translation: enJSON },
-  km: { translation: kmJSON },
+  en: { translation: en },
+  km: { translation: km },
 }
 
 i18n
