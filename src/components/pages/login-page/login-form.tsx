@@ -30,7 +30,7 @@ const defaultValues = {
   staySignedIn: true,
 }
 
-const schema = yup.object().shape({
+const validationSchema = yup.object().shape({
   email: yup
     .string()
     .email("Please enter a valid email")
@@ -47,7 +47,7 @@ const LoginForm = () => {
     control,
   } = useForm<typeof defaultValues>({
     defaultValues,
-    resolver: yupResolver(schema),
+    resolver: yupResolver(validationSchema),
   })
 
   const { signInAsync } = useSignInWithEmailAndPassword()

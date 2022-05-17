@@ -3,6 +3,8 @@ import { useEffect } from "react"
 import { Box, CircularProgress, useTheme } from "@mui/material"
 import NProgress from "nprogress"
 
+NProgress.settings.showSpinner = false
+
 const SuspenseLoader = () => {
   const theme = useTheme()
 

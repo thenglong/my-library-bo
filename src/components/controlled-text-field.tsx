@@ -9,8 +9,8 @@ interface ControlledTextFieldProps {
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   control: Control<any>
   name: string
-  label: string
-  placeholder: string
+  label?: string
+  placeholder?: string
   type?: InputHTMLAttributes<HTMLInputTypeAttribute>["type"]
   touched?: boolean
   isError: boolean

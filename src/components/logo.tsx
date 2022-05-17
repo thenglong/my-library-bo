@@ -2,6 +2,8 @@ import { Badge, Box, styled, Tooltip, useTheme } from "@mui/material"
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
 
+import firebaseService from "services/firebase-service"
+
 const LogoWrapper = styled(Link)(
   ({ theme }) => `
         color: ${theme.palette.text.primary};
@@ -59,11 +61,19 @@ function Logo() {
   const { t } = useTranslation()
   const theme = useTheme()
 
+  const displayName = firebaseService.auth.currentUser?.displayName ?? ""
+
   return (
     <LogoWrapper to="/">
       <LogoSignWrapper>ll</LogoSignWrapper>
       <LogoTextWrapper>
-        <Tooltip title={`${t("Are you happy")}`} arrow placement="right">
+        <Tooltip
+          title={`${t(
+            `Are you happy${displayName ? ` ${displayName}` : ""}?`
+          )}`}
+          arrow
+          placement="right"
+        >
           <Badge
             anchorOrigin={{
               vertical: "top",

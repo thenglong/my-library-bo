@@ -28,6 +28,9 @@ jobs:
 
       - name: Run build 🔀
         run: npm run build
+        env:
+          REACT_APP_FIREBASE_CONFIG: ${{secrets.REACT_APP_FIREBASE_CONFIG}}
+          REACT_APP_FIREBASE_VAPID_KEY: ${{secrets.REACT_APP_FIREBASE_VAPID_KEY}}
 
 
       - name: Deploy to Netlify 🔀

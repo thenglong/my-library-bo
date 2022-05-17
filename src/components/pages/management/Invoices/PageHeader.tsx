@@ -1,6 +1,6 @@
 import { useState } from "react"
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { yupResolver } from "@hookform/resolvers/yup"
 import AddTwoToneIcon from "@mui/icons-material/AddTwoTone"
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone"
 import DatePicker from "@mui/lab/DatePicker"
@@ -32,12 +32,13 @@ import {
   TableFooter,
 } from "@mui/material"
 import { styled } from "@mui/material/styles"
-import { Formik } from "formik"
 import { useSnackbar } from "notistack"
 import numeral from "numeral"
+import { useForm } from "react-hook-form"
 import { useTranslation } from "react-i18next"
 import * as Yup from "yup"
 
+import ControlledTextField from "components/controlled-text-field"
 import wait from "utils/wait"
 
 const IconButtonError = styled(IconButton)(
@@ -51,6 +52,16 @@ const IconButtonError = styled(IconButton)(
        }
   `
 )
+
+const validationSchema = Yup.object().shape({
+  number: Yup.string()
+    .max(255)
+    .required("The invoice number field is required"),
+})
+
+const defaultValues = {
+  number: 0,
+}
 
 function PageHeader() {
   const { t } = useTranslation()
@@ -126,6 +137,19 @@ function PageHeader() {
     setOpen(false)
   }
 
+  const {
+    handleSubmit,
+    formState: { errors, touchedFields, isSubmitting },
+    control,
+  } = useForm<typeof defaultValues>({
+    defaultValues,
+    resolver: yupResolver(validationSchema),
+  })
+
+  const onSubmit = handleSubmit((data) => {
+    //
+  })
+
   return (
     <>
       <Grid container justifyContent="space-between" alignItems="center">
@@ -168,268 +192,223 @@ function PageHeader() {
             {t("Use this modal dialog to create a new invoice")}
           </Typography>
         </DialogTitle>
-        <Formik
-          initialValues={{
-            number: "",
-            submit: null,
-          }}
-          validationSchema={Yup.object().shape({
-            number: Yup.string()
-              .max(255)
-              .required(t("The invoice number field is required")),
-          })}
-          onSubmit={async (
-            _values,
-            { resetForm, setErrors, setStatus, setSubmitting }
-          ) => {
-            try {
-              await wait(1000)
-              resetForm()
-              setStatus({ success: true })
-              setSubmitting(false)
-              handleCreateInvoiceSuccess()
-            } catch (err) {
-              // eslint-disable-next-line no-console
-              console.error(err)
-              setStatus({ success: false })
-              setErrors({ submit: (err as any)?.message })
-              setSubmitting(false)
-            }
-          }}
-        >
-          {({
-            errors,
-            handleBlur,
-            handleChange,
-            handleSubmit,
-            isSubmitting,
-            touched,
-            values,
-          }) => (
-            <form onSubmit={handleSubmit}>
-              <DialogContent
-                dividers
-                sx={{
-                  p: 3,
-                }}
-              >
-                <Grid container spacing={3}>
-                  <Grid item xs={12} md={6}>
-                    <Box pb={1}>
-                      <b>{t("Invoice Number")}:</b>
-                    </Box>
-                    <TextField
-                      error={Boolean(touched.number && errors.number)}
-                      fullWidth
-                      helperText={touched.number && errors.number}
-                      name="number"
-                      placeholder={t("Invoice number here...")}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      value={values.number}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Box pb={1}>
-                      <b>{t("Recipient")}:</b>
-                    </Box>
-                    <Autocomplete
-                      multiple
-                      sx={{
-                        m: 0,
-                      }}
-                      limitTags={2}
-                      options={members}
-                      renderOption={(props, option) => (
-                        <li {...props}>
-                          <Avatar
-                            sx={{
-                              mr: 1,
-                            }}
-                            src={option.avatar}
-                          />
-                          {option.name}
-                        </li>
-                      )}
-                      getOptionLabel={(option) => option.name}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          variant="outlined"
-                          fullWidth
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          placeholder={t("Select invoice recipient...")}
-                        />
-                      )}
-                      renderTags={(members, getTagProps) =>
-                        members.map((ev, index) => (
-                          <Chip
-                            label={ev.name}
-                            {...getTagProps({ index })}
-                            key={ev.name}
-                            avatar={<Avatar src={ev.avatar} />}
-                          />
-                        ))
-                      }
-                    />
-                  </Grid>
-                  <Grid item xs={12} md={6}>
-                    <Box pb={1}>
-                      <b>{t("Invoice Date")}:</b>
-                    </Box>
-                    <DatePicker
-                      value={value}
-                      onChange={(newValue) => {
-                        setValue(newValue)
-                      }}
-                      renderInput={(params) => (
-                        <TextField
-                          fullWidth
-                          placeholder={t("Select date...")}
-                          {...params}
-                        />
-                      )}
-                    />
-                  </Grid>
-                  <Grid item xs={12} md={6}>
-                    <Box pb={1}>
-                      <b>{t("Due Date")}:</b>
-                    </Box>
-                    <DatePicker
-                      value={value1}
-                      onChange={(newValue1) => {
-                        setValue1(newValue1)
-                      }}
-                      renderInput={(params) => (
-                        <TextField
-                          fullWidth
-                          placeholder={t("Select date...")}
-                          {...params}
-                        />
-                      )}
-                    />
-                  </Grid>
-                </Grid>
-              </DialogContent>
-              <TableContainer>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>{t("Item")}</TableCell>
-                      <TableCell>{t("Qty")}</TableCell>
-                      <TableCell>{t("Price")}</TableCell>
-                      <TableCell>{t("Total")}</TableCell>
-                      <TableCell align="right">{t("Actions")}</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {items.map((item) => (
-                      <TableRow key={item.id}>
-                        <TableCell>
-                          <Typography noWrap>{item.name}</Typography>
-                        </TableCell>
-                        <TableCell>{item.quantity}</TableCell>
-                        <TableCell>
-                          {numeral(item.price).format(`${item.currency}0,0.00`)}
-                        </TableCell>
-                        <TableCell>
-                          {numeral(item.price).format(`${item.currency}0,0.00`)}
-                        </TableCell>
-                        <TableCell align="right">
-                          <Tooltip arrow title={t("Delete")}>
-                            <IconButtonError>
-                              <DeleteTwoToneIcon fontSize="small" />
-                            </IconButtonError>
-                          </Tooltip>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                  <TableFooter>
-                    <TableRow>
-                      <TableCell colSpan={0}>
-                        <Button
-                          startIcon={<AddTwoToneIcon />}
-                          variant="outlined"
-                        >
-                          {t("Add item")}
-                        </Button>
-                      </TableCell>
-                      <TableCell colSpan={4} align="right">
-                        <Typography
-                          gutterBottom
-                          variant="caption"
-                          color="text.secondary"
-                          fontWeight="bold"
-                        >
-                          {t("Total")}:
-                        </Typography>
-                        <Typography variant="h3" fontWeight="bold">
-                          {numeral(9458).format(`$0,0.00`)}
-                        </Typography>
-                      </TableCell>
-                    </TableRow>
-                  </TableFooter>
-                </Table>
-              </TableContainer>
-              <Box px={3} pt={3}>
-                <TextField
-                  label={t("Additional informations")}
-                  multiline
-                  placeholder={t(
-                    "Write here any additional informations you might have..."
-                  )}
-                  fullWidth
-                  minRows={3}
-                  maxRows={8}
+
+        <form onSubmit={onSubmit}>
+          <DialogContent
+            dividers
+            sx={{
+              p: 3,
+            }}
+          >
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={6}>
+                <Box pb={1}>
+                  <b>{t("Invoice Number")}:</b>
+                </Box>
+                <ControlledTextField
+                  isError={Boolean(touchedFields.number && errors.number)}
+                  placeholder="Invoice number here..."
+                  name="number"
+                  control={control}
+                  touched={touchedFields.number}
+                  errorMessage={errors.number?.message}
                 />
-              </Box>
-              <Box
+              </Grid>
+              <Grid item xs={12}>
+                <Box pb={1}>
+                  <b>{t("Recipient")}:</b>
+                </Box>
+                <Autocomplete
+                  multiple
+                  sx={{
+                    m: 0,
+                  }}
+                  limitTags={2}
+                  options={members}
+                  renderOption={(props, option) => (
+                    <li {...props}>
+                      <Avatar
+                        sx={{
+                          mr: 1,
+                        }}
+                        src={option.avatar}
+                      />
+                      {option.name}
+                    </li>
+                  )}
+                  getOptionLabel={(option) => option.name}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      variant="outlined"
+                      fullWidth
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      placeholder={t("Select invoice recipient...")}
+                    />
+                  )}
+                  renderTags={(members, getTagProps) =>
+                    members.map((ev, index) => (
+                      <Chip
+                        label={ev.name}
+                        {...getTagProps({ index })}
+                        key={ev.name}
+                        avatar={<Avatar src={ev.avatar} />}
+                      />
+                    ))
+                  }
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Box pb={1}>
+                  <b>{t("Invoice Date")}:</b>
+                </Box>
+                <DatePicker
+                  value={value}
+                  onChange={(newValue) => {
+                    setValue(newValue)
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      fullWidth
+                      placeholder={t("Select date...")}
+                      {...params}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Box pb={1}>
+                  <b>{t("Due Date")}:</b>
+                </Box>
+                <DatePicker
+                  value={value1}
+                  onChange={(newValue1) => {
+                    setValue1(newValue1)
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      fullWidth
+                      placeholder={t("Select date...")}
+                      {...params}
+                    />
+                  )}
+                />
+              </Grid>
+            </Grid>
+          </DialogContent>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>{t("Item")}</TableCell>
+                  <TableCell>{t("Qty")}</TableCell>
+                  <TableCell>{t("Price")}</TableCell>
+                  <TableCell>{t("Total")}</TableCell>
+                  <TableCell align="right">{t("Actions")}</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {items.map((item) => (
+                  <TableRow key={item.id}>
+                    <TableCell>
+                      <Typography noWrap>{item.name}</Typography>
+                    </TableCell>
+                    <TableCell>{item.quantity}</TableCell>
+                    <TableCell>
+                      {numeral(item.price).format(`${item.currency}0,0.00`)}
+                    </TableCell>
+                    <TableCell>
+                      {numeral(item.price).format(`${item.currency}0,0.00`)}
+                    </TableCell>
+                    <TableCell align="right">
+                      <Tooltip arrow title={t("Delete")}>
+                        <IconButtonError>
+                          <DeleteTwoToneIcon fontSize="small" />
+                        </IconButtonError>
+                      </Tooltip>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TableCell colSpan={0}>
+                    <Button startIcon={<AddTwoToneIcon />} variant="outlined">
+                      {t("Add item")}
+                    </Button>
+                  </TableCell>
+                  <TableCell colSpan={4} align="right">
+                    <Typography
+                      gutterBottom
+                      variant="caption"
+                      color="text.secondary"
+                      fontWeight="bold"
+                    >
+                      {t("Total")}:
+                    </Typography>
+                    <Typography variant="h3" fontWeight="bold">
+                      {numeral(9458).format(`$0,0.00`)}
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              </TableFooter>
+            </Table>
+          </TableContainer>
+          <Box px={3} pt={3}>
+            <TextField
+              label={t("Additional informations")}
+              multiline
+              placeholder={t(
+                "Write here any additional informations you might have..."
+              )}
+              fullWidth
+              minRows={3}
+              maxRows={8}
+            />
+          </Box>
+          <Box
+            sx={{
+              display: { xs: "block", sm: "flex" },
+              alignItems: "center",
+              justifyContent: "space-between",
+              p: 3,
+            }}
+          >
+            <Box>
+              <Button fullWidth={mobile} variant="outlined">
+                {t("Preview invoice")}
+              </Button>
+            </Box>
+            <Box>
+              <Button
+                fullWidth={mobile}
                 sx={{
-                  display: { xs: "block", sm: "flex" },
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  p: 3,
+                  mr: { xs: 0, sm: 2 },
+                  my: { xs: 2, sm: 0 },
                 }}
+                color="secondary"
+                variant="outlined"
+                onClick={handleCreateInvoiceClose}
               >
-                <Box>
-                  <Button fullWidth={mobile} variant="outlined">
-                    {t("Preview invoice")}
-                  </Button>
-                </Box>
-                <Box>
-                  <Button
-                    fullWidth={mobile}
-                    sx={{
-                      mr: { xs: 0, sm: 2 },
-                      my: { xs: 2, sm: 0 },
-                    }}
-                    color="secondary"
-                    variant="outlined"
-                    onClick={handleCreateInvoiceClose}
-                  >
-                    {t("Save as draft")}
-                  </Button>
-                  <Button
-                    fullWidth={mobile}
-                    type="submit"
-                    startIcon={
-                      isSubmitting ? <CircularProgress size="1rem" /> : null
-                    }
-                    disabled={Boolean(errors.submit) || isSubmitting}
-                    variant="contained"
-                    size="large"
-                  >
-                    {t("Create invoice")}
-                  </Button>
-                </Box>
-              </Box>
-            </form>
-          )}
-        </Formik>
+                {t("Save as draft")}
+              </Button>
+              <Button
+                fullWidth={mobile}
+                type="submit"
+                startIcon={
+                  isSubmitting ? <CircularProgress size="1rem" /> : null
+                }
+                disabled={isSubmitting}
+                variant="contained"
+                size="large"
+              >
+                {t("Create invoice")}
+              </Button>
+            </Box>
+          </Box>
+        </form>
       </Dialog>
     </>
   )

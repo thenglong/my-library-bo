@@ -15,7 +15,7 @@ function App() {
 
   if (isLoading)
     return (
-      <Backdrop open>
+      <Backdrop open sx={{ bgcolor: "common.white" }}>
         <CircularProgress size={64} disableShrink thickness={3} />
       </Backdrop>
     )

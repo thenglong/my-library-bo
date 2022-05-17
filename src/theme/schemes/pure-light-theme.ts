@@ -373,7 +373,8 @@ export const PureLightTheme = createTheme({
           pointerEvents: "none",
         },
         "#nprogress .bar": {
-          background: colors.primary.lighter,
+          background: "#E84D8A",
+          height: ".25rem",
         },
         "#nprogress .spinner-icon": {
           borderTopColor: colors.primary.lighter,

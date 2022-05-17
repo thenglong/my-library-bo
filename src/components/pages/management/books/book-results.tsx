@@ -62,30 +62,6 @@ const AvatarError = styled(Avatar)(
   `
 )
 
-export const CardWrapper = styled(Card)(
-  ({ theme }) => `
-  
-    position: relative;
-    overflow: visible;
-  
-    &::after {
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      border-radius: inherit;
-      z-index: 1;
-      transition: ${theme.transitions.create(["box-shadow"])};
-    }
-        
-      &.Mui-selected::after {
-        box-shadow: 0 0 0 3px ${theme.colors.primary.main};
-      }
-    `
-)
-
 const ButtonError = styled(Button)(
   ({ theme }) => `
        background: ${theme.colors.error.main};

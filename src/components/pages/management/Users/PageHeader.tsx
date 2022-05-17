@@ -1,6 +1,6 @@
-/* eslint-disable jsx-a11y/label-has-for */
 import { useState } from "react"
 
+import { yupResolver } from "@hookform/resolvers/yup/dist/yup"
 import AddTwoToneIcon from "@mui/icons-material/AddTwoTone"
 import CloudUploadTwoToneIcon from "@mui/icons-material/CloudUploadTwoTone"
 import {
@@ -22,13 +22,13 @@ import {
   Button,
 } from "@mui/material"
 import { styled } from "@mui/material/styles"
-import { Formik } from "formik"
 import { useSnackbar } from "notistack"
+import { useForm } from "react-hook-form"
 import { useTranslation } from "react-i18next"
 import * as Yup from "yup"
 
+import ControlledTextField from "components/controlled-text-field"
 import useFirebaseAuthState from "hooks/firebase/use-firebase-auth-state"
-import wait from "utils/wait"
 
 const Input = styled("input")({
   display: "none",
@@ -76,6 +76,23 @@ const roles = [
   { label: "Customer", value: "customer" },
 ]
 
+const defaultValues = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+}
+
+const validationSchema = Yup.object().shape({
+  firstName: Yup.string().max(255).required("The first name field is required"),
+  lastName: Yup.string().max(255).required("The last name field is required"),
+  email: Yup.string()
+    .email("The email provided should be a valid email address")
+    .max(255)
+    .required("The email field is required"),
+  password: Yup.string().max(255).required("The password field is required"),
+})
+
 function PageHeader() {
   const { t } = useTranslation()
   const [open, setOpen] = useState(false)
@@ -114,6 +131,19 @@ function PageHeader() {
 
     setOpen(false)
   }
+
+  const {
+    handleSubmit,
+    formState: { errors, touchedFields, isSubmitting },
+    control,
+  } = useForm<typeof defaultValues>({
+    defaultValues,
+    resolver: yupResolver(validationSchema),
+  })
+
+  const onSubmit = handleSubmit((data) => {
+    //
+  })
 
   return (
     <>
@@ -161,238 +191,156 @@ function PageHeader() {
             )}
           </Typography>
         </DialogTitle>
-        <Formik
-          initialValues={{
-            email: "",
-            username: "",
-            first_name: "",
-            last_name: "",
-            password: "",
-            submit: null,
-          }}
-          validationSchema={Yup.object().shape({
-            username: Yup.string()
-              .max(255)
-              .required(t("The username field is required")),
-            first_name: Yup.string()
-              .max(255)
-              .required(t("The first name field is required")),
-            last_name: Yup.string()
-              .max(255)
-              .required(t("The last name field is required")),
-            email: Yup.string()
-              .email(t("The email provided should be a valid email address"))
-              .max(255)
-              .required(t("The email field is required")),
-            password: Yup.string()
-              .max(255)
-              .required(t("The password field is required")),
-          })}
-          onSubmit={async (
-            _values,
-            { resetForm, setErrors, setStatus, setSubmitting }
-          ) => {
-            try {
-              await wait(1000)
-              resetForm()
-              setStatus({ success: true })
-              setSubmitting(false)
-              handleCreateUserSuccess()
-            } catch (err) {
-              // eslint-disable-next-line no-console
-              console.error(err)
-              setStatus({ success: false })
-              setErrors({ submit: (err as any).message })
-              setSubmitting(false)
-            }
-          }}
-        >
-          {({
-            errors,
-            handleBlur,
-            handleChange,
-            handleSubmit,
-            isSubmitting,
-            touched,
-            values,
-          }) => (
-            <form onSubmit={handleSubmit}>
-              <DialogContent
-                dividers
-                sx={{
-                  p: 3,
-                }}
-              >
+
+        <form onSubmit={onSubmit}>
+          <DialogContent
+            dividers
+            sx={{
+              p: 3,
+            }}
+          >
+            <Grid container spacing={3}>
+              <Grid item xs={12} lg={7}>
                 <Grid container spacing={3}>
-                  <Grid item xs={12} lg={7}>
-                    <Grid container spacing={3}>
-                      <Grid item xs={12}>
-                        <TextField
-                          error={Boolean(touched.username && errors.username)}
-                          fullWidth
-                          helperText={touched.username && errors.username}
-                          label={t("Username")}
-                          name="username"
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          value={values.username}
-                          variant="outlined"
-                        />
-                      </Grid>
-                      <Grid item xs={12} md={6}>
-                        <TextField
-                          error={Boolean(
-                            touched.first_name && errors.first_name
-                          )}
-                          fullWidth
-                          helperText={touched.first_name && errors.first_name}
-                          label={t("First name")}
-                          name="first_name"
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          value={values.first_name}
-                          variant="outlined"
-                        />
-                      </Grid>
-                      <Grid item xs={12} md={6}>
-                        <TextField
-                          error={Boolean(touched.last_name && errors.last_name)}
-                          fullWidth
-                          helperText={touched.last_name && errors.last_name}
-                          label={t("Last name")}
-                          name="last_name"
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          value={values.last_name}
-                          variant="outlined"
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <TextField
-                          error={Boolean(touched.email && errors.email)}
-                          fullWidth
-                          helperText={touched.email && errors.email}
-                          label={t("Email address")}
-                          name="email"
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          type="email"
-                          value={values.email}
-                          variant="outlined"
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <TextField
-                          error={Boolean(touched.password && errors.password)}
-                          fullWidth
-                          margin="normal"
-                          helperText={touched.password && errors.password}
-                          label={t("Password")}
-                          name="password"
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          type="password"
-                          value={values.password}
-                          variant="outlined"
-                        />
-                      </Grid>
-                      <Grid item xs={12} md={6}>
-                        <Autocomplete
-                          disablePortal
-                          options={roles}
-                          getOptionLabel={(option) => option.label}
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              fullWidth
-                              label={t("User role")}
-                            />
-                          )}
-                        />
-                      </Grid>
-                    </Grid>
+                  <Grid item xs={12} md={6}>
+                    <ControlledTextField
+                      isError={Boolean(
+                        touchedFields.firstName && errors.firstName
+                      )}
+                      label={t("First name")}
+                      name="firstName"
+                      control={control}
+                      touched={touchedFields.firstName}
+                      errorMessage={errors.firstName?.message}
+                    />
                   </Grid>
-                  <Grid item xs={12} lg={5} justifyContent="center">
-                    <Box
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="center"
-                      flexDirection="column"
-                      mt={3}
-                    >
-                      <AvatarWrapper>
-                        <Avatar
-                          variant="rounded"
-                          alt={user?.displayName || ""}
-                          src={user?.photoURL || ""}
+                  <Grid item xs={12} md={6}>
+                    <ControlledTextField
+                      isError={Boolean(
+                        touchedFields.lastName && errors.lastName
+                      )}
+                      label={t("Last name")}
+                      name="lastName"
+                      control={control}
+                      touched={touchedFields.lastName}
+                      errorMessage={errors.lastName?.message}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <ControlledTextField
+                      isError={Boolean(touchedFields.email && errors.email)}
+                      label={t("Email address")}
+                      name="email"
+                      control={control}
+                      touched={touchedFields.email}
+                      errorMessage={errors.email?.message}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <ControlledTextField
+                      isError={Boolean(
+                        touchedFields.password && errors.password
+                      )}
+                      label={t("Password")}
+                      name="password"
+                      control={control}
+                      touched={touchedFields.password}
+                      errorMessage={errors.password?.message}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <Autocomplete
+                      disablePortal
+                      options={roles}
+                      getOptionLabel={(option) => option.label}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          fullWidth
+                          label={t("User role")}
                         />
-                        <ButtonUploadWrapper>
-                          <Input
-                            accept="image/*"
-                            id="icon-button-file"
-                            name="icon-button-file"
-                            type="file"
-                          />
-                          <label htmlFor="icon-button-file">
-                            <IconButton component="span" color="primary">
-                              <CloudUploadTwoToneIcon />
-                            </IconButton>
-                          </label>
-                        </ButtonUploadWrapper>
-                      </AvatarWrapper>
-                      <Divider
-                        flexItem
-                        sx={{
-                          m: 4,
-                        }}
-                      />
-                      <Box
-                        display="flex"
-                        alignItems="center"
-                        flexDirection="column"
-                        justifyContent="space-between"
-                      >
-                        <Typography
-                          variant="h4"
-                          sx={{
-                            pb: 1,
-                          }}
-                        >
-                          {t("Public Profile")}
-                        </Typography>
-                        <Switch
-                          checked={publicProfile.public}
-                          onChange={handlePublicProfile}
-                          name="public"
-                          color="primary"
-                        />
-                      </Box>
-                    </Box>
+                      )}
+                    />
                   </Grid>
                 </Grid>
-              </DialogContent>
-              <DialogActions
-                sx={{
-                  p: 3,
-                }}
-              >
-                <Button color="secondary" onClick={handleCreateUserClose}>
-                  {t("Cancel")}
-                </Button>
-                <Button
-                  type="submit"
-                  startIcon={
-                    isSubmitting ? <CircularProgress size="1rem" /> : null
-                  }
-                  disabled={Boolean(errors.submit) || isSubmitting}
-                  variant="contained"
+              </Grid>
+              <Grid item xs={12} lg={5} justifyContent="center">
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  flexDirection="column"
+                  mt={3}
                 >
-                  {t("Add new user")}
-                </Button>
-              </DialogActions>
-            </form>
-          )}
-        </Formik>
+                  <AvatarWrapper>
+                    <Avatar
+                      variant="rounded"
+                      alt={user?.displayName || ""}
+                      src={user?.photoURL || ""}
+                    />
+                    <ButtonUploadWrapper>
+                      <Input
+                        accept="image/*"
+                        id="icon-button-file"
+                        name="icon-button-file"
+                        type="file"
+                      />
+                      <label htmlFor="icon-button-file">
+                        <IconButton component="span" color="primary">
+                          <CloudUploadTwoToneIcon />
+                        </IconButton>
+                      </label>
+                    </ButtonUploadWrapper>
+                  </AvatarWrapper>
+                  <Divider
+                    flexItem
+                    sx={{
+                      m: 4,
+                    }}
+                  />
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    flexDirection="column"
+                    justifyContent="space-between"
+                  >
+                    <Typography
+                      variant="h4"
+                      sx={{
+                        pb: 1,
+                      }}
+                    >
+                      {t("Public Profile")}
+                    </Typography>
+                    <Switch
+                      checked={publicProfile.public}
+                      onChange={handlePublicProfile}
+                      name="public"
+                      color="primary"
+                    />
+                  </Box>
+                </Box>
+              </Grid>
+            </Grid>
+          </DialogContent>
+          <DialogActions
+            sx={{
+              p: 3,
+            }}
+          >
+            <Button color="secondary" onClick={handleCreateUserClose}>
+              {t("Cancel")}
+            </Button>
+            <Button
+              type="submit"
+              startIcon={isSubmitting ? <CircularProgress size="1rem" /> : null}
+              disabled={isSubmitting}
+              variant="contained"
+            >
+              {t("Add new user")}
+            </Button>
+          </DialogActions>
+        </form>
       </Dialog>
     </>
   )

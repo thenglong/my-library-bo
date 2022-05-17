@@ -7,7 +7,7 @@ import AuthLayout from "components/layout/auth-layout"
 import { APP_PREFIX_PATH, AUTH_PREFIX_PATH } from "constants/routes-constants"
 import managementRoutes from "routes/management-routes"
 
-const LoginPage = lazy(() => import("components/pages/login-page"))
+const LoginPage = lazy(() => import("components/pages/login-page/login-page"))
 
 export const getRoutes = (isAuth: boolean): RouteObject[] => {
   return [
@@ -20,6 +20,10 @@ export const getRoutes = (isAuth: boolean): RouteObject[] => {
       path: "app",
       element: isAuth ? <AppLayout /> : <Navigate to={AUTH_PREFIX_PATH} />,
       children: [
+        {
+          path: "",
+          element: <Navigate to="management" replace />,
+        },
         {
           path: "management",
           element: <Outlet />,

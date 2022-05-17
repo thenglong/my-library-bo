@@ -7,6 +7,10 @@ import AppProvider from "components/app-provider"
 import App from "./App"
 import reportWebVitals from "./reportWebVitals"
 
+// global css
+import "nprogress/nprogress.css"
+import "react-quill/dist/quill.snow.css"
+
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)
 root.render(
   <React.StrictMode>

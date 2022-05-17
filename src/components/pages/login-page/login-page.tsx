@@ -13,7 +13,7 @@ import {
 } from "components/pages/login-page/login-page-styled"
 import Scrollbar from "components/scrollbar"
 
-function LoginCover() {
+function LoginPage() {
   return (
     <>
       <Helmet>
@@ -75,4 +75,4 @@ function LoginCover() {
   )
 }
 
-export default LoginCover
+export default LoginPage
