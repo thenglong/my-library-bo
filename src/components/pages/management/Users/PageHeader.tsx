@@ -1,5 +1,6 @@
 import { useState } from "react"
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup"
 import AddTwoToneIcon from "@mui/icons-material/AddTwoTone"
 import CloudUploadTwoToneIcon from "@mui/icons-material/CloudUploadTwoTone"
@@ -102,7 +103,6 @@ function PageHeader() {
   const [publicProfile, setPublicProfile] = useState({
     public: true,
   })
-  /* eslint-disable @typescript-eslint/no-explicit-any */
 
   const handlePublicProfile = (event: any) => {
     setPublicProfile({
@@ -119,7 +119,7 @@ function PageHeader() {
     setOpen(false)
   }
 
-  const handleCreateUserSuccess = () => {
+  const _handleCreateUserSuccess = () => {
     enqueueSnackbar(t("The user account was created successfully"), {
       variant: "success",
       anchorOrigin: {
@@ -141,7 +141,7 @@ function PageHeader() {
     resolver: yupResolver(validationSchema),
   })
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit((_data) => {
     //
   })
 

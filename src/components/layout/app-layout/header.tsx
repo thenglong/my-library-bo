@@ -14,11 +14,10 @@ import {
   useTheme,
 } from "@mui/material"
 
-import HeaderButtons from "components/layout/app-layout/Header/Buttons"
-import HeaderSearch from "components/layout/app-layout/Header/Search"
+import HeaderButtons from "components/layout/app-layout/header-buttons"
+import HeaderSearch from "components/layout/app-layout/header-search"
+import HeaderUserBox from "components/layout/app-layout/header-user-box"
 import { SidebarContext } from "contexts/SidebarContext"
-
-import HeaderUserBox from "./Userbox"
 
 const HeaderWrapper = styled(Box)(
   ({ theme }) => `

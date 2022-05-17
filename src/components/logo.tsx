@@ -94,7 +94,7 @@ function Logo() {
             <VersionBadge>??</VersionBadge>
           </Badge>
         </Tooltip>
-        <LogoText>Library</LogoText>
+        <LogoText>{t("Library")}</LogoText>
       </LogoTextWrapper>
     </LogoWrapper>
   )

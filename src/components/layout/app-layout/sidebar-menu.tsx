@@ -4,8 +4,8 @@ import { ListSubheader, alpha, Box, List, styled } from "@mui/material"
 import { useTranslation } from "react-i18next"
 import { useLocation, matchPath } from "react-router-dom"
 
-import SidebarMenuItem from "./item"
-import menuItems, { MenuItem } from "./items"
+import menuItems, { MenuItem } from "components/layout/app-layout/menu-items"
+import SidebarMenuItem from "components/layout/app-layout/sidebar-menu-item"
 
 const MenuWrapper = styled(Box)(
   ({ theme }) => `

@@ -25,6 +25,7 @@ import {
 import { addDays, format, formatDistance } from "date-fns"
 import { useTranslation } from "react-i18next"
 
+import BookStatusLabel from "components/pages/management/books/book-status-label"
 import BulkActions from "components/pages/management/books/bulk-actions"
 import { Book } from "typings/api-model"
 import { getRandomInt } from "utils/number-utils"
@@ -230,7 +231,15 @@ const BookTableView = ({
                         </Box>
                       </TableCell>
                       <TableCell>
-                        <Typography noWrap>Book Category</Typography>
+                        <Typography noWrap>
+                          <BookStatusLabel
+                            bookStatus={
+                              getRandomInt(1, 2) === 1
+                                ? "inStock"
+                                : "outOfStock"
+                            }
+                          />
+                        </Typography>
                       </TableCell>
                       <TableCell align="center">
                         <Typography noWrap>

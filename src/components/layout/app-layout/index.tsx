@@ -3,10 +3,9 @@ import { Suspense } from "react"
 import { Box, alpha, lighten, useTheme } from "@mui/material"
 import { Outlet } from "react-router-dom"
 
-import Sidebar from "components/layout/app-layout/Sidebar"
+import Header from "components/layout/app-layout/header"
+import Sidebar from "components/layout/app-layout/sidebar"
 import SuspenseLoader from "components/suspense-loader"
-
-import Header from "./Header"
 
 const ExtendedSidebarLayout = () => {
   const theme = useTheme()

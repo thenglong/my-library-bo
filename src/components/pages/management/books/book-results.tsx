@@ -36,7 +36,6 @@ import {
 import { useSnackbar } from "notistack"
 import { useTranslation } from "react-i18next"
 
-import Label from "components/label"
 import BookGridView from "components/pages/management/books/book-grid-view"
 import BookTableView from "components/pages/management/books/book-table-view"
 import { Book } from "typings/api-model"
@@ -90,27 +89,6 @@ const Transition = forwardRef<unknown, ComponentProps<typeof Slide>>(
     return <Slide direction="down" ref={ref} {...props} />
   }
 )
-
-const getBookStatusLabel = (bookStatus: any) => {
-  const map: any = {
-    not_started: {
-      text: "Not started",
-      color: "error",
-    },
-    in_progress: {
-      text: "In progress",
-      color: "info",
-    },
-    completed: {
-      text: "Completed",
-      color: "success",
-    },
-  }
-
-  const { text, color } = map[bookStatus]
-
-  return <Label color={color}>{text}</Label>
-}
 
 interface BookResults {
   books: Book[]

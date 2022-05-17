@@ -20,6 +20,7 @@ import { addDays, format, formatDistance } from "date-fns"
 import { useTranslation } from "react-i18next"
 
 import { IconButtonError } from "components/pages/management/books/book-results"
+import BookStatusLabel from "components/pages/management/books/book-status-label"
 import Text from "components/text"
 import { Book } from "typings/api-model"
 import { getRandomInt } from "utils/number-utils"
@@ -114,7 +115,9 @@ const BookGridCard = ({
           />
           <Divider />
           <Box p={2}>
-            Category
+            <BookStatusLabel
+              bookStatus={getRandomInt(1, 2) === 1 ? "inStock" : "outOfStock"}
+            />
             <Typography
               sx={{
                 mt: 2,

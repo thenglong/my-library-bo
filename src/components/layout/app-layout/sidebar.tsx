@@ -10,7 +10,7 @@ import {
   useTheme,
 } from "@mui/material"
 
-import SidebarMenu from "components/layout/app-layout/Sidebar/SidebarMenu"
+import SidebarMenu from "components/layout/app-layout/sidebar-menu"
 import Logo from "components/logo"
 import Scrollbar from "components/scrollbar"
 import { SidebarContext } from "contexts/SidebarContext"

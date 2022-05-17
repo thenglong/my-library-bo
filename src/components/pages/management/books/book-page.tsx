@@ -3,11 +3,11 @@ import { Helmet } from "react-helmet-async"
 
 import Footer from "components/footer"
 import PageTitleWrapper from "components/page-title-wrapper"
+import BookPageHeader from "components/pages/management/books/book-page-header"
 import BookResults from "components/pages/management/books/book-results"
-import PageHeader from "components/pages/management/books/page-header"
 import useBooksQuery from "hooks/queries/use-books-query"
 
-function ManagementProjects() {
+function BookPage() {
   const { data: books } = useBooksQuery()
 
   if (!books) return null
@@ -18,7 +18,7 @@ function ManagementProjects() {
         <title>Projects - Management</title>
       </Helmet>
       <PageTitleWrapper>
-        <PageHeader />
+        <BookPageHeader />
       </PageTitleWrapper>
 
       <Grid
@@ -40,4 +40,4 @@ function ManagementProjects() {
   )
 }
 
-export default ManagementProjects
+export default BookPage

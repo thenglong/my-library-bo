@@ -15,6 +15,7 @@ import * as yup from "yup"
 import { ReactComponent as GoogleLogo } from "assets/svgs/google.svg"
 import ControlledCheckbox from "components/controlled-checkbox"
 import ControlledTextField from "components/controlled-text-field"
+import DemoEmailPassword from "components/pages/login-page/demo-email-password"
 import useSignInWithEmailAndPassword from "hooks/firebase/use-sign-in-with-email-and-password"
 import useSignInGooglePopup from "hooks/firebase/use-sign-in-with-google-popup"
 
@@ -57,25 +58,6 @@ const LoginForm = () => {
 
   return (
     <>
-      <Button
-        fullWidth
-        onClick={() => signInWithGoogle()}
-        size="large"
-        variant="outlined"
-      >
-        <GoogleLogoWrapper />
-        Sign in with Google
-      </Button>
-
-      <Divider
-        sx={{
-          mt: 4,
-          mb: 2,
-        }}
-      >
-        or
-      </Divider>
-
       <form noValidate onSubmit={onSubmit}>
         <ControlledTextField
           isError={Boolean(touchedFields.email && errors.email)}
@@ -130,6 +112,26 @@ const LoginForm = () => {
           variant="contained"
         >
           Sign in
+        </Button>
+        <DemoEmailPassword />
+
+        <Divider
+          sx={{
+            mt: 4,
+            mb: 2,
+          }}
+        >
+          or
+        </Divider>
+
+        <Button
+          fullWidth
+          onClick={() => signInWithGoogle()}
+          size="large"
+          variant="outlined"
+        >
+          <GoogleLogoWrapper />
+          Sign in with Google
         </Button>
       </form>
     </>

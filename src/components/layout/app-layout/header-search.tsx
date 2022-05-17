@@ -470,7 +470,11 @@ function HeaderSearch() {
                               }}
                               disableGutters
                             >
-                              <Link href="#" color="primary" fontSize={13}>
+                              <Link
+                                href="components/layout/app-layout/Header/header-search#"
+                                color="primary"
+                                fontSize={13}
+                              >
                                 {t("Tasks for today")}
                               </Link>
                             </ListItem>
@@ -481,7 +485,11 @@ function HeaderSearch() {
                               }}
                               disableGutters
                             >
-                              <Link href="#" color="primary" fontSize={13}>
+                              <Link
+                                href="components/layout/app-layout/Header/header-search#"
+                                color="primary"
+                                fontSize={13}
+                              >
                                 {t("Statistics dashboard")}
                               </Link>
                             </ListItem>
@@ -492,7 +500,11 @@ function HeaderSearch() {
                               }}
                               disableGutters
                             >
-                              <Link href="#" color="primary" fontSize={13}>
+                              <Link
+                                href="components/layout/app-layout/Header/header-search#"
+                                color="primary"
+                                fontSize={13}
+                              >
                                 {t("Monitoring admin")}
                               </Link>
                             </ListItem>
@@ -503,7 +515,11 @@ function HeaderSearch() {
                               }}
                               disableGutters
                             >
-                              <Link href="#" color="primary" fontSize={13}>
+                              <Link
+                                href="components/layout/app-layout/Header/header-search#"
+                                color="primary"
+                                fontSize={13}
+                              >
                                 {t("Banking interface")}
                               </Link>
                             </ListItem>
@@ -533,7 +549,11 @@ function HeaderSearch() {
                               }}
                               disableGutters
                             >
-                              <Link href="#" color="primary" fontSize={13}>
+                              <Link
+                                href="components/layout/app-layout/Header/header-search#"
+                                color="primary"
+                                fontSize={13}
+                              >
                                 {t("Calendar")}
                               </Link>
                             </ListItem>
@@ -544,7 +564,11 @@ function HeaderSearch() {
                               }}
                               disableGutters
                             >
-                              <Link href="#" color="primary" fontSize={13}>
+                              <Link
+                                href="components/layout/app-layout/Header/header-search#"
+                                color="primary"
+                                fontSize={13}
+                              >
                                 {t("File manager")}
                               </Link>
                             </ListItem>
@@ -555,7 +579,11 @@ function HeaderSearch() {
                               }}
                               disableGutters
                             >
-                              <Link href="#" color="primary" fontSize={13}>
+                              <Link
+                                href="components/layout/app-layout/Header/header-search#"
+                                color="primary"
+                                fontSize={13}
+                              >
                                 {t("Products list")}
                               </Link>
                             </ListItem>
@@ -566,7 +594,11 @@ function HeaderSearch() {
                               }}
                               disableGutters
                             >
-                              <Link href="#" color="primary" fontSize={13}>
+                              <Link
+                                href="components/layout/app-layout/Header/header-search#"
+                                color="primary"
+                                fontSize={13}
+                              >
                                 {t("Recent orders")}
                               </Link>
                             </ListItem>

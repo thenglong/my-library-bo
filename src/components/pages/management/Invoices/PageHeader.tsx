@@ -5,31 +5,31 @@ import AddTwoToneIcon from "@mui/icons-material/AddTwoTone"
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone"
 import DatePicker from "@mui/lab/DatePicker"
 import {
-  Grid,
-  Dialog,
-  DialogTitle,
-  Chip,
-  DialogContent,
-  Box,
-  Zoom,
-  Typography,
-  TextField,
-  CircularProgress,
-  Avatar,
   Autocomplete,
+  Avatar,
+  Box,
   Button,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  TableContainer,
-  Tooltip,
+  Chip,
+  CircularProgress,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Grid,
   IconButton,
   lighten,
-  useTheme,
-  useMediaQuery,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
   TableFooter,
+  TableHead,
+  TableRow,
+  TextField,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+  useTheme,
+  Zoom,
 } from "@mui/material"
 import { styled } from "@mui/material/styles"
 import { useSnackbar } from "notistack"
@@ -39,7 +39,6 @@ import { useTranslation } from "react-i18next"
 import * as Yup from "yup"
 
 import ControlledTextField from "components/controlled-text-field"
-import wait from "utils/wait"
 
 const IconButtonError = styled(IconButton)(
   ({ theme }) => `
@@ -124,7 +123,7 @@ function PageHeader() {
     setOpen(false)
   }
 
-  const handleCreateInvoiceSuccess = () => {
+  const _handleCreateInvoiceSuccess = () => {
     enqueueSnackbar(t("A new invoice has been created successfully"), {
       variant: "success",
       anchorOrigin: {
@@ -146,7 +145,7 @@ function PageHeader() {
     resolver: yupResolver(validationSchema),
   })
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit((_data) => {
     //
   })
 
