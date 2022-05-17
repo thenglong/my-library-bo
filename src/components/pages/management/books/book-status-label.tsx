@@ -2,7 +2,7 @@ import { ComponentProps } from "react"
 
 import Label from "components/label"
 
-type BookStatus = "inStock" | "outOfStock"
+type BookStatus = "available" | "unavailable"
 
 type BookStatusMap = {
   [key in BookStatus]: {
@@ -12,12 +12,12 @@ type BookStatusMap = {
 }
 
 const bookStatusMap: BookStatusMap = {
-  inStock: {
-    text: "In Stock",
+  available: {
+    text: "Available",
     color: "info",
   },
-  outOfStock: {
-    text: "Out of Stock",
+  unavailable: {
+    text: "Unavailable",
     color: "error",
   },
 }

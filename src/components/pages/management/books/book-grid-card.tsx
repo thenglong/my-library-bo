@@ -1,7 +1,5 @@
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone"
 import {
-  Avatar,
-  AvatarGroup,
   Box,
   Button,
   Card,
@@ -9,7 +7,6 @@ import {
   Checkbox,
   Divider,
   Grid,
-  LinearProgress,
   Link,
   styled,
   Tooltip,
@@ -64,7 +61,7 @@ const BookGridCard = ({
   const { t } = useTranslation()
 
   return (
-    <Grid item xs={12} sm={6} md={3} lg={2} key={book.id}>
+    <Grid item xs={12} sm={6} md={3} key={book.id}>
       <CardWrapper
         className={clsx({
           "Mui-selected": isSelected,
@@ -86,9 +83,9 @@ const BookGridCard = ({
           >
             <Box>
               <Typography component="span">
-                <b>{t("Tags")}:</b>{" "}
+                <b>{t("Categories")}:</b>{" "}
               </Typography>
-              {["ABC", "DEF"].map((value) => {
+              {["Fiction", "Tech"].map((value) => {
                 return (
                   <span key={value}>
                     <Link href="#">{value}</Link>,{" "}
@@ -116,9 +113,12 @@ const BookGridCard = ({
           <Divider />
           <Box p={2}>
             <BookStatusLabel
-              bookStatus={getRandomInt(1, 2) === 1 ? "inStock" : "outOfStock"}
+              bookStatus={
+                getRandomInt(1, 2) === 1 ? "available" : "unavailable"
+              }
             />
             <Typography
+              noWrap
               sx={{
                 mt: 2,
               }}
@@ -128,7 +128,7 @@ const BookGridCard = ({
               {book.title}
             </Typography>
             <Typography noWrap variant="subtitle2">
-              Lorem ipsum dolor sit amet.
+              Book description goes here
             </Typography>
           </Box>
           <Box
@@ -138,36 +138,29 @@ const BookGridCard = ({
             justifyContent="space-between"
           >
             <Box>
-              <Typography variant="subtitle2">{t("Started")}: </Typography>
+              <Typography variant="subtitle2">{t("Created At")}: </Typography>
               <Typography variant="h5">
                 {format(new Date(), "MMMM dd yyyy")}
               </Typography>
             </Box>
             <Box>
               <Typography variant="subtitle2">
-                {t("Due in")}:{" "}
+                {t("Last Rent")}:{" "}
                 <Text color="black">
-                  {formatDistance(new Date(), addDays(new Date(), 1), {
-                    addSuffix: true,
-                  })}{" "}
-                  days
+                  {formatDistance(
+                    new Date(),
+                    addDays(new Date(), getRandomInt(1, 10)),
+                    {
+                      addSuffix: true,
+                    }
+                  )}{" "}
                 </Text>
               </Typography>
             </Box>
           </Box>
 
-          <Box px={2} pb={2} display="flex" alignItems="center">
-            <LinearProgress
-              sx={{
-                flex: 1,
-                mr: 1,
-              }}
-              value={getRandomInt(1, 100)}
-              color="primary"
-              variant="determinate"
-            />
-            <Typography variant="subtitle1">{getRandomInt(1, 100)}%</Typography>
-          </Box>
+          <Box px={2} pb={2} display="flex" alignItems="center" />
+
           <Divider />
           <Box
             p={2}
@@ -176,36 +169,9 @@ const BookGridCard = ({
             justifyContent="space-between"
           >
             <Box display="flex" justifyContent="flex-start">
-              {/* book author */}
-              <AvatarGroup max={4}>
-                <Tooltip arrow placement="top" title="Author">
-                  <Avatar
-                    sx={{
-                      width: 30,
-                      height: 30,
-                    }}
-                    src="https://avatars.dicebear.com/api/initials/:author_melo.svg"
-                  />
-                </Tooltip>
-                <Tooltip arrow placement="top" title="Author">
-                  <Avatar
-                    sx={{
-                      width: 30,
-                      height: 30,
-                    }}
-                    src="https://avatars.dicebear.com/api/initials/:author_melo.svg"
-                  />
-                </Tooltip>
-                <Tooltip arrow placement="top" title="Author">
-                  <Avatar
-                    sx={{
-                      width: 30,
-                      height: 30,
-                    }}
-                    src="https://avatars.dicebear.com/api/initials/:author_melo.svg"
-                  />
-                </Tooltip>
-              </AvatarGroup>
+              <Typography variant="subtitle2">
+                {t("Written by")} <Text color="black">{book.author}</Text>
+              </Typography>
             </Box>
             <Box>
               <Button

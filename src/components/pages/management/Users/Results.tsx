@@ -325,6 +325,7 @@ const Results = ({ users }: any) => {
           </ToggleButton>
         </ToggleButtonGroup>
       </Box>
+
       {toggleView === "table_view" && (
         <Card>
           <Box p={2}>
