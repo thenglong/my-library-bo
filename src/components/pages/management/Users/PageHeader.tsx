@@ -94,7 +94,7 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().max(255).required("The password field is required"),
 })
 
-function PageHeader() {
+const PageHeader = () => {
   const { t } = useTranslation()
   const [open, setOpen] = useState(false)
   const { enqueueSnackbar } = useSnackbar()

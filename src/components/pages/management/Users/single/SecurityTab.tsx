@@ -60,7 +60,7 @@ const AvatarWrapper = styled(Avatar)(
 )
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-function SecurityTab() {
+const SecurityTab = () => {
   const { t } = useTranslation()
   const theme = useTheme()
 

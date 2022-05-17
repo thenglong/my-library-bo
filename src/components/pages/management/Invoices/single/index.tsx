@@ -11,7 +11,7 @@ import PageHeader from "components/pages/management/Invoices/single/PageHeader"
 import useRefMounted from "hooks/use-ref-mounted"
 import axios from "utils/axios"
 
-function ManagementInvoicesView() {
+const ManagementInvoicesView = () => {
   const isMountedRef = useRefMounted()
   const [invoice, setInvoice] = useState(null)
 

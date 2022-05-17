@@ -33,7 +33,7 @@ const LightTooltip = styled<typeof Tooltip>(({ className, ...props }) => (
   },
 }))
 
-function SidebarFooter() {
+const SidebarFooter = () => {
   const { t } = useTranslation()
   const theme = useTheme()
   const navigate = useNavigate()

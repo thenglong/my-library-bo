@@ -15,8 +15,8 @@ import {
   Typography,
   useTheme,
 } from "@mui/material"
-import khFlag from "country-flag-icons/3x2/KH.svg"
-import usFlag from "country-flag-icons/3x2/US.svg"
+import { ReactComponent as KHFlag } from "country-flag-icons/3x2/KH.svg"
+import { ReactComponent as USFlag } from "country-flag-icons/3x2/US.svg"
 import { useTranslation } from "react-i18next"
 
 import internationalization from "i18n/i18n"
@@ -30,12 +30,6 @@ const SectionHeading = styled(Typography)(
   `
 )
 
-const ImageWrapper = styled("img")(
-  () => `
-          width: 30px;
-  `
-)
-
 const IconButtonWrapper = styled(IconButton)(
   ({ theme }) => `
     width: ${theme.spacing(4)};
@@ -44,7 +38,7 @@ const IconButtonWrapper = styled(IconButton)(
   `
 )
 
-function LanguageSwitcher() {
+const LanguageSwitcher = () => {
   const { i18n } = useTranslation()
   const { t } = useTranslation()
   const getLanguage = i18n.language
@@ -82,14 +76,10 @@ function LanguageSwitcher() {
             },
           }}
         >
-          {getLanguage === "en" && <ImageWrapper alt="English" src={usFlag} />}
-          {getLanguage === "en-US" && (
-            <ImageWrapper alt="English" src={usFlag} />
-          )}
-          {getLanguage === "en-GB" && (
-            <ImageWrapper alt="English" src={usFlag} />
-          )}
-          {getLanguage === "km" && <ImageWrapper alt="Spanish" src={khFlag} />}
+          {(getLanguage === "en" ||
+            getLanguage === "en-US" ||
+            getLanguage === "en-GB") && <USFlag width="30px" />}
+          {getLanguage === "km" && <KHFlag width="30px" />}
         </IconButtonWrapper>
       </Tooltip>
       <Popover
@@ -132,7 +122,7 @@ function LanguageSwitcher() {
                 handleClose()
               }}
             >
-              <ImageWrapper alt="English" src={usFlag} />
+              <USFlag width="30px" />
               <ListItemText
                 sx={{
                   pl: 1,
@@ -147,7 +137,7 @@ function LanguageSwitcher() {
                 handleClose()
               }}
             >
-              <ImageWrapper alt="Chinese" src={khFlag} />
+              <KHFlag width="30px" />
               <ListItemText
                 sx={{
                   pl: 1,

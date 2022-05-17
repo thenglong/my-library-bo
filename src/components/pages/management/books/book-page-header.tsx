@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next"
 
 import CreateBookDialog from "components/pages/management/books/create-book-dialog"
 
-function BookPageHeader() {
+const BookPageHeader = () => {
   const { t } = useTranslation()
   const [isCreateBookDialogOpen, setIsCreateBookDialogOpen] = useState(false)
 

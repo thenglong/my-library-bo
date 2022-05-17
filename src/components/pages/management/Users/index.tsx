@@ -10,7 +10,7 @@ import Results from "components/pages/management/Users/Results"
 import useRefMounted from "hooks/use-ref-mounted"
 import axios from "utils/axios"
 
-function ManagementUsers() {
+const ManagementUsers = () => {
   const isMountedRef = useRefMounted()
   const [users, setUsers] = useState([])
 

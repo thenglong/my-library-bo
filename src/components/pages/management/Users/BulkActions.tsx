@@ -28,7 +28,7 @@ const ButtonError = styled(Button)(
     `
 )
 
-function BulkActions() {
+const BulkActions = () => {
   const [onMenuOpen, menuOpen] = useState(false)
   const moreRef = useRef(null)
   const { t } = useTranslation()

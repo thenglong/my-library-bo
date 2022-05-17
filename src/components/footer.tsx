@@ -7,35 +7,33 @@ const FooterWrapper = styled(Card)(
   `
 )
 
-function Footer() {
-  return (
-    <FooterWrapper className="footer-wrapper">
-      <Box
-        p={4}
-        display={{ xs: "block", md: "flex" }}
-        alignItems="center"
-        textAlign={{ xs: "center", md: "left" }}
-        justifyContent="space-between"
-      >
-        <Box>
-          <Typography variant="subtitle1">
-            &copy; Unknown - {new Date().getFullYear()}
-          </Typography>
-        </Box>
-        <Typography
-          sx={{
-            pt: { xs: 2, md: 0 },
-          }}
-          variant="subtitle1"
-        >
-          Crafted by{" "}
-          <Link href="#" target="_blank" rel="noopener noreferrer">
-            dontclick.com
-          </Link>
+const Footer = () => (
+  <FooterWrapper className="footer-wrapper">
+    <Box
+      p={4}
+      display={{ xs: "block", md: "flex" }}
+      alignItems="center"
+      textAlign={{ xs: "center", md: "left" }}
+      justifyContent="space-between"
+    >
+      <Box>
+        <Typography variant="subtitle1">
+          &copy; Unknown - {new Date().getFullYear()}
         </Typography>
       </Box>
-    </FooterWrapper>
-  )
-}
+      <Typography
+        sx={{
+          pt: { xs: 2, md: 0 },
+        }}
+        variant="subtitle1"
+      >
+        Crafted by{" "}
+        <Link href="#" target="_blank" rel="noopener noreferrer">
+          dontclick.com
+        </Link>
+      </Typography>
+    </Box>
+  </FooterWrapper>
+)
 
 export default Footer

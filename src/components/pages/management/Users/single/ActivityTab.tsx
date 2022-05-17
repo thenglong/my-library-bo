@@ -27,7 +27,7 @@ const CardActionsWrapper = styled(CardActions)(
   `
 )
 
-function ActivityTab() {
+const ActivityTab = () => {
   const { t } = useTranslation()
 
   return (

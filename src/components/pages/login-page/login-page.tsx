@@ -12,65 +12,63 @@ import {
 } from "components/pages/login-page/login-page-styled"
 import Scrollbar from "components/scrollbar"
 
-function LoginPage() {
-  return (
-    <>
-      <Helmet>
-        <title>Login</title>
-      </Helmet>
-      <Content>
-        <SidebarWrapper>
-          <Scrollbar>
-            <SidebarContent>
-              <Logo />
-              <Box mt={6}>
-                <LifeQuote />
-              </Box>
-            </SidebarContent>
-          </Scrollbar>
-        </SidebarWrapper>
-        <MainContent>
-          <Container
+const LoginPage = () => (
+  <>
+    <Helmet>
+      <title>Login</title>
+    </Helmet>
+    <Content>
+      <SidebarWrapper>
+        <Scrollbar>
+          <SidebarContent>
+            <Logo />
+            <Box mt={6}>
+              <LifeQuote />
+            </Box>
+          </SidebarContent>
+        </Scrollbar>
+      </SidebarWrapper>
+      <MainContent>
+        <Container
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+          maxWidth="sm"
+        >
+          <Card
             sx={{
-              display: "flex",
-              alignItems: "center",
-              flexDirection: "column",
+              p: 4,
+              my: 4,
             }}
-            maxWidth="sm"
           >
-            <Card
-              sx={{
-                p: 4,
-                my: 4,
-              }}
-            >
-              <Box textAlign="center">
-                <Typography
-                  variant="h2"
-                  sx={{
-                    mb: 1,
-                  }}
-                >
-                  Sign in
-                </Typography>
-                <Typography
-                  variant="h4"
-                  color="text.secondary"
-                  fontWeight="normal"
-                  sx={{
-                    mb: 3,
-                  }}
-                >
-                  Fill in the fields below to sign into your account.
-                </Typography>
-              </Box>
-              <LoginForm />
-            </Card>
-          </Container>
-        </MainContent>
-      </Content>
-    </>
-  )
-}
+            <Box textAlign="center">
+              <Typography
+                variant="h2"
+                sx={{
+                  mb: 1,
+                }}
+              >
+                Sign in
+              </Typography>
+              <Typography
+                variant="h4"
+                color="text.secondary"
+                fontWeight="normal"
+                sx={{
+                  mb: 3,
+                }}
+              >
+                Fill in the fields below to sign into your account.
+              </Typography>
+            </Box>
+            <LoginForm />
+          </Card>
+        </Container>
+      </MainContent>
+    </Content>
+  </>
+)
 
 export default LoginPage

@@ -23,7 +23,7 @@ const ListWrapper = styled(List)(
   `
 )
 
-function PopularTags() {
+const PopularTags = () => {
   const { t } = useTranslation()
   const theme = useTheme()
 

@@ -11,7 +11,7 @@ import Statistics from "components/pages/management/Invoices/Statistics"
 import useRefMounted from "hooks/use-ref-mounted"
 import axios from "utils/axios"
 
-function ManagementInvoices() {
+const ManagementInvoices = () => {
   const isMountedRef = useRefMounted()
   const [invoices, setInvoices] = useState([])
 

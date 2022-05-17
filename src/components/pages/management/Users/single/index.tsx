@@ -35,7 +35,7 @@ const TabsWrapper = styled(Tabs)(
 )
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-function ManagementUsersView() {
+const ManagementUsersView = () => {
   const isMountedRef = useRefMounted()
   const [user, setUser] = useState<any>(null)
 

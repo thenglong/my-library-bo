@@ -113,7 +113,7 @@ const UserBoxDescription = styled(Typography)(
 `
 )
 
-function HeaderUserBox() {
+const HeaderUserBox = () => {
   const { t } = useTranslation()
   const theme = useTheme()
 

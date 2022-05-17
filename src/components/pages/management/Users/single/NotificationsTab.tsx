@@ -13,7 +13,7 @@ import {
 } from "@mui/material"
 import { useTranslation } from "react-i18next"
 
-function NotificationsTab() {
+const NotificationsTab = () => {
   const { t } = useTranslation()
 
   const [state, setState] = useState({

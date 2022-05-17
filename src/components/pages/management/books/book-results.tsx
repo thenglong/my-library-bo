@@ -1,10 +1,4 @@
-import {
-  ChangeEvent,
-  ComponentProps,
-  forwardRef,
-  useState,
-  MouseEvent,
-} from "react"
+import { ChangeEvent, MouseEvent, useState } from "react"
 
 import CloseIcon from "@mui/icons-material/Close"
 import GridViewTwoToneIcon from "@mui/icons-material/GridViewTwoTone"
@@ -25,7 +19,6 @@ import {
   lighten,
   MenuItem,
   Select,
-  Slide,
   styled,
   TextField,
   ToggleButton,
@@ -38,6 +31,7 @@ import { useTranslation } from "react-i18next"
 
 import BookGridView from "components/pages/management/books/book-grid-view"
 import BookTableView from "components/pages/management/books/book-table-view"
+import Transition from "components/transition"
 import { Book } from "typings/api-model"
 
 const DialogWrapper = styled(Dialog)(
@@ -82,12 +76,6 @@ export const IconButtonError = styled(IconButton)(
         background: ${lighten(theme.colors.error.lighter, 0.4)};
        }
   `
-)
-
-const Transition = forwardRef<unknown, ComponentProps<typeof Slide>>(
-  function Transition(props, ref) {
-    return <Slide direction="down" ref={ref} {...props} />
-  }
 )
 
 interface BookResults {

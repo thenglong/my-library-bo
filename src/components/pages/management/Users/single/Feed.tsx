@@ -11,7 +11,7 @@ import {
 } from "@mui/material"
 import { useTranslation } from "react-i18next"
 
-function Feed() {
+const Feed = () => {
   const { t } = useTranslation()
 
   const feed = [

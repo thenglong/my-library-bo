@@ -57,7 +57,7 @@ const LogoText = styled(Box)(
 `
 )
 
-function Logo() {
+const Logo = () => {
   const { t } = useTranslation()
   const theme = useTheme()
 

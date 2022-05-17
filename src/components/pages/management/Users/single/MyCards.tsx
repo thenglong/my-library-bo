@@ -87,7 +87,7 @@ const CardCc = styled(Card)(
   `
 )
 
-function MyCards() {
+const MyCards = () => {
   const { t } = useTranslation()
   const { enqueueSnackbar } = useSnackbar()
 

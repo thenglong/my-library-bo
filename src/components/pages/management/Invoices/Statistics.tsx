@@ -26,7 +26,7 @@ const DotPending = styled("span")(
   `
 )
 
-function Statistics() {
+const Statistics = () => {
   const { t } = useTranslation()
 
   const data = {

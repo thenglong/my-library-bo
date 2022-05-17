@@ -1,4 +1,4 @@
-import { useState, forwardRef, ComponentProps } from "react"
+import { useState } from "react"
 
 import CloseIcon from "@mui/icons-material/Close"
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone"
@@ -10,32 +10,31 @@ import TableRowsTwoToneIcon from "@mui/icons-material/TableRowsTwoTone"
 import {
   Avatar,
   Box,
+  Button,
   Card,
   Checkbox,
-  Grid,
-  Slide,
+  Dialog,
   Divider,
-  Tooltip,
+  Grid,
   IconButton,
   InputAdornment,
   Link,
+  styled,
+  Tab,
   Table,
   TableBody,
   TableCell,
+  TableContainer,
   TableHead,
   TablePagination,
-  TableContainer,
   TableRow,
-  ToggleButton,
-  ToggleButtonGroup,
-  Tab,
   Tabs,
   TextField,
-  Button,
+  ToggleButton,
+  ToggleButtonGroup,
+  Tooltip,
   Typography,
-  Dialog,
   Zoom,
-  styled,
 } from "@mui/material"
 import clsx from "clsx"
 import { useSnackbar } from "notistack"
@@ -44,6 +43,7 @@ import { useTranslation } from "react-i18next"
 import { Link as RouterLink, useLocation } from "react-router-dom"
 
 import Label from "components/label"
+import Transition from "components/transition"
 
 import BulkActions from "./BulkActions"
 
@@ -117,11 +117,6 @@ const TabsWrapper = styled(Tabs)(
     `
 )
 
-const Transition = forwardRef<unknown, ComponentProps<typeof Slide>>(
-  function Transition(props, ref) {
-    return <Slide direction="down" ref={ref} {...props} />
-  }
-)
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const getUserRoleLabel = (userRole: any) => {
   const map: any = {

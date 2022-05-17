@@ -22,7 +22,7 @@ const AvatarPrimary = styled(Avatar)(
 `
 )
 
-function RecentActivity() {
+const RecentActivity = () => {
   const { t } = useTranslation()
   const theme = useTheme()
 

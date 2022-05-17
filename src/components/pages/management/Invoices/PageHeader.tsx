@@ -62,7 +62,7 @@ const defaultValues = {
   number: 0,
 }
 
-function PageHeader() {
+const PageHeader = () => {
   const { t } = useTranslation()
   const [open, setOpen] = useState(false)
   const { enqueueSnackbar } = useSnackbar()

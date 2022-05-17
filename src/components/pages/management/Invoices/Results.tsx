@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useState, forwardRef, ComponentProps } from "react"
+import { useState } from "react"
 
 import CloseIcon from "@mui/icons-material/Close"
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone"
@@ -9,31 +9,30 @@ import SearchTwoToneIcon from "@mui/icons-material/SearchTwoTone"
 import {
   Avatar,
   Box,
+  Button,
   Card,
   Checkbox,
-  Grid,
-  Slide,
+  Dialog,
   Divider,
-  Tooltip,
+  FormControl,
+  Grid,
   IconButton,
+  InputAdornment,
+  InputLabel,
   MenuItem,
+  Select,
+  styled,
   Table,
   TableBody,
   TableCell,
+  TableContainer,
   TableHead,
   TablePagination,
-  TableContainer,
   TableRow,
   TextField,
-  Button,
+  Tooltip,
   Typography,
-  Dialog,
-  FormControl,
-  Select,
-  InputLabel,
   Zoom,
-  InputAdornment,
-  styled,
 } from "@mui/material"
 import { format, formatDistance } from "date-fns"
 import { useSnackbar } from "notistack"
@@ -43,6 +42,7 @@ import { useTranslation } from "react-i18next"
 import { Link as RouterLink, useLocation } from "react-router-dom"
 
 import Label from "components/label"
+import Transition from "components/transition"
 
 import BulkActions from "./BulkActions"
 
@@ -76,12 +76,6 @@ const ButtonError = styled(Button)(
           background: ${theme.colors.error.dark};
        }
       `
-)
-
-const Transition = forwardRef<unknown, ComponentProps<typeof Slide>>(
-  function Transition(props, ref) {
-    return <Slide direction="down" ref={ref} {...props} />
-  }
 )
 
 interface Item {

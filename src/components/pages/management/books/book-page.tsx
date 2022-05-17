@@ -7,7 +7,7 @@ import BookPageHeader from "components/pages/management/books/book-page-header"
 import BookResults from "components/pages/management/books/book-results"
 import useBooksQuery from "hooks/queries/use-books-query"
 
-function BookPage() {
+const BookPage = () => {
   const { data: books } = useBooksQuery()
 
   if (!books) return null

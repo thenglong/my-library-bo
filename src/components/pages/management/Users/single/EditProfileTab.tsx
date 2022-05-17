@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next"
 import Label from "components/label"
 import Text from "components/text"
 
-function EditProfileTab() {
+const EditProfileTab = () => {
   const { t } = useTranslation()
 
   return (

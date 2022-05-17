@@ -1,10 +1,4 @@
-import {
-  ComponentProps,
-  FormEventHandler,
-  forwardRef,
-  Fragment,
-  useState,
-} from "react"
+import { FormEventHandler, Fragment, useState } from "react"
 
 import AppSettingsAltTwoToneIcon from "@mui/icons-material/AppSettingsAltTwoTone"
 import CloseTwoToneIcon from "@mui/icons-material/CloseTwoTone"
@@ -27,7 +21,6 @@ import {
   Link,
   List,
   ListItem,
-  Slide,
   styled,
   Tooltip,
   Typography,
@@ -36,18 +29,9 @@ import {
 import { useTranslation } from "react-i18next"
 
 import Scrollbar from "components/scrollbar"
+import Transition from "components/transition"
 
 const wait = (time: number) => new Promise((res) => setTimeout(res, time))
-
-const Transition = forwardRef<unknown, ComponentProps<typeof Slide>>(
-  function Transition(props, ref) {
-    return (
-      <Slide direction="down" ref={ref} {...props}>
-        {props.children}
-      </Slide>
-    )
-  }
-)
 
 const DialogWrapper = styled(Dialog)(
   () => `
@@ -148,7 +132,7 @@ const searchTerms: SearchTerm = {
   ],
 }
 
-function HeaderSearch() {
+const HeaderSearch = () => {
   const { t } = useTranslation()
   const theme = useTheme()
 

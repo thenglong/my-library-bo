@@ -10,7 +10,7 @@ import {
 } from "@mui/material"
 import { useTranslation } from "react-i18next"
 
-function Addresses() {
+const Addresses = () => {
   const { t } = useTranslation()
 
   const addresses = {
