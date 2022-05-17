@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { useCallback, useRef, useState } from "react"
 
 import {
   Alert,
@@ -39,24 +39,30 @@ const IconButtonWrapper = styled(IconButton)(
 )
 
 const LanguageSwitcher = () => {
-  const { i18n } = useTranslation()
+  const {
+    i18n: { language },
+  } = useTranslation()
   const { t } = useTranslation()
-  const getLanguage = i18n.language
   const theme = useTheme()
 
   const switchLanguage = ({ lng }: { lng: string }) => {
     internationalization.changeLanguage(lng)
   }
+
   const ref = useRef(null)
   const [isOpen, setOpen] = useState(false)
 
-  const handleOpen = () => {
+  const handleOpen = useCallback(() => {
     setOpen(true)
-  }
+  }, [])
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setOpen(false)
-  }
+  }, [])
+
+  const isEnglish =
+    language === "en" || language === "en-US" || language === "en-GB"
+  const isKhmer = language === "km" || language === "km-KH"
 
   return (
     <>
@@ -76,10 +82,8 @@ const LanguageSwitcher = () => {
             },
           }}
         >
-          {(getLanguage === "en" ||
-            getLanguage === "en-US" ||
-            getLanguage === "en-GB") && <USFlag width="30px" />}
-          {getLanguage === "km" && <KHFlag width="30px" />}
+          {isEnglish && <USFlag width="30px" />}
+          {isKhmer && <KHFlag width="30px" />}
         </IconButtonWrapper>
       </Tooltip>
       <Popover
@@ -114,9 +118,7 @@ const LanguageSwitcher = () => {
             component="nav"
           >
             <ListItemButton
-              className={
-                getLanguage === "en" || getLanguage === "en-US" ? "active" : ""
-              }
+              className={isEnglish ? "active" : ""}
               onClick={() => {
                 switchLanguage({ lng: "en" })
                 handleClose()
@@ -131,7 +133,7 @@ const LanguageSwitcher = () => {
               />
             </ListItemButton>
             <ListItemButton
-              className={getLanguage === "km" ? "active" : ""}
+              className={isKhmer ? "active" : ""}
               onClick={() => {
                 switchLanguage({ lng: "km" })
                 handleClose()

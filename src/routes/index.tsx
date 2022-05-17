@@ -7,7 +7,7 @@ import AuthLayout from "components/layout/auth-layout"
 import { APP_PREFIX_PATH, AUTH_PREFIX_PATH } from "constants/routes-constants"
 import managementRoutes from "routes/management-routes"
 
-const LoginPage = lazy(() => import("components/pages/login-page/login-page"))
+const LoginPage = lazy(() => import("components/pages/sign-in-page/sign-in-page"))
 
 export const getRoutes = (isAuth: boolean): RouteObject[] => {
   return [

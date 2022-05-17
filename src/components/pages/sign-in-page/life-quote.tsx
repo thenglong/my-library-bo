@@ -3,7 +3,7 @@ import { Box, Theme, Tooltip, Typography, useTheme } from "@mui/material"
 import {
   CardImage,
   TypographyH1,
-} from "components/pages/login-page/login-page-styled"
+} from "components/pages/sign-in-page/sign-in-page-styled"
 import { getInitialImage } from "utils/ui-utils"
 
 const getItems = (theme: Theme) => {

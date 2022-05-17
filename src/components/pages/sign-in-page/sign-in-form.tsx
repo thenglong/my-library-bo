@@ -15,7 +15,7 @@ import * as yup from "yup"
 import { ReactComponent as GoogleLogo } from "assets/svgs/google.svg"
 import ControlledCheckbox from "components/controlled-checkbox"
 import ControlledTextField from "components/controlled-text-field"
-import DemoEmailPassword from "components/pages/login-page/demo-email-password"
+import DemoEmailPassword from "components/pages/sign-in-page/demo-email-password"
 import useSignInWithEmailAndPassword from "hooks/firebase/use-sign-in-with-email-and-password"
 import useSignInGooglePopup from "hooks/firebase/use-sign-in-with-google-popup"
 
@@ -41,7 +41,7 @@ const validationSchema = yup.object().shape({
   staySignedIn: yup.boolean(),
 })
 
-const LoginForm = () => {
+const SignInForm = () => {
   const {
     handleSubmit,
     formState: { errors, touchedFields, isSubmitting },
@@ -138,4 +138,4 @@ const LoginForm = () => {
   )
 }
 
-export default LoginForm
+export default SignInForm
