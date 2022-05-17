@@ -237,7 +237,7 @@ function SidebarMenu() {
   const { t } = useTranslation()
 
   return (
-    <>
+    <Box mt={3}>
       {menuItems.map((section) => (
         <MenuWrapper key={section.heading}>
           <List
@@ -255,7 +255,7 @@ function SidebarMenu() {
           </List>
         </MenuWrapper>
       ))}
-    </>
+    </Box>
   )
 }
 

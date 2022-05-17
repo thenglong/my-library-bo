@@ -1,7 +1,10 @@
+import { Suspense } from "react"
+
 import { Box, alpha, lighten, useTheme } from "@mui/material"
 import { Outlet } from "react-router-dom"
 
 import Sidebar from "components/layout/app-layout/Sidebar"
+import SuspenseLoader from "components/suspense-loader"
 
 import Header from "./Header"
 
@@ -52,7 +55,9 @@ const ExtendedSidebarLayout = () => {
           }}
         >
           <Box display="block">
-            <Outlet />
+            <Suspense fallback={<SuspenseLoader />}>
+              <Outlet />
+            </Suspense>
           </Box>
         </Box>
       </Box>

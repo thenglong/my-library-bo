@@ -1,9 +1,11 @@
 import { useEffect } from "react"
 
-import { Box, CircularProgress } from "@mui/material"
+import { Box, CircularProgress, useTheme } from "@mui/material"
 import NProgress from "nprogress"
 
 const SuspenseLoader = () => {
+  const theme = useTheme()
+
   useEffect(() => {
     NProgress.start()
 
@@ -14,16 +16,11 @@ const SuspenseLoader = () => {
 
   return (
     <Box
-      sx={{
-        position: "fixed",
-        left: 0,
-        top: 0,
-        width: "100%",
-        height: "100%",
-      }}
       display="flex"
       alignItems="center"
       justifyContent="center"
+      height={`calc(100vh - ${theme.header.height})`}
+      width="100%"
     >
       <CircularProgress size={64} disableShrink thickness={3} />
     </Box>
