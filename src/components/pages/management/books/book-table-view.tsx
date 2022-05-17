@@ -8,6 +8,7 @@ import {
   Box,
   Card,
   Checkbox,
+  CircularProgress,
   Divider,
   IconButton,
   LinearProgress,
@@ -23,6 +24,7 @@ import {
   Typography,
 } from "@mui/material"
 import { addDays, format, formatDistance } from "date-fns"
+import Image from "mui-image"
 import { useTranslation } from "react-i18next"
 
 import BookStatusLabel from "components/pages/management/books/book-status-label"
@@ -117,8 +119,9 @@ const BookTableView = ({
                       onChange={onSelectAll}
                     />
                   </TableCell>
-                  <TableCell>{t("Name")}</TableCell>
-                  <TableCell>{t("Tags")}</TableCell>
+                  <TableCell>{t("Cover")}</TableCell>
+                  <TableCell>{t("Title")}</TableCell>
+                  <TableCell>{t("Categories")}</TableCell>
                   <TableCell>{t("Time Left")}</TableCell>
                   <TableCell>{t("Members")}</TableCell>
                   <TableCell>{t("Progress")}</TableCell>
@@ -136,6 +139,12 @@ const BookTableView = ({
                           checked={isBookSelected}
                           onChange={(_) => onSelectOne(book.id)}
                           value={isBookSelected}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <Image
+                          src={`${process.env.PUBLIC_URL}/${book.imageLink}`}
+                          showLoading={<CircularProgress />}
                         />
                       </TableCell>
                       <TableCell>
