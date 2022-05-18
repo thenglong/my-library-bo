@@ -16,7 +16,6 @@ import { ReactComponent as GoogleLogo } from "assets/svgs/google.svg"
 import ControlledCheckbox from "components/controlled-checkbox"
 import ControlledTextField from "components/controlled-text-field"
 import DemoEmailPassword from "components/pages/sign-in-page/demo-email-password"
-import useSignInWithEmailAndPassword from "hooks/firebase/use-sign-in-with-email-and-password"
 import useSignInGooglePopup from "hooks/firebase/use-sign-in-with-google-popup"
 
 const GoogleLogoWrapper = styled(GoogleLogo)(
@@ -72,8 +71,9 @@ const SignUpForm = () => {
     resolver: yupResolver(validationSchema),
   })
 
-  const { signInAsync } = useSignInWithEmailAndPassword()
-  const onSubmit = handleSubmit((data) => signInAsync(data))
+  const onSubmit = handleSubmit((_data) => {
+    // TODO
+  })
 
   const { signIn: signInWithGoogle } = useSignInGooglePopup()
 
