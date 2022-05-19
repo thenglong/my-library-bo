@@ -1,7 +1,15 @@
+import { Suspense } from "react"
+
 import { Outlet } from "react-router-dom"
 
-const BaseLayout = () => {
-  return <Outlet />
+import SuspenseLoader from "components/suspense-loader"
+
+const AuthLayout = () => {
+  return (
+    <Suspense fallback={<SuspenseLoader />}>
+      <Outlet />
+    </Suspense>
+  )
 }
 
-export default BaseLayout
+export default AuthLayout

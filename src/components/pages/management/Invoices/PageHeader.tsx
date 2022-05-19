@@ -138,7 +138,7 @@ const PageHeader = () => {
 
   const {
     handleSubmit,
-    formState: { errors, touchedFields, isSubmitting },
+    formState: { errors, isSubmitting },
     control,
   } = useForm<typeof defaultValues>({
     defaultValues,
@@ -205,11 +205,10 @@ const PageHeader = () => {
                   <b>{t("Invoice Number")}:</b>
                 </Box>
                 <ControlledTextField
-                  isError={Boolean(touchedFields.number && errors.number)}
+                  isError={Boolean(errors.number)}
                   placeholder="Invoice number here..."
                   name="number"
                   control={control}
-                  touched={touchedFields.number}
                   errorMessage={errors.number?.message}
                 />
               </Grid>

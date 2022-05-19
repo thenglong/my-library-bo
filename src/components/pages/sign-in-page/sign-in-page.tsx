@@ -1,5 +1,6 @@
-import { Box, Card, Container, Typography } from "@mui/material"
+import { Box, Button, Card, Container, Typography } from "@mui/material"
 import { useTranslation } from "react-i18next"
+import { useNavigate } from "react-router-dom"
 
 import AppTitleHelmet from "components/app-title-helmet"
 import LanguageSwitcher from "components/layout/app-layout/language-switcher"
@@ -16,6 +17,7 @@ import Scrollbar from "components/scrollbar"
 
 const SignInPage = () => {
   const { t } = useTranslation()
+  const navigate = useNavigate()
 
   return (
     <>
@@ -62,11 +64,21 @@ const SignInPage = () => {
                     mb: 3,
                   }}
                 >
-                  Fill in the fields below to sign into your account.
+                  {t("Fill in the fields below to sign into your account.")}
                 </Typography>
               </Box>
               <SignInForm />
             </Card>
+
+            <Button
+              sx={{ mb: 8 }}
+              variant="contained"
+              color="secondary"
+              size="large"
+              onClick={() => navigate("/sign-up")}
+            >
+              {t("Sign up for your library?")}
+            </Button>
 
             <Box mb={2}>
               <LanguageSwitcher />

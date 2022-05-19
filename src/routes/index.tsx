@@ -7,7 +7,8 @@ import AuthLayout from "components/layout/auth-layout"
 import { APP_PREFIX_PATH, AUTH_PREFIX_PATH } from "constants/routes-constants"
 import managementRoutes from "routes/management-routes"
 
-const LoginPage = lazy(() => import("components/pages/sign-in-page/sign-in-page"))
+const SignInPage = lazy(() => import("components/pages/sign-in-page/sign-in-page"))
+const SignUpPage = lazy(() => import("components/pages/sign-in-page/sign-up-page"))
 
 export const getRoutes = (isAuth: boolean): RouteObject[] => {
   return [
@@ -43,7 +44,11 @@ export const getRoutes = (isAuth: boolean): RouteObject[] => {
         },
         {
           path: `${AUTH_PREFIX_PATH}/sign-in`,
-          element: <LoginPage />,
+          element: <SignInPage />,
+        },
+        {
+          path: `${AUTH_PREFIX_PATH}/sign-up`,
+          element: <SignUpPage />,
         },
         {
           path: "*",

@@ -1,28 +1,11 @@
 import { yupResolver } from "@hookform/resolvers/yup"
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Divider,
-  Link,
-  styled,
-  Typography,
-} from "@mui/material"
+import { Box, Button, CircularProgress, Grid, Typography } from "@mui/material"
 import { useForm } from "react-hook-form"
-import { Link as RouterLink } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 import * as yup from "yup"
 
-import { ReactComponent as GoogleLogo } from "assets/svgs/google.svg"
-import ControlledCheckbox from "components/controlled-checkbox"
+import ControlledImageField from "components/controlled-image-field/controlled-image-field"
 import ControlledTextField from "components/controlled-text-field"
-import DemoEmailPassword from "components/pages/sign-in-page/demo-email-password"
-import useSignInGooglePopup from "hooks/firebase/use-sign-in-with-google-popup"
-
-const GoogleLogoWrapper = styled(GoogleLogo)(
-  ({ theme }) => `
-    margin-right: ${theme.spacing(1)};
-`
-)
 
 const defaultValues = {
   libraryName: "",
@@ -64,104 +47,129 @@ const validationSchema = yup.object().shape({
 const SignUpForm = () => {
   const {
     handleSubmit,
-    formState: { errors, touchedFields, isSubmitting },
+    formState: { errors, isSubmitting },
     control,
   } = useForm<typeof defaultValues>({
     defaultValues,
     resolver: yupResolver(validationSchema),
   })
+  const { t } = useTranslation()
 
   const onSubmit = handleSubmit((_data) => {
     // TODO
   })
 
-  const { signIn: signInWithGoogle } = useSignInGooglePopup()
-
   return (
     <>
-      <form noValidate onSubmit={onSubmit}>
-        <ControlledTextField
-          isError={Boolean(touchedFields.libraryName && errors.libraryName)}
-          label="Library Name"
-          name="libraryName"
-          control={control}
-          touched={touchedFields.libraryName}
-          errorMessage={errors.libraryName?.message}
-        />
-        <ControlledTextField
-          isError={Boolean(
-            touchedFields.libraryAddress && errors.libraryAddress
-          )}
-          label="Library Address"
-          name="libraryAddress"
-          control={control}
-          touched={touchedFields.libraryAddress}
-          errorMessage={errors.libraryAddress?.message}
-        />
+      <Grid
+        container
+        spacing={2}
+        component="form"
+        onSubmit={onSubmit}
+        noValidate
+        mt={1}
+      >
+        <Grid item xs={12} md={6}>
+          <Typography variant="h4" mb={1}>
+            {t("Library Info.")}
+          </Typography>
 
-        <ControlledTextField
-          isError={Boolean(touchedFields.libraryPhone && errors.libraryPhone)}
-          label="Library Phone Number"
-          name="libraryPhone"
-          control={control}
-          touched={touchedFields.libraryPhone}
-          errorMessage={errors.libraryPhone?.message}
-        />
-
-        <Box alignItems="center" display="flex" justifyContent="space-between">
-          <ControlledCheckbox
+          <ControlledTextField
+            isError={Boolean(errors.libraryName)}
+            label="Library Name"
+            name="libraryName"
             control={control}
-            name="staySignedIn"
-            label={
-              <Typography variant="body2" fontWeight={700}>
-                Stay signed in
-              </Typography>
-            }
+            errorMessage={errors.libraryName?.message}
+          />
+          <ControlledTextField
+            isError={Boolean(errors.libraryAddress)}
+            label="Library Address"
+            name="libraryAddress"
+            control={control}
+            errorMessage={errors.libraryAddress?.message}
           />
 
-          <Link<typeof RouterLink>
-            component={RouterLink}
-            to="/forgot-password" // TODO: forgot password page
-          >
-            <strong>Forgot password?</strong>
-          </Link>
-        </Box>
+          <ControlledTextField
+            isError={Boolean(errors.libraryPhone)}
+            label="Library Phone Number"
+            name="libraryPhone"
+            control={control}
+            errorMessage={errors.libraryPhone?.message}
+          />
 
-        <Button
-          sx={{
-            mt: 3,
-          }}
-          color="primary"
-          startIcon={isSubmitting ? <CircularProgress size="1rem" /> : null}
-          disabled={isSubmitting}
-          size="large"
-          fullWidth
-          type="submit"
-          variant="contained"
-        >
-          Sign in
-        </Button>
-        <DemoEmailPassword />
+          <ControlledTextField
+            isError={Boolean(errors.libraryEmail)}
+            label="Library Email Address"
+            name="libraryEmail"
+            type="email"
+            control={control}
+            errorMessage={errors.libraryEmail?.message}
+          />
 
-        <Divider
-          sx={{
-            mt: 4,
-            mb: 2,
-          }}
-        >
-          or
-        </Divider>
+          <ControlledImageField />
+        </Grid>
 
-        <Button
-          fullWidth
-          onClick={() => signInWithGoogle()}
-          size="large"
-          variant="outlined"
-        >
-          <GoogleLogoWrapper />
-          Sign in with Google
-        </Button>
-      </form>
+        <Grid item xs={12} md={6}>
+          <Typography variant="h4" mb={1}>
+            {t("Admin User Credential.")}
+          </Typography>
+          <ControlledTextField
+            isError={Boolean(errors.adminUserEmail)}
+            label="Admin User Email Address"
+            name="adminUserEmail"
+            type="email"
+            control={control}
+            errorMessage={errors.adminUserEmail?.message}
+          />
+
+          <ControlledTextField
+            isError={Boolean(errors.adminUserPassword)}
+            label="Admin User Password"
+            name="adminUserPassword"
+            type="password"
+            control={control}
+            errorMessage={errors.adminUserPassword?.message}
+          />
+
+          <ControlledTextField
+            isError={Boolean(errors.adminUserFirstName)}
+            label="Admin User First Name"
+            name="adminUserFirstName"
+            control={control}
+            errorMessage={errors.adminUserFirstName?.message}
+          />
+
+          <ControlledTextField
+            isError={Boolean(errors.adminUserLastName)}
+            label="Admin User Last Name"
+            name="adminUserLastName"
+            control={control}
+            errorMessage={errors.adminUserLastName?.message}
+          />
+        </Grid>
+
+        <Grid item xs={12}>
+          <Box width="100%" textAlign="right">
+            <Button
+              sx={{
+                mt: 3,
+                width: "max-content",
+                display: "inline-flex",
+                ml: "auto",
+              }}
+              color="primary"
+              startIcon={isSubmitting ? <CircularProgress size="1rem" /> : null}
+              disabled={isSubmitting}
+              size="large"
+              fullWidth
+              type="submit"
+              variant="contained"
+            >
+              {t("Request Access and create library")}
+            </Button>
+          </Box>
+        </Grid>
+      </Grid>
     </>
   )
 }

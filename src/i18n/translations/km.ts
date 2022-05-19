@@ -3,12 +3,23 @@ const km = {
   Library: "បណ្ណាល័យ",
   M: "ម",
   "Are you happy": "អ្នកលាស់លាស់ឬទេ",
+
+  // auth common
+  "Sign out": "ចាកចេញ",
+
+  // sign in
+  "Sign in": "ចូល",
+  "Fill in the fields below to sign into your account.":
+    "សូមបំពេញព័ត៌មានខាងក្រោមដើម្បីចូលការពិនិត្យចូលការគណនីរបស់អ្នក",
+
+  // sign up library
+  "Library Name": "ឈ្មោះបណ្ណាល័យ",
+  "Library Address": "ទីតាំងបណ្ណាល័យ",
+
+  // language switcher
+  "Language Switcher": "ផ្លាស់ប្តូរភាសា",
   English: "អង់គ្លេស",
   Khmer: "ខ្មែរ",
-
-  // auth
-  "Sign in": "ចូល",
-  "Sign out": "ចាកចេញ",
 
   // book page
   Book: "សៀវភៅ",
