@@ -10,12 +10,12 @@ import { ReactComponent as ImageUploadImage } from "assets/svgs/image-upload.svg
 import { ImageUploadWrapper } from "components/controlled-image-field/controlled-image-field-styled"
 
 interface ControlledImageFieldProps {
-  onFileAdded?: (imageFileState?: ImageFileState) => void
+  onFileAdded?: (imageFileState: ImageFileState) => void
   onFileRemoved?: (imageFileState: ImageFileState) => void
   label?: string
 }
 
-interface ImageFileState {
+export interface ImageFileState {
   file: File | null
   imagePreviewUrl: string | null
 }
@@ -30,7 +30,9 @@ const ControlledImageField = ({
   onFileRemoved,
   label,
 }: ControlledImageFieldProps) => {
-  const [imageFileState, setImageFileState] = useState<ImageFileState>()
+  const [imageFileState, setImageFileState] = useState<ImageFileState>(
+    EMPTY_IMAGE_FILE_STATE
+  )
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const file = acceptedFiles?.[0] || null
@@ -49,7 +51,7 @@ const ControlledImageField = ({
   const { getRootProps, getInputProps, isDragActive, inputRef } = useDropzone({
     onDrop,
     accept: {
-      image: ["*"],
+      "image/*": [],
     },
     maxFiles: 1,
     multiple: false,

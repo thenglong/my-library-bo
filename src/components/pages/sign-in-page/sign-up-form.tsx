@@ -1,10 +1,14 @@
+import { useCallback } from "react"
+
 import { yupResolver } from "@hookform/resolvers/yup"
 import { Box, Button, CircularProgress, Grid, Typography } from "@mui/material"
 import { useForm } from "react-hook-form"
 import { useTranslation } from "react-i18next"
 import * as yup from "yup"
 
-import ControlledImageField from "components/controlled-image-field/controlled-image-field"
+import ControlledImageField, {
+  ImageFileState,
+} from "components/controlled-image-field/controlled-image-field"
 import ControlledTextField from "components/controlled-text-field"
 
 const defaultValues = {
@@ -12,10 +16,11 @@ const defaultValues = {
   libraryAddress: "",
   libraryPhone: "",
   libraryEmail: "",
-  libraryLogo: "",
+  libraryLogo: null as File | null,
   adminUserEmail: "",
   adminUserPassword: "",
   adminUserPasswordConfirm: "",
+  adminUserPasswordConfirmation: "",
   adminUserFirstName: "",
   adminUserLastName: "",
 }
@@ -40,6 +45,10 @@ const validationSchema = yup.object().shape({
     .min(8, "Password must be at least 8 characters long")
     .max(255, "Password must be less than 255 characters")
     .required("The password is required"),
+  adminUserPasswordConfirmation: yup
+    .string()
+    .required("The password confirmation is required")
+    .oneOf([yup.ref("adminUserPassword"), null], "Passwords must match"),
   adminUserFirstName: yup.string().required("The first name is required"),
   adminUserLastName: yup.string().required("The last name is required"),
 })
@@ -49,6 +58,7 @@ const SignUpForm = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
     control,
+    setValue,
   } = useForm<typeof defaultValues>({
     defaultValues,
     resolver: yupResolver(validationSchema),
@@ -58,6 +68,25 @@ const SignUpForm = () => {
   const onSubmit = handleSubmit((_data) => {
     // TODO
   })
+
+  const handleAddLogo = useCallback(
+    (imageFileState: ImageFileState) => {
+      setValue("libraryLogo", imageFileState.file, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true,
+      })
+    },
+    [setValue]
+  )
+
+  const handleRemoveLogo = useCallback(() => {
+    setValue("libraryLogo", null, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true,
+    })
+  }, [setValue])
 
   return (
     <>
@@ -107,7 +136,11 @@ const SignUpForm = () => {
           />
 
           <Box mt={2}>
-            <ControlledImageField label="Library logo" />
+            <ControlledImageField
+              label="Library logo"
+              onFileAdded={handleAddLogo}
+              onFileRemoved={handleRemoveLogo}
+            />
           </Box>
         </Grid>
 
@@ -131,6 +164,15 @@ const SignUpForm = () => {
             type="password"
             control={control}
             errorMessage={errors.adminUserPassword?.message}
+          />
+
+          <ControlledTextField
+            isError={Boolean(errors.adminUserPasswordConfirmation)}
+            label="Admin User Password Confirmation"
+            name="adminUserPasswordConfirmation"
+            type="password"
+            control={control}
+            errorMessage={errors.adminUserPasswordConfirmation?.message}
           />
 
           <ControlledTextField
