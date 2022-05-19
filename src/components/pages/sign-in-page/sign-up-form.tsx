@@ -106,7 +106,9 @@ const SignUpForm = () => {
             errorMessage={errors.libraryEmail?.message}
           />
 
-          <ControlledImageField />
+          <Box mt={2}>
+            <ControlledImageField label="Library logo" />
+          </Box>
         </Grid>
 
         <Grid item xs={12} md={6}>

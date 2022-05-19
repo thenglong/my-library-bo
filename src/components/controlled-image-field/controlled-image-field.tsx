@@ -1,17 +1,18 @@
 import { useCallback, useEffect, useState } from "react"
 
 import { Delete as DeleteIcon } from "@mui/icons-material"
-import { Button, useTheme } from "@mui/material"
+import { Button, Typography, useTheme } from "@mui/material"
 import MuiImage from "mui-image"
 import { useDropzone } from "react-dropzone"
 import { useTranslation } from "react-i18next"
 
 import { ReactComponent as ImageUploadImage } from "assets/svgs/image-upload.svg"
-import { ImageLabel } from "components/controlled-image-field/controlled-image-field-styled"
+import { ImageUploadWrapper } from "components/controlled-image-field/controlled-image-field-styled"
 
 interface ControlledImageFieldProps {
   onFileAdded?: (imageFileState?: ImageFileState) => void
   onFileRemoved?: (imageFileState: ImageFileState) => void
+  label?: string
 }
 
 interface ImageFileState {
@@ -27,6 +28,7 @@ const EMPTY_IMAGE_FILE_STATE: ImageFileState = {
 const ControlledImageField = ({
   onFileAdded,
   onFileRemoved,
+  label,
 }: ControlledImageFieldProps) => {
   const [imageFileState, setImageFileState] = useState<ImageFileState>()
 
@@ -71,7 +73,7 @@ const ControlledImageField = ({
   return (
     <div>
       {!imageFileState?.imagePreviewUrl && (
-        <ImageLabel
+        <ImageUploadWrapper
           /* eslint-disable @typescript-eslint/no-explicit-any */
           {...(getRootProps() as any)}
           sx={{
@@ -88,8 +90,15 @@ const ControlledImageField = ({
             damping: 30,
           }}
         >
-          <ImageUploadImage width="100%" />
-          <span className="label-text">
+          <Typography
+            className="image-field-label"
+            variant="subtitle2"
+            alignSelf="flex-start"
+          >
+            {label}
+          </Typography>
+          <ImageUploadImage />
+          <span className="hint-text">
             {t("Click here or drag and drop an image")}
           </span>
           <input
@@ -99,11 +108,19 @@ const ControlledImageField = ({
             accept="image/*"
             hidden
           />
-        </ImageLabel>
+        </ImageUploadWrapper>
       )}
 
       {imageFileState?.imagePreviewUrl && (
-        <ImageLabel sx={{ p: 1 }}>
+        <ImageUploadWrapper>
+          <Typography
+            className="image-field-label"
+            variant="subtitle2"
+            alignSelf="flex-start"
+            pb={1}
+          >
+            {label}
+          </Typography>
           <MuiImage
             src={imageFileState?.imagePreviewUrl}
             alt=""
@@ -126,7 +143,7 @@ const ControlledImageField = ({
           >
             Remove
           </Button>
-        </ImageLabel>
+        </ImageUploadWrapper>
       )}
     </div>
   )
