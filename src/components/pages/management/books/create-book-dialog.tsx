@@ -130,7 +130,7 @@ const CreateBookDialog = ({ isOpen, onClose }: CreateBookDialogProps) => {
 
   const {
     handleSubmit,
-    formState: { errors, touchedFields, isSubmitting },
+    formState: { errors, isSubmitting },
     control,
   } = useForm<typeof defaultValues>({
     defaultValues,
@@ -193,11 +193,10 @@ const CreateBookDialog = ({ isOpen, onClose }: CreateBookDialogProps) => {
               md={9}
             >
               <ControlledTextField
-                isError={Boolean(touchedFields.title && errors.title)}
+                isError={Boolean(errors.title)}
                 placeholder="Book title here..."
                 name="title"
                 control={control}
-                touched={touchedFields.title}
                 errorMessage={errors.title?.message}
               />
             </Grid>

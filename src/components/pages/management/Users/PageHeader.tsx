@@ -134,7 +134,7 @@ const PageHeader = () => {
 
   const {
     handleSubmit,
-    formState: { errors, touchedFields, isSubmitting },
+    formState: { errors, isSubmitting },
     control,
   } = useForm<typeof defaultValues>({
     defaultValues,
@@ -204,47 +204,37 @@ const PageHeader = () => {
                 <Grid container spacing={3}>
                   <Grid item xs={12} md={6}>
                     <ControlledTextField
-                      isError={Boolean(
-                        touchedFields.firstName && errors.firstName
-                      )}
+                      isError={Boolean(errors.firstName)}
                       label={t("First name")}
                       name="firstName"
                       control={control}
-                      touched={touchedFields.firstName}
                       errorMessage={errors.firstName?.message}
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
                     <ControlledTextField
-                      isError={Boolean(
-                        touchedFields.lastName && errors.lastName
-                      )}
+                      isError={Boolean(errors.lastName)}
                       label={t("Last name")}
                       name="lastName"
                       control={control}
-                      touched={touchedFields.lastName}
                       errorMessage={errors.lastName?.message}
                     />
                   </Grid>
                   <Grid item xs={12}>
                     <ControlledTextField
-                      isError={Boolean(touchedFields.email && errors.email)}
+                      isError={Boolean(errors.email)}
                       label={t("Email address")}
                       name="email"
                       control={control}
-                      touched={touchedFields.email}
                       errorMessage={errors.email?.message}
                     />
                   </Grid>
                   <Grid item xs={12}>
                     <ControlledTextField
-                      isError={Boolean(
-                        touchedFields.password && errors.password
-                      )}
+                      isError={Boolean(errors.password)}
                       label={t("Password")}
                       name="password"
                       control={control}
-                      touched={touchedFields.password}
                       errorMessage={errors.password?.message}
                     />
                   </Grid>

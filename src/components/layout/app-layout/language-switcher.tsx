@@ -129,7 +129,7 @@ const LanguageSwitcher = () => {
                 sx={{
                   pl: 1,
                 }}
-                primary="English"
+                primary={t("English")}
               />
             </ListItemButton>
             <ListItemButton
@@ -144,7 +144,7 @@ const LanguageSwitcher = () => {
                 sx={{
                   pl: 1,
                 }}
-                primary="Khmer"
+                primary={t("Khmer")}
               />
             </ListItemButton>
           </List>

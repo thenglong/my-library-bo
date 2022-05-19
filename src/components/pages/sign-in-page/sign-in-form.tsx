@@ -66,7 +66,6 @@ const SignInForm = () => {
           name="email"
           type="email"
           control={control}
-          touched={touchedFields.email}
           errorMessage={errors.email?.message}
         />
         <ControlledTextField
@@ -76,7 +75,6 @@ const SignInForm = () => {
           name="password"
           type="password"
           control={control}
-          touched={touchedFields.password}
           errorMessage={errors.password?.message}
         />
 

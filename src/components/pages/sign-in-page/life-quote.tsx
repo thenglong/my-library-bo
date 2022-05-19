@@ -70,7 +70,7 @@ const LifeQuote = () => {
       >
         Finding Your Path
       </Typography>
-      <Lottie animationData={bookLover} />
+      <Lottie animationData={bookLover} loop autoplay />
       <Typography variant="subtitle1">
         A reader lives a thousand lives before he dies, said Jojen
       </Typography>

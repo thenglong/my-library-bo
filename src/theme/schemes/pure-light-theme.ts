@@ -340,6 +340,11 @@ export const PureLightTheme = createTheme({
     },
     MuiCssBaseline: {
       styleOverrides: {
+        "::selection": {
+          backgroundColor: themeColors.secondary,
+          color: themeColors.white,
+        },
+
         "html, body": {
           width: "100%",
           height: "100%",
@@ -578,7 +583,7 @@ export const PureLightTheme = createTheme({
     },
     MuiButton: {
       defaultProps: {
-        disableRipple: true,
+        disableRipple: false,
       },
       styleOverrides: {
         root: {

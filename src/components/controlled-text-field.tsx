@@ -1,9 +1,15 @@
-import { HTMLInputTypeAttribute, InputHTMLAttributes, useState } from "react"
+import {
+  HTMLInputTypeAttribute,
+  InputHTMLAttributes,
+  useCallback,
+  useState,
+} from "react"
 
 import { Visibility, VisibilityOff } from "@mui/icons-material"
 import { IconButton, InputAdornment, TextField } from "@mui/material"
 import { Controller } from "react-hook-form"
 import { Control } from "react-hook-form/dist/types/form"
+import { useTranslation } from "react-i18next"
 
 interface ControlledTextFieldProps {
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
@@ -12,7 +18,6 @@ interface ControlledTextFieldProps {
   label?: string
   placeholder?: string
   type?: InputHTMLAttributes<HTMLInputTypeAttribute>["type"]
-  touched?: boolean
   isError: boolean
   errorMessage?: string
 }
@@ -23,15 +28,18 @@ const ControlledTextField = ({
   name,
   label,
   type,
-  touched = false,
   isError,
   errorMessage,
 }: ControlledTextFieldProps) => {
   const [inputType, setInputType] = useState(type)
 
-  const togglePasswordVisibility = () => {
-    setInputType(inputType === "password" ? "text" : "password")
-  }
+  const togglePasswordVisibility = useCallback(() => {
+    setInputType((prevInputType) =>
+      prevInputType === "password" ? "text" : "password"
+    )
+  }, [])
+
+  const { t } = useTranslation()
 
   return (
     <Controller
@@ -42,9 +50,9 @@ const ControlledTextField = ({
           {...field}
           error={isError}
           fullWidth
-          helperText={touched && errorMessage}
-          label={label}
-          placeholder={placeholder}
+          helperText={t(errorMessage || "")}
+          label={t(label || "")}
+          placeholder={t(placeholder || "")}
           margin="normal"
           type={inputType}
           variant="outlined"
@@ -55,7 +63,6 @@ const ControlledTextField = ({
                   <IconButton
                     aria-label="toggle password visibility"
                     onClick={togglePasswordVisibility}
-                    // onMouseDown={handleMouseDownPassword}
                     edge="end"
                   >
                     {inputType === "text" ? <VisibilityOff /> : <Visibility />}
