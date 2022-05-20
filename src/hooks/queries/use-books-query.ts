@@ -1,17 +1,9 @@
 import { useQuery } from "react-query"
 
-import sampleBooks from "data/sample/sample-books"
-import wait from "utils/wait"
-
-const fetchBooks = async () => {
-  await wait(800) // simulate api call
-  return Promise.resolve(sampleBooks.slice(0, 10))
-}
+import bookApi from "api/books-api"
 
 const useBooksQuery = () => {
-  return useQuery("books", fetchBooks, {
-    suspense: true,
-  })
+  return useQuery("books", bookApi.getBooks)
 }
 
 export default useBooksQuery

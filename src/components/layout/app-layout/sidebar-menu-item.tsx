@@ -1,41 +1,17 @@
 import { FC, ReactNode, useContext, useState } from "react"
 
-import ExpandLessTwoToneIcon from "@mui/icons-material/ExpandLessTwoTone"
-import ExpandMoreTwoToneIcon from "@mui/icons-material/ExpandMoreTwoTone"
 import {
-  Badge,
-  Button,
-  Collapse,
-  ListItem,
-  styled,
-  Tooltip,
-  tooltipClasses,
-} from "@mui/material"
+  ExpandLessTwoTone as ExpandLessTwoToneIcon,
+  ExpandMoreTwoTone as ExpandMoreTwoToneIcon,
+} from "@mui/icons-material"
+import { Badge, Button, Collapse, ListItem } from "@mui/material"
 import clsx from "clsx"
-import PropTypes from "prop-types"
 import { useTranslation } from "react-i18next"
+import { matchPath, useLocation } from "react-router-dom"
 
+import { TooltipWrapper } from "components/layout/app-layout/sidebar-menu-item-styled"
 import Link from "components/link"
 import { SidebarContext } from "contexts/SidebarContext"
-
-const TooltipWrapper = styled<typeof Tooltip>(({ className, ...props }) => (
-  <Tooltip {...props} classes={{ popper: className }}>
-    {props.children}
-  </Tooltip>
-))(({ theme }) => ({
-  [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: theme.colors.alpha.trueWhite[100],
-    color: theme.palette.getContrastText(theme.colors.alpha.trueWhite[100]),
-    fontSize: theme.typography.pxToRem(12),
-    fontWeight: "bold",
-    borderRadius: theme.general.borderRadiusSm,
-    boxShadow:
-      "0 .2rem .8rem rgba(7,9,25,.18), 0 .08rem .15rem rgba(7,9,25,.15)",
-  },
-  [`& .${tooltipClasses.arrow}`]: {
-    color: theme.colors.alpha.trueWhite[100],
-  },
-}))
 
 interface SidebarMenuItemProps {
   children?: ReactNode
@@ -50,12 +26,12 @@ interface SidebarMenuItemProps {
 
 const SidebarMenuItem = ({
   children,
-  link,
+  link = "",
   icon: Icon,
   badge,
   badgeTooltip,
-  open: openParent,
-  active: _,
+  open: openParent = false,
+  active: _ = false,
   name,
   ...rest
 }: SidebarMenuItemProps) => {
@@ -66,6 +42,9 @@ const SidebarMenuItem = ({
   const toggleMenu = () => {
     setMenuToggle((Open) => !Open)
   }
+
+  const location = useLocation()
+  const match = matchPath(link, location.pathname)
 
   if (children) {
     return (
@@ -104,8 +83,9 @@ const SidebarMenuItem = ({
         disableRipple
         component={Link}
         onClick={closeSidebar}
-        to={link || ""}
+        to={link}
         startIcon={Icon && <Icon />}
+        className={clsx({ "Mui-active": match })}
       >
         {t(name)}
         {badgeTooltip ? (
@@ -124,22 +104,6 @@ const SidebarMenuItem = ({
       </Button>
     </ListItem>
   )
-}
-
-SidebarMenuItem.propTypes = {
-  children: PropTypes.node,
-  active: PropTypes.bool,
-  link: PropTypes.string,
-  icon: PropTypes.elementType,
-  badge: PropTypes.string,
-  badgeTooltip: PropTypes.string,
-  open: PropTypes.bool,
-  name: PropTypes.string.isRequired,
-}
-
-SidebarMenuItem.defaultProps = {
-  open: false,
-  active: false,
 }
 
 export default SidebarMenuItem

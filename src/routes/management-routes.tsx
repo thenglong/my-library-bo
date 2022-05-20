@@ -2,11 +2,11 @@ import { lazy } from "react"
 
 import { Navigate, RouteObject } from "react-router-dom"
 
-const Users = lazy(() => import("components/pages/management/Users"))
-const SingleUser = lazy(() => import("components/pages/management/Users/single"))
+const Users = lazy(() => import("components/pages/management/users"))
+const SingleUser = lazy(() => import("components/pages/management/users/single"))
 const Books = lazy(() => import("components/pages/management/books/book-page"))
-const Invoices = lazy(() => import("components/pages/management/Invoices"))
-const SingleInvoice = lazy(() => import("components/pages/management/Invoices/single"))
+const Invoices = lazy(() => import("components/pages/management/invoices"))
+const SingleInvoice = lazy(() => import("components/pages/management/invoices/single"))
 
 const managementRoutes: RouteObject[] = [
   {

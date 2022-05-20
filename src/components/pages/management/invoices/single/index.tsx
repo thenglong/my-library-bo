@@ -6,8 +6,8 @@ import { useParams } from "react-router-dom"
 
 import Footer from "components/footer"
 import PageTitleWrapper from "components/page-title-wrapper"
-import InvoiceBody from "components/pages/management/Invoices/single/InvoiceBody"
-import PageHeader from "components/pages/management/Invoices/single/PageHeader"
+import InvoiceBody from "components/pages/management/invoices/single/InvoiceBody"
+import PageHeader from "components/pages/management/invoices/single/PageHeader"
 import useRefMounted from "hooks/use-ref-mounted"
 import axios from "utils/axios"
 

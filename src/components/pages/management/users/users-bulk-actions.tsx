@@ -28,7 +28,7 @@ const ButtonError = styled(Button)(
     `
 )
 
-const BulkActions = () => {
+const UsersBulkActions = () => {
   const [onMenuOpen, menuOpen] = useState(false)
   const moreRef = useRef(null)
   const { t } = useTranslation()
@@ -115,4 +115,4 @@ const BulkActions = () => {
   )
 }
 
-export default BulkActions
+export default UsersBulkActions

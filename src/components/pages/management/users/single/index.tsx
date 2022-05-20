@@ -1,26 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useState, useCallback, useEffect } from "react"
+import { useState } from "react"
 
-import { Box, Tabs, Tab, Grid, styled } from "@mui/material"
+import { Box, Grid, styled, Tab, Tabs } from "@mui/material"
 import { Helmet } from "react-helmet-async"
 import { useTranslation } from "react-i18next"
 import { useParams } from "react-router-dom"
 
 import Footer from "components/footer"
-import MyCards from "components/pages/management/Users/single/MyCards"
-import NotificationsTab from "components/pages/management/Users/single/NotificationsTab"
-import PopularTags from "components/pages/management/Users/single/PopularTags"
-import ProfileCover from "components/pages/management/Users/single/ProfileCover"
-import RecentActivity from "components/pages/management/Users/single/RecentActivity"
-import SecurityTab from "components/pages/management/Users/single/SecurityTab"
-import useRefMounted from "hooks/use-ref-mounted"
-import axios from "utils/axios"
-
-import ActivityTab from "./ActivityTab"
-import Addresses from "./Addresses"
-import EditProfileTab from "./EditProfileTab"
-import Feed from "./Feed"
+import ActivityTab from "components/pages/management/users/single/activity-tab"
+import Addresses from "components/pages/management/users/single/addresses"
+import EditProfileTab from "components/pages/management/users/single/edit-profile-tab"
+import Feed from "components/pages/management/users/single/feed"
+import MyCards from "components/pages/management/users/single/my-cards"
+import NotificationsTab from "components/pages/management/users/single/notifications-tab"
+import PopularTags from "components/pages/management/users/single/popular-tags"
+import ProfileCover from "components/pages/management/users/single/profile-cover"
+import RecentActivity from "components/pages/management/users/single/recent-activity"
+import SecurityTab from "components/pages/management/users/single/security-tab"
+import useUserQuery from "hooks/queries/use-user-query"
 
 const TabsWrapper = styled(Tabs)(
   () => `
@@ -33,12 +31,8 @@ const TabsWrapper = styled(Tabs)(
     }
 `
 )
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
 const ManagementUsersView = () => {
-  const isMountedRef = useRefMounted()
-  const [user, setUser] = useState<any>(null)
-
   const { userId } = useParams()
   const { t } = useTranslation()
 
@@ -55,29 +49,9 @@ const ManagementUsersView = () => {
     setCurrentTab(value)
   }
 
-  const getUser = useCallback(async () => {
-    try {
-      const response = await axios.get("/api/user", {
-        params: {
-          userId,
-        },
-      })
-      if (isMountedRef.current) {
-        setUser(response.data.user)
-      }
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error(err)
-    }
-  }, [userId, isMountedRef])
+  const { data: user } = useUserQuery(userId as string)
 
-  useEffect(() => {
-    getUser()
-  }, [getUser])
-
-  if (!user) {
-    return null
-  }
+  if (!user) return null
 
   return (
     <>

@@ -3,6 +3,7 @@ const km = {
   Library: "បណ្ណាល័យ",
   M: "ម",
   "Are you happy": "អ្នកលាស់លាស់ឬទេ",
+  Users: "អ្នកប្រើប្រាស់",
 
   // auth common
   "Sign out": "ចាកចេញ",

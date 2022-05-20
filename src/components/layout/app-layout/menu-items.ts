@@ -23,17 +23,7 @@ const menuItems: MenuItems[] = [
       {
         name: "Users",
         icon: PersonIcon,
-        link: "/app/management/users",
-        items: [
-          {
-            name: "List",
-            link: "management/users/list",
-          },
-          {
-            name: "User Profile",
-            link: "management/users/single",
-          },
-        ],
+        link: "/app/management/users/list",
       },
       {
         name: "Books",
@@ -47,11 +37,11 @@ const menuItems: MenuItems[] = [
         items: [
           {
             name: "List",
-            link: "management/invoices/list",
+            link: "/app/management/invoices/list",
           },
           {
             name: "Details",
-            link: "management/invoices/single",
+            link: "/app/management/invoices/single",
           },
         ],
       },

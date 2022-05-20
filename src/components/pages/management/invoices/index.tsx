@@ -5,9 +5,9 @@ import { Helmet } from "react-helmet-async"
 
 import Footer from "components/footer"
 import PageTitleWrapper from "components/page-title-wrapper"
-import PageHeader from "components/pages/management/Invoices/PageHeader"
-import Results from "components/pages/management/Invoices/Results"
-import Statistics from "components/pages/management/Invoices/Statistics"
+import PageHeader from "components/pages/management/invoices/PageHeader"
+import Results from "components/pages/management/invoices/Results"
+import Statistics from "components/pages/management/invoices/Statistics"
 import useRefMounted from "hooks/use-ref-mounted"
 import axios from "utils/axios"
 
