@@ -20,7 +20,6 @@ import {
 import { useSnackbar } from "notistack"
 import { useTranslation } from "react-i18next"
 
-import Label from "components/label"
 import UsersGridView from "components/pages/management/users/users-grid-view"
 import UsersTableView from "components/pages/management/users/users-table-view"
 import Transition from "components/transition"
@@ -71,34 +70,6 @@ const TabsWrapper = styled(Tabs)(
     }
     `
 )
-
-type UserRoleLabelMap = {
-  [key in UserRole]: {
-    text: string
-    color: string
-  }
-}
-
-export const getUserRoleLabel = (userRole: UserRole) => {
-  const map: UserRoleLabelMap = {
-    [UserRole.ADMIN]: {
-      text: "Administrator",
-      color: "error",
-    },
-    [UserRole.LIBRARIAN]: {
-      text: "Library Manager",
-      color: "warning",
-    },
-    [UserRole.CUSTOMER]: {
-      text: "Customer",
-      color: "info",
-    },
-  }
-
-  const { text, color } = map[userRole]
-
-  return <Label color={color}>{text}</Label>
-}
 
 const tabs = [
   {

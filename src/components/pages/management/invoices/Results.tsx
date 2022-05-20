@@ -108,7 +108,7 @@ const getInvoiceStatusLabel = (invoiceStatus: any) => {
   const { text, color } = map[invoiceStatus]
 
   return (
-    <Label color={color}>
+    <Label color={color as any}>
       <b>{text}</b>
     </Label>
   )

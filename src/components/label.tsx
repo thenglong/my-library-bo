@@ -1,5 +1,6 @@
+import { ComponentProps, ReactNode } from "react"
+
 import { styled } from "@mui/material"
-import PropTypes from "prop-types"
 
 const LabelWrapper = styled("span")(
   ({ theme }) => `
@@ -50,32 +51,31 @@ const LabelWrapper = styled("span")(
         }
   `
 )
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
+export interface LabelProps extends ComponentProps<typeof LabelWrapper> {
+  children?: ReactNode
+  className?: string
+  color?:
+    | "primary"
+    | "black"
+    | "secondary"
+    | "error"
+    | "warning"
+    | "success"
+    | "info"
+}
+
 const Label = ({
   className: _,
   color = "secondary",
   children,
   ...rest
-}: any) => {
+}: LabelProps) => {
   return (
     <LabelWrapper className={`MuiLabel-${color}`} {...rest}>
       {children}
     </LabelWrapper>
   )
-}
-
-Label.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  color: PropTypes.oneOf([
-    "primary",
-    "black",
-    "secondary",
-    "error",
-    "warning",
-    "success",
-    "info",
-  ]),
 }
 
 export default Label

@@ -215,7 +215,7 @@ const users: User[] = [
 ]
 
 mock.onGet("/api/v1/users").reply(() => {
-  return [200, users.splice(0, 10)]
+  return [200, users.slice(0, 10)]
 })
 
 mock.onGet("/api/v1/users/:id").reply((config) => {

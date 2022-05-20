@@ -1109,7 +1109,7 @@ const books: Book[] = [
 ]
 
 mock.onGet("/api/v1/books").reply(() => {
-  return [200, books.splice(0, 10)]
+  return [200, books.slice(0, 10)]
 })
 
 mock.onGet("/api/v1/books/:id").reply((config) => {

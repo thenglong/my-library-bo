@@ -26,7 +26,7 @@ import {
 import { useTranslation } from "react-i18next"
 import { Link as RouterLink } from "react-router-dom"
 
-import { getUserRoleLabel } from "components/pages/management/users/user-results"
+import UserRoleLabel from "components/pages/management/users/user-role-label"
 import UsersBulkActions from "components/pages/management/users/users-bulk-actions"
 import { User } from "typings/api-model"
 
@@ -69,7 +69,6 @@ const UsersTableView = ({
               ),
             }}
             placeholder={t("Search by name, email or username...")}
-            size="small"
             fullWidth
             margin="normal"
             variant="outlined"
@@ -164,7 +163,9 @@ const UsersTableView = ({
                       <TableCell>
                         <Typography>{user.address}</Typography>
                       </TableCell>
-                      <TableCell>{getUserRoleLabel(user.role)}</TableCell>
+                      <TableCell>
+                        <UserRoleLabel role={user.role} />
+                      </TableCell>
                       <TableCell align="center">
                         <Typography noWrap>
                           <Tooltip title={t("View")} arrow>
@@ -197,7 +198,7 @@ const UsersTableView = ({
           <Box p={2}>
             <TablePagination
               component="div"
-              count={users.length}
+              count={1000}
               onPageChange={() => {
                 // TODO
               }}
@@ -205,7 +206,7 @@ const UsersTableView = ({
                 // TODO
               }}
               page={
-                10
+                1
                 // TODO
               }
               rowsPerPage={

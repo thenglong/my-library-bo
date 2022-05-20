@@ -22,7 +22,7 @@ import clsx from "clsx"
 import { useTranslation } from "react-i18next"
 import { Link as RouterLink } from "react-router-dom"
 
-import { getUserRoleLabel } from "components/pages/management/users/user-results"
+import UserRoleLabel from "components/pages/management/users/user-role-label"
 import UsersBulkActions from "components/pages/management/users/users-bulk-actions"
 import { Book, User } from "typings/api-model"
 
@@ -114,7 +114,6 @@ const UsersGridView = ({
                 ),
               }}
               placeholder={t("Search by name, email or username...")}
-              size="small"
               margin="normal"
               variant="outlined"
             />
@@ -158,7 +157,7 @@ const UsersGridView = ({
                         alignItems="flex-start"
                         justifyContent="space-between"
                       >
-                        {getUserRoleLabel(user.role)}
+                        <UserRoleLabel role={user.role} />
                         <IconButton
                           color="primary"
                           sx={{
