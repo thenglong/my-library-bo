@@ -33,7 +33,7 @@ const menuItems: MenuItems[] = [
       {
         name: "Invoices",
         icon: BookIcon,
-        link: "/app/management/invoices",
+        link: "/app/management/invoices/list",
       },
     ],
   },
