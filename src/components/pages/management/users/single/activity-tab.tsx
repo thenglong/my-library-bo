@@ -1,7 +1,9 @@
-import CommentTwoToneIcon from "@mui/icons-material/CommentTwoTone"
-import MoreHorizTwoToneIcon from "@mui/icons-material/MoreHorizTwoTone"
-import ShareTwoToneIcon from "@mui/icons-material/ShareTwoTone"
-import ThumbUpAltTwoToneIcon from "@mui/icons-material/ThumbUpAltTwoTone"
+import {
+  CommentTwoTone as CommentTwoToneIcon,
+  MoreHorizTwoTone as MoreHorizTwoToneIcon,
+  ShareTwoTone as ShareTwoToneIcon,
+  ThumbUpAltTwoTone as ThumbUpAltTwoToneIcon,
+} from "@mui/icons-material"
 import {
   Box,
   CardMedia,

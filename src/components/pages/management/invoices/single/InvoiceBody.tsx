@@ -1,7 +1,9 @@
 import { useState } from "react"
 
-import DownloadTwoToneIcon from "@mui/icons-material/DownloadTwoTone"
-import PictureAsPdfTwoToneIcon from "@mui/icons-material/PictureAsPdfTwoTone"
+import {
+  DownloadTwoTone as DownloadTwoToneIcon,
+  PictureAsPdfTwoTone as PictureAsPdfTwoToneIcon,
+} from "@mui/icons-material"
 import {
   Box,
   Typography,
@@ -22,7 +24,6 @@ import {
 } from "@mui/material"
 import { format } from "date-fns"
 import numeral from "numeral"
-import PropTypes from "prop-types"
 import { useTranslation } from "react-i18next"
 
 import Logo from "components/logo"
@@ -278,10 +279,6 @@ const InvoiceBody = ({ invoice }: any) => {
       </Card>
     </Container>
   )
-}
-
-InvoiceBody.propTypes = {
-  invoice: PropTypes.object.isRequired,
 }
 
 export default InvoiceBody

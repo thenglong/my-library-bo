@@ -1,4 +1,4 @@
-import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone"
+import { DeleteTwoTone as DeleteTwoToneIcon } from "@mui/icons-material"
 import {
   Box,
   Button,

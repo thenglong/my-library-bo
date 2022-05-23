@@ -1,8 +1,10 @@
 import { useState } from "react"
 
 import { yupResolver } from "@hookform/resolvers/yup"
-import AddTwoToneIcon from "@mui/icons-material/AddTwoTone"
-import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone"
+import {
+  AddTwoTone as AddTwoToneIcon,
+  DeleteTwoTone as DeleteTwoToneIcon,
+} from "@mui/icons-material"
 import DatePicker from "@mui/lab/DatePicker"
 import {
   Autocomplete,

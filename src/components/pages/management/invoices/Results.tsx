@@ -2,10 +2,12 @@
 
 import { useState } from "react"
 
-import CloseIcon from "@mui/icons-material/Close"
-import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone"
-import LaunchTwoToneIcon from "@mui/icons-material/LaunchTwoTone"
-import SearchTwoToneIcon from "@mui/icons-material/SearchTwoTone"
+import {
+  Close as CloseIcon,
+  DeleteTwoTone as DeleteTwoToneIcon,
+  LaunchTwoTone as LaunchTwoToneIcon,
+  SearchTwoTone as SearchTwoToneIcon,
+} from "@mui/icons-material"
 import {
   Avatar,
   Box,
@@ -37,7 +39,6 @@ import {
 import { format, formatDistance } from "date-fns"
 import { useSnackbar } from "notistack"
 import numeral from "numeral"
-import PropTypes from "prop-types"
 import { useTranslation } from "react-i18next"
 import { Link as RouterLink, useLocation } from "react-router-dom"
 
@@ -153,7 +154,7 @@ const applyPagination = (invoices: any[], page: number, limit: number) => {
   return invoices.slice(page * limit, page * limit + limit)
 }
 
-const Results = ({ invoices }: any) => {
+const Results = ({ invoices = [] }: any) => {
   const [selectedItems, setSelectedInvoices] = useState<any>([])
   const { t } = useTranslation()
   const { enqueueSnackbar } = useSnackbar()
@@ -555,14 +556,6 @@ const Results = ({ invoices }: any) => {
       </DialogWrapper>
     </>
   )
-}
-
-Results.propTypes = {
-  invoices: PropTypes.array.isRequired,
-}
-
-Results.defaultProps = {
-  invoices: [],
 }
 
 export default Results

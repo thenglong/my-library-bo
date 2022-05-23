@@ -1,6 +1,8 @@
-import EventTwoToneIcon from "@mui/icons-material/EventTwoTone"
-import PowerSettingsNewTwoToneIcon from "@mui/icons-material/PowerSettingsNewTwoTone"
-import SmsTwoToneIcon from "@mui/icons-material/SmsTwoTone"
+import {
+  EventTwoTone as EventTwoToneIcon,
+  PowerSettingsNewTwoTone as PowerSettingsNewTwoToneIcon,
+  SmsTwoTone as SmsTwoToneIcon,
+} from "@mui/icons-material"
 import {
   Box,
   IconButton,

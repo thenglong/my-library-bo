@@ -1,13 +1,15 @@
-import { FormEventHandler, Fragment, useState } from "react"
+import { ChangeEvent, FormEventHandler, Fragment, useState } from "react"
 
-import AppSettingsAltTwoToneIcon from "@mui/icons-material/AppSettingsAltTwoTone"
-import CloseTwoToneIcon from "@mui/icons-material/CloseTwoTone"
-import ContactSupportTwoToneIcon from "@mui/icons-material/ContactSupportTwoTone"
-import DashboardTwoToneIcon from "@mui/icons-material/DashboardTwoTone"
-import KeyboardArrowRightTwoToneIcon from "@mui/icons-material/KeyboardArrowRightTwoTone"
-import RestoreTwoToneIcon from "@mui/icons-material/RestoreTwoTone"
-import SearchTwoToneIcon from "@mui/icons-material/SearchTwoTone"
-import StarTwoToneIcon from "@mui/icons-material/StarTwoTone"
+import {
+  AppSettingsAltTwoTone as AppSettingsAltTwoToneIcon,
+  CloseTwoTone as CloseTwoToneIcon,
+  ContactSupportTwoTone as ContactSupportTwoToneIcon,
+  DashboardTwoTone as DashboardTwoToneIcon,
+  KeyboardArrowRightTwoTone as KeyboardArrowRightTwoToneIcon,
+  RestoreTwoTone as RestoreTwoToneIcon,
+  SearchTwoTone as SearchTwoToneIcon,
+  StarTwoTone as StarTwoToneIcon,
+} from "@mui/icons-material"
 import {
   alpha,
   Box,
@@ -149,8 +151,9 @@ const HeaderSearch = () => {
     setSearchResults(true)
   }
 
-  /* eslint-disable-next-line */
-  const handleSearchChange = async (event: any) => {
+  const handleSearchChange = async (
+    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
     event.preventDefault()
 
     if (event.target.value) {

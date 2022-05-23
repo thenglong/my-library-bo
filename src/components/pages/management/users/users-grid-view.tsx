@@ -1,7 +1,9 @@
 import { ChangeEvent } from "react"
 
-import MoreVertTwoToneIcon from "@mui/icons-material/MoreVertTwoTone"
-import SearchTwoToneIcon from "@mui/icons-material/SearchTwoTone"
+import {
+  MoreVertTwoTone as MoreVertTwoToneIcon,
+  SearchTwoTone as SearchTwoToneIcon,
+} from "@mui/icons-material"
 import {
   Avatar,
   Box,

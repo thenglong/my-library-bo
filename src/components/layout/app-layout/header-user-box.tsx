@@ -1,8 +1,10 @@
 import { useRef, useState } from "react"
 
-import ChevronRightTwoToneIcon from "@mui/icons-material/ChevronRightTwoTone"
-import LockOpenTwoToneIcon from "@mui/icons-material/LockOpenTwoTone"
-import MonetizationOnTwoToneIcon from "@mui/icons-material/MonetizationOnTwoTone"
+import {
+  ChevronRightTwoTone as ChevronRightTwoToneIcon,
+  LockOpenTwoTone as LockOpenTwoToneIcon,
+  MonetizationOnTwoTone as MonetizationOnTwoToneIcon,
+} from "@mui/icons-material"
 import {
   Avatar,
   Box,

@@ -1,18 +1,17 @@
-import ArrowBackTwoToneIcon from "@mui/icons-material/ArrowBackTwoTone"
+import { ArrowBackTwoTone as ArrowBackTwoToneIcon } from "@mui/icons-material"
 import {
-  Breadcrumbs,
   Box,
-  Grid,
-  Link,
-  Typography,
-  Tooltip,
+  Breadcrumbs,
   Button,
   Container,
+  Grid,
   IconButton,
+  Link,
+  Tooltip,
+  Typography,
 } from "@mui/material"
-import PropTypes from "prop-types"
 import { useTranslation } from "react-i18next"
-import { useNavigate, useLocation, Link as RouterLink } from "react-router-dom"
+import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom"
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 const PageHeader = ({ invoice }: any) => {
@@ -86,10 +85,6 @@ const PageHeader = ({ invoice }: any) => {
       </Grid>
     </Container>
   )
-}
-
-PageHeader.propTypes = {
-  invoice: PropTypes.object.isRequired,
 }
 
 export default PageHeader

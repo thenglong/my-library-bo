@@ -1,5 +1,7 @@
-import DoneTwoToneIcon from "@mui/icons-material/DoneTwoTone"
-import EditTwoToneIcon from "@mui/icons-material/EditTwoTone"
+import {
+  DoneTwoTone as DoneTwoToneIcon,
+  EditTwoTone as EditTwoToneIcon,
+} from "@mui/icons-material"
 import {
   Grid,
   Typography,

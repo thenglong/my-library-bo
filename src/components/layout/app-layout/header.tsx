@@ -1,7 +1,9 @@
 import { useContext } from "react"
 
-import CloseTwoToneIcon from "@mui/icons-material/CloseTwoTone"
-import MenuTwoToneIcon from "@mui/icons-material/MenuTwoTone"
+import {
+  CloseTwoTone as CloseTwoToneIcon,
+  MenuTwoTone as MenuTwoToneIcon,
+} from "@mui/icons-material"
 import {
   Box,
   alpha,

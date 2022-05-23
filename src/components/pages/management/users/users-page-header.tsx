@@ -1,9 +1,10 @@
-import { useState } from "react"
+import { ChangeEvent, useState } from "react"
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { yupResolver } from "@hookform/resolvers/yup/dist/yup"
-import AddTwoToneIcon from "@mui/icons-material/AddTwoTone"
-import CloudUploadTwoToneIcon from "@mui/icons-material/CloudUploadTwoTone"
+import { yupResolver } from "@hookform/resolvers/yup"
+import {
+  AddTwoTone as AddTwoToneIcon,
+  CloudUploadTwoTone as CloudUploadTwoToneIcon,
+} from "@mui/icons-material"
 import {
   Grid,
   Dialog,
@@ -104,7 +105,7 @@ const UsersPageHeader = () => {
     public: true,
   })
 
-  const handlePublicProfile = (event: any) => {
+  const handlePublicProfile = (event: ChangeEvent<HTMLInputElement>) => {
     setPublicProfile({
       ...publicProfile,
       [event.target.name]: event.target.checked,

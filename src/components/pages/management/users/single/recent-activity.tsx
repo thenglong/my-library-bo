@@ -1,6 +1,8 @@
-import FavoriteTwoToneIcon from "@mui/icons-material/FavoriteTwoTone"
-import ShoppingBagTwoToneIcon from "@mui/icons-material/ShoppingBagTwoTone"
-import StarTwoToneIcon from "@mui/icons-material/StarTwoTone"
+import {
+  FavoriteTwoTone as FavoriteTwoToneIcon,
+  ShoppingBagTwoTone as ShoppingBagTwoToneIcon,
+  StarTwoTone as StarTwoToneIcon,
+} from "@mui/icons-material"
 import {
   Box,
   Typography,

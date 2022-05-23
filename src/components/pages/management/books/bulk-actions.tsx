@@ -1,7 +1,9 @@
 import { useState, useRef } from "react"
 
-import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone"
-import MoreVertTwoToneIcon from "@mui/icons-material/MoreVertTwoTone"
+import {
+  DeleteTwoTone as DeleteTwoToneIcon,
+  MoreVertTwoTone as MoreVertTwoToneIcon,
+} from "@mui/icons-material"
 import {
   Box,
   Menu,

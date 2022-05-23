@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { useState } from "react"
 
-import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone"
-import DoneTwoToneIcon from "@mui/icons-material/DoneTwoTone"
+import {
+  DeleteTwoTone as DeleteTwoToneIcon,
+  DoneTwoTone as DoneTwoToneIcon,
+} from "@mui/icons-material"
 import {
   Box,
   Typography,

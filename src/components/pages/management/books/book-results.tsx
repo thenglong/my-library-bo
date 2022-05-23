@@ -1,9 +1,11 @@
 import { ChangeEvent, MouseEvent, useState } from "react"
 
-import CloseIcon from "@mui/icons-material/Close"
-import GridViewTwoToneIcon from "@mui/icons-material/GridViewTwoTone"
-import SearchTwoToneIcon from "@mui/icons-material/SearchTwoTone"
-import TableRowsTwoToneIcon from "@mui/icons-material/TableRowsTwoTone"
+import {
+  Close as CloseIcon,
+  GridViewTwoTone as GridViewTwoToneIcon,
+  SearchTwoTone as SearchTwoToneIcon,
+  TableRowsTwoTone as TableRowsTwoToneIcon,
+} from "@mui/icons-material"
 import {
   Autocomplete,
   Avatar,

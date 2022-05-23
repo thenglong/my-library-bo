@@ -1,6 +1,8 @@
+import { ReactNode } from "react"
+
 import { styled } from "@mui/material"
-import PropTypes from "prop-types"
 import { CircularProgressbarWithChildren } from "react-circular-progressbar"
+import { CircularProgressbarStyles } from "react-circular-progressbar/dist/types"
 
 const GaugeWrapper = styled(CircularProgressbarWithChildren)(
   ({ theme }) => `
@@ -260,7 +262,27 @@ const GaugeWrapper = styled(CircularProgressbarWithChildren)(
   }
 `
 )
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
+interface GaugeProps {
+  children?: ReactNode
+  className?: string
+  styles?: CircularProgressbarStyles
+  value: number
+  text?: string
+  strokeWidth?: number
+  circleRatio?: number
+  color?:
+    | "primary"
+    | "secondary"
+    | "error"
+    | "warning"
+    | "success"
+    | "info"
+    | "white"
+    | "trueWhite"
+  size?: "xsmall" | "small" | "medium" | "large" | "xlarge" | "xxlarge"
+}
+
 const Gauge = ({
   className: _,
   color = "primary",
@@ -272,7 +294,7 @@ const Gauge = ({
   strokeWidth,
   children,
   ...rest
-}: any) => {
+}: GaugeProps) => {
   return (
     <GaugeWrapper
       circleRatio={circleRatio}
@@ -286,34 +308,6 @@ const Gauge = ({
       {children}
     </GaugeWrapper>
   )
-}
-
-Gauge.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  styles: PropTypes.any,
-  value: PropTypes.number,
-  text: PropTypes.any,
-  strokeWidth: PropTypes.number,
-  circleRatio: PropTypes.number,
-  color: PropTypes.oneOf([
-    "primary",
-    "secondary",
-    "error",
-    "warning",
-    "success",
-    "info",
-    "white",
-    "trueWhite",
-  ]),
-  size: PropTypes.oneOf([
-    "xsmall",
-    "small",
-    "medium",
-    "large",
-    "xlarge",
-    "xxlarge",
-  ]),
 }
 
 export default Gauge

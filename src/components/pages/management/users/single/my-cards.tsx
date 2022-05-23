@@ -1,7 +1,9 @@
 import { useState } from "react"
 
-import AddTwoToneIcon from "@mui/icons-material/AddTwoTone"
-import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone"
+import {
+  AddTwoTone as AddTwoToneIcon,
+  DeleteTwoTone as DeleteTwoToneIcon,
+} from "@mui/icons-material"
 import {
   Box,
   Grid,

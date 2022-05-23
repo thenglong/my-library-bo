@@ -1,7 +1,9 @@
 import { ChangeEvent } from "react"
 
-import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone"
-import LaunchTwoToneIcon from "@mui/icons-material/LaunchTwoTone"
+import {
+  DeleteTwoTone as DeleteTwoToneIcon,
+  LaunchTwoTone as LaunchTwoToneIcon,
+} from "@mui/icons-material"
 import {
   Box,
   Card,

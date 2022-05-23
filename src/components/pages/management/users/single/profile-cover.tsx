@@ -1,8 +1,9 @@
-/* eslint-disable jsx-a11y/label-has-for */
-import ArrowBackTwoToneIcon from "@mui/icons-material/ArrowBackTwoTone"
-import ArrowForwardTwoToneIcon from "@mui/icons-material/ArrowForwardTwoTone"
-import MoreHorizTwoToneIcon from "@mui/icons-material/MoreHorizTwoTone"
-import UploadTwoToneIcon from "@mui/icons-material/UploadTwoTone"
+import {
+  ArrowBackTwoTone as ArrowBackTwoToneIcon,
+  ArrowForwardTwoTone as ArrowForwardTwoToneIcon,
+  MoreHorizTwoTone as MoreHorizTwoToneIcon,
+  UploadTwoTone as UploadTwoToneIcon,
+} from "@mui/icons-material"
 import {
   Box,
   Typography,
@@ -14,13 +15,10 @@ import {
   IconButton,
   styled,
 } from "@mui/material"
-import PropTypes from "prop-types"
 import { useTranslation } from "react-i18next"
 import { useNavigate, useLocation } from "react-router-dom"
 
-const Input = styled("input")({
-  display: "none",
-})
+import { User } from "typings/api-model"
 
 const AvatarWrapper = styled(Card)(
   ({ theme }) => `
@@ -79,9 +77,12 @@ const CardCoverAction = styled(Box)(
       bottom: ${theme.spacing(2)};
   `
 )
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
-const ProfileCover = ({ user }: any) => {
+interface ProfileCoverProps {
+  user: User
+}
+
+const ProfileCover = ({ user }: ProfileCoverProps) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const location = useLocation()
@@ -115,9 +116,16 @@ const ProfileCover = ({ user }: any) => {
         </Box>
       </Box>
       <CardCover>
-        <CardMedia image={user.coverImg} />
+        {/*TODO */}
+        <CardMedia image="https://source.unsplash.com/random/?city,night" />
         <CardCoverAction>
-          <Input accept="image/*" id="change-cover" multiple type="file" />
+          <input
+            hidden
+            accept="image/*"
+            id="change-cover"
+            multiple
+            type="file"
+          />
           <label htmlFor="change-cover">
             <Button
               startIcon={<UploadTwoToneIcon />}
@@ -132,7 +140,8 @@ const ProfileCover = ({ user }: any) => {
       <AvatarWrapper>
         <Avatar variant="rounded" alt={user.name} src={user.avatar} />
         <ButtonUploadWrapper>
-          <Input
+          <input
+            hidden
             accept="image/*"
             id="icon-button-file"
             name="icon-button-file"
@@ -157,7 +166,7 @@ const ProfileCover = ({ user }: any) => {
           variant="subtitle2"
           color="text.primary"
         >
-          {user.jobtitle} | {user.location} | {user.followers} {t("followers")}
+          user.jobtitle | user.location | user.followers {t("followers")}
         </Typography>
         <Box
           display={{ xs: "block", md: "flex" }}
@@ -195,17 +204,13 @@ const ProfileCover = ({ user }: any) => {
             endIcon={<ArrowForwardTwoToneIcon />}
           >
             {t("See all")}
-            {` ${user.followers} `}
+            {` ${"user.followers"} `}
             {t("connections")}
           </Button>
         </Box>
       </Box>
     </>
   )
-}
-
-ProfileCover.propTypes = {
-  user: PropTypes.object.isRequired,
 }
 
 export default ProfileCover

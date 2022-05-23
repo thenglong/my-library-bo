@@ -1,4 +1,4 @@
-import AddTwoToneIcon from "@mui/icons-material/AddTwoTone"
+import { AddTwoTone as AddTwoToneIcon } from "@mui/icons-material"
 import {
   Box,
   Typography,
