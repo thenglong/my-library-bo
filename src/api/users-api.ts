@@ -7,7 +7,7 @@ const getUsers = async () => {
   return res.data
 }
 
-const getUserById = async (id: string | number) => {
+const getUserById = async (id: User["id"]) => {
   const res = await api.get<User>(`/api/v1/users/:id`, {
     params: { id },
   })

@@ -10,17 +10,17 @@ import {
   IconButton,
   Button,
   ListItemText,
-  ListItem,
   List,
   Typography,
   styled,
+  ListItemButton,
 } from "@mui/material"
 import { useTranslation } from "react-i18next"
 
 const ButtonError = styled(Button)(
   ({ theme }) => `
        background: ${theme.colors.error.main};
-       color: ${theme.palette.error.contrastText};
+       color: ${theme.palette.error.contrastText}; 
   
        &:hover {
           background: ${theme.colors.error.dark};
@@ -28,7 +28,7 @@ const ButtonError = styled(Button)(
       `
 )
 
-const BulkActions = () => {
+const InvoiceBulkActions = () => {
   const [onMenuOpen, menuOpen] = useState(false)
   const moreRef = useRef(null)
   const { t } = useTranslation()
@@ -91,16 +91,16 @@ const BulkActions = () => {
           }}
           component="nav"
         >
-          <ListItem button>
+          <ListItemButton>
             <ListItemText primary={t("Bulk delete selected")} />
-          </ListItem>
-          <ListItem button>
+          </ListItemButton>
+          <ListItemButton>
             <ListItemText primary={t("Resend email notification")} />
-          </ListItem>
+          </ListItemButton>
         </List>
       </Menu>
     </>
   )
 }
 
-export default BulkActions
+export default InvoiceBulkActions

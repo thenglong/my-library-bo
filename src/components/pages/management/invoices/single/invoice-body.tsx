@@ -28,6 +28,7 @@ import { useTranslation } from "react-i18next"
 
 import Logo from "components/logo"
 import useFirebaseAuthState from "hooks/firebase/use-firebase-auth-state"
+import { Invoice } from "typings/api-model"
 
 const BoxWrapper = styled(Box)(
   ({ theme }) => `
@@ -49,8 +50,12 @@ const LogoWrapper = styled(Box)(
     width: '52px'
 `
 )
-/* eslint-disable @typescript-eslint/no-explicit-any */
-const InvoiceBody = ({ invoice }: any) => {
+
+interface InvoiceBodyProps {
+  invoice: Invoice
+}
+
+const InvoiceBody = ({ invoice }: InvoiceBodyProps) => {
   const { t } = useTranslation()
   const { user } = useFirebaseAuthState()
 

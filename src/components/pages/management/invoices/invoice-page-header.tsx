@@ -64,7 +64,7 @@ const defaultValues = {
   number: 0,
 }
 
-const PageHeader = () => {
+const InvoicePageHeader = () => {
   const { t } = useTranslation()
   const [open, setOpen] = useState(false)
   const { enqueueSnackbar } = useSnackbar()
@@ -414,4 +414,4 @@ const PageHeader = () => {
   )
 }
 
-export default PageHeader
+export default InvoicePageHeader

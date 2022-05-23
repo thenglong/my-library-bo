@@ -26,7 +26,7 @@ const DotPending = styled("span")(
   `
 )
 
-const Statistics = () => {
+const InvoiceStatistics = () => {
   const { t } = useTranslation()
 
   const data = {
@@ -139,4 +139,4 @@ const Statistics = () => {
   )
 }
 
-export default Statistics
+export default InvoiceStatistics

@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-import { useState } from "react"
+import { ChangeEvent, useState } from "react"
 
 import {
   Close as CloseIcon,
@@ -40,12 +38,12 @@ import { format, formatDistance } from "date-fns"
 import { useSnackbar } from "notistack"
 import numeral from "numeral"
 import { useTranslation } from "react-i18next"
-import { Link as RouterLink, useLocation } from "react-router-dom"
+import { Link as RouterLink } from "react-router-dom"
 
-import Label from "components/label"
+import InvoiceBulkActions from "components/pages/management/invoices/invoice-bulk-actions"
+import InvoiceStatusLabel from "components/pages/management/invoices/invoice-status-label"
 import Transition from "components/transition"
-
-import BulkActions from "./BulkActions"
+import { Invoice } from "typings/api-model"
 
 const DialogWrapper = styled(Dialog)(
   () => `
@@ -79,165 +77,64 @@ const ButtonError = styled(Button)(
       `
 )
 
-interface Item {
-  [key: string]: {
-    text: string
-    color: string
-  }
+const statusOptions = [
+  {
+    id: "all",
+    name: "Show all",
+  },
+  {
+    id: "pending",
+    name: "Pending Payment",
+  },
+  {
+    id: "completed",
+    name: "Completed",
+  },
+  {
+    id: "draft",
+    name: "Draft",
+  },
+  {
+    id: "progress",
+    name: "In Progress",
+  },
+]
+
+interface InvoiceResultsProps {
+  invoices: Invoice[]
 }
 
-const getInvoiceStatusLabel = (invoiceStatus: any) => {
-  const map: Item = {
-    pending: {
-      text: "Pending Payment",
-      color: "warning",
-    },
-    completed: {
-      text: "Completed",
-      color: "success",
-    },
-    draft: {
-      text: "Draft",
-      color: "info",
-    },
-    progress: {
-      text: "In progress",
-      color: "primary",
-    },
-  }
-
-  const { text, color } = map[invoiceStatus]
-
-  return (
-    <Label color={color as any}>
-      <b>{text}</b>
-    </Label>
+const InvoiceResults = ({ invoices = [] }: InvoiceResultsProps) => {
+  const [selectedInvoiceIds, setSelectedInvoiceIds] = useState<Invoice["id"][]>(
+    []
   )
-}
-
-const applyFilters = (invoices: any[], query: string, filters: any) => {
-  return invoices.filter((invoice: any) => {
-    let matches = true
-
-    if (query) {
-      const properties = ["clientName"]
-      let containsQuery = false
-
-      properties.forEach((property) => {
-        if (invoice[property].toLowerCase().includes(query.toLowerCase())) {
-          containsQuery = true
-        }
-      })
-
-      if (filters.status && invoice.status !== filters.status) {
-        matches = false
-      }
-
-      if (!containsQuery) {
-        matches = false
-      }
-    }
-
-    Object.keys(filters).forEach((key) => {
-      const value = filters[key]
-
-      if (value && invoice[key] !== value) {
-        matches = false
-      }
-    })
-
-    return matches
-  })
-}
-
-const applyPagination = (invoices: any[], page: number, limit: number) => {
-  return invoices.slice(page * limit, page * limit + limit)
-}
-
-const Results = ({ invoices = [] }: any) => {
-  const [selectedItems, setSelectedInvoices] = useState<any>([])
   const { t } = useTranslation()
   const { enqueueSnackbar } = useSnackbar()
-  const location = useLocation()
 
-  const [page, setPage] = useState(0)
-  const [limit, setLimit] = useState(5)
-  const [query, setQuery] = useState("")
-  const [filters, setFilters] = useState({
-    status: null,
-  })
-
-  const statusOptions = [
-    {
-      id: "all",
-      name: "Show all",
-    },
-    {
-      id: "pending",
-      name: t("Pending Payment"),
-    },
-    {
-      id: "completed",
-      name: t("Completed"),
-    },
-    {
-      id: "draft",
-      name: t("Draft"),
-    },
-    {
-      id: "progress",
-      name: t("In Progress"),
-    },
-  ]
-
-  const handleQueryChange = (event: any) => {
-    event.persist()
-    setQuery(event.target.value)
+  const handleStatusChange = () => {
+    // TODO
   }
 
-  const handleStatusChange = (e: any) => {
-    let value: any = null
-
-    if (e.target.value !== "all") {
-      value = e.target.value
-    }
-
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      status: value,
-    }))
-  }
-
-  const handleSelectAllInvoices = (event: any) => {
-    setSelectedInvoices(
-      event.target.checked ? invoices.map((invoice: any) => invoice.id) : []
+  const handleSelectAllInvoices = (event: ChangeEvent<HTMLInputElement>) => {
+    setSelectedInvoiceIds(
+      event.target.checked ? invoices.map((invoice) => invoice.id) : []
     )
   }
 
-  const handleSelectOneInvoice = (event: any, invoiceId: any) => {
-    if (!selectedItems.includes(invoiceId)) {
-      setSelectedInvoices((prevSelected: any) => [...prevSelected, invoiceId])
+  const handleSelectOneInvoice = (invoiceId: Invoice["id"]) => {
+    if (!selectedInvoiceIds.includes(invoiceId)) {
+      setSelectedInvoiceIds((prevSelected) => [...prevSelected, invoiceId])
     } else {
-      setSelectedInvoices((prevSelected: any) =>
-        prevSelected.filter((id: any) => id !== invoiceId)
+      setSelectedInvoiceIds((prevSelected) =>
+        prevSelected.filter((id) => id !== invoiceId)
       )
     }
   }
 
-  const handlePageChange = (event: any, newPage: number) => {
-    setPage(newPage)
-  }
-
-  const handleLimitChange = (event: any) => {
-    setLimit(parseInt(event.target.value))
-  }
-
-  const filteredInvoices = applyFilters(invoices, query, filters)
-  const paginatedInvoices = applyPagination(filteredInvoices, page, limit)
-  const selectedBulkActions = selectedItems.length > 0
-  const selectedSomeInvoices =
-    selectedItems.length > 0 && selectedItems.length < invoices.length
-  const selectedAllInvoices = selectedItems.length === invoices.length
+  const isSelectedBulkActions = selectedInvoiceIds.length > 0
+  const isSelectedSomeInvoices =
+    selectedInvoiceIds.length > 0 && selectedInvoiceIds.length < invoices.length
+  const isSelectedAllInvoices = selectedInvoiceIds.length === invoices.length
 
   const [openConfirmDelete, setOpenConfirmDelete] = useState(false)
 
@@ -285,9 +182,7 @@ const Results = ({ invoices = [] }: any) => {
               sx={{
                 m: 0,
               }}
-              onChange={handleQueryChange}
               placeholder={t("Search invoices by client name ...")}
-              value={query}
               fullWidth
               variant="outlined"
             />
@@ -295,11 +190,7 @@ const Results = ({ invoices = [] }: any) => {
           <Grid item xs={12} lg={5} md={6}>
             <FormControl fullWidth variant="outlined">
               <InputLabel>{t("Status")}</InputLabel>
-              <Select
-                value={filters.status || "all"}
-                onChange={handleStatusChange}
-                label={t("Status")}
-              >
+              <Select onChange={handleStatusChange} label={t("Status")}>
                 {statusOptions.map((statusOption) => (
                   <MenuItem key={statusOption.id} value={statusOption.id}>
                     {statusOption.name}
@@ -313,16 +204,16 @@ const Results = ({ invoices = [] }: any) => {
       <Card>
         <Box pl={2} display="flex" alignItems="center">
           <Checkbox
-            checked={selectedAllInvoices}
-            indeterminate={selectedSomeInvoices}
+            checked={isSelectedAllInvoices}
+            indeterminate={isSelectedSomeInvoices}
             onChange={handleSelectAllInvoices}
           />
-          {selectedBulkActions && (
+          {isSelectedBulkActions && (
             <Box flex={1} p={2}>
-              <BulkActions />
+              <InvoiceBulkActions />
             </Box>
           )}
-          {!selectedBulkActions && (
+          {!isSelectedBulkActions && (
             <Box
               flex={1}
               p={2}
@@ -334,15 +225,19 @@ const Results = ({ invoices = [] }: any) => {
                 <Typography component="span" variant="subtitle1">
                   {t("Showing")}:
                 </Typography>{" "}
-                <b>{paginatedInvoices.length}</b> <b>{t("invoices")}</b>
+                <b>{invoices.length}</b> <b>{t("invoices")}</b>
               </Box>
               <TablePagination
                 component="div"
-                count={filteredInvoices.length}
-                onPageChange={handlePageChange}
-                onRowsPerPageChange={handleLimitChange}
-                page={page}
-                rowsPerPage={limit}
+                count={invoices.length}
+                onPageChange={() => {
+                  // TODO
+                }}
+                onRowsPerPageChange={() => {
+                  // TODO
+                }}
+                page={1}
+                rowsPerPage={10}
                 rowsPerPageOptions={[5, 10, 15]}
               />
             </Box>
@@ -350,7 +245,7 @@ const Results = ({ invoices = [] }: any) => {
         </Box>
         <Divider />
 
-        {paginatedInvoices.length === 0 ? (
+        {invoices.length === 0 ? (
           <Typography
             sx={{
               py: 10,
@@ -377,8 +272,10 @@ const Results = ({ invoices = [] }: any) => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {paginatedInvoices.map((invoice) => {
-                    const isInvoiceSelected = selectedItems.includes(invoice.id)
+                  {invoices.map((invoice) => {
+                    const isInvoiceSelected = selectedInvoiceIds.includes(
+                      invoice.id
+                    )
                     return (
                       <TableRow
                         hover
@@ -389,8 +286,8 @@ const Results = ({ invoices = [] }: any) => {
                           <Box display="flex" alignItems="center">
                             <Checkbox
                               checked={isInvoiceSelected}
-                              onChange={(event) =>
-                                handleSelectOneInvoice(event, invoice.id)
+                              onChange={(_event) =>
+                                handleSelectOneInvoice(invoice.id)
                               }
                               value={isInvoiceSelected}
                             />
@@ -438,7 +335,9 @@ const Results = ({ invoices = [] }: any) => {
                         </TableCell>
                         <TableCell>
                           <Typography noWrap>
-                            {getInvoiceStatusLabel(invoice.status)}
+                            <InvoiceStatusLabel
+                              invoiceStatus={invoice.status}
+                            />
                           </Typography>
                         </TableCell>
                         <TableCell align="center">
@@ -473,11 +372,15 @@ const Results = ({ invoices = [] }: any) => {
             <Box p={2}>
               <TablePagination
                 component="div"
-                count={filteredInvoices.length}
-                onPageChange={handlePageChange}
-                onRowsPerPageChange={handleLimitChange}
-                page={page}
-                rowsPerPage={limit}
+                count={invoices.length}
+                onPageChange={() => {
+                  // TODO
+                }}
+                onRowsPerPageChange={() => {
+                  // TODO
+                }}
+                page={1}
+                rowsPerPage={10}
                 rowsPerPageOptions={[5, 10, 15]}
               />
             </Box>
@@ -558,4 +461,4 @@ const Results = ({ invoices = [] }: any) => {
   )
 }
 
-export default Results
+export default InvoiceResults

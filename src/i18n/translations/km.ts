@@ -27,6 +27,10 @@ const km = {
   Books: "សៀវភៅ",
   "These are the active books": "មានក្នុង Dateset",
   "Create a new book": "បង្កើតសៀវភៅថ្មី",
+
+  // invoice page
+  Invoice: "វិក្កយបត្រ",
+  Invoices: "វិក្កយបត្រ",
 }
 
 export default km

@@ -12,9 +12,14 @@ import {
 } from "@mui/material"
 import { useTranslation } from "react-i18next"
 import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom"
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
-const PageHeader = ({ invoice }: any) => {
+import { Invoice } from "typings/api-model"
+
+interface InvoicePageHeaderProps {
+  invoice: Invoice
+}
+
+const InvoicePageHeader = ({ invoice }: InvoicePageHeaderProps) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const location = useLocation()
@@ -22,6 +27,7 @@ const PageHeader = ({ invoice }: any) => {
   const handleBack = () => {
     return navigate(`/${location.pathname.split("/")[1]}/management/invoices`)
   }
+
   return (
     <Container maxWidth="lg">
       <Grid container justifyContent="space-between" alignItems="center">
@@ -87,4 +93,4 @@ const PageHeader = ({ invoice }: any) => {
   )
 }
 
-export default PageHeader
+export default InvoicePageHeader

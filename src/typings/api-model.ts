@@ -28,7 +28,16 @@ export interface Book {
   year: number
 }
 
-export interface User {
+export type InvoiceStatus = "pending" | "completed" | "draft" | "progress"
+
+export interface Invoice {
   id: Id
-  email: string
+  number: string
+  issuedDate: number // unix timestamp
+  dueDate: number // unix timestamp
+  clientName: string
+  clientAvatar: string
+  amount: number
+  currency: "$" | "៛"
+  status: InvoiceStatus
 }

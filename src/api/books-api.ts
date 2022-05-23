@@ -7,7 +7,7 @@ const getBooks = async () => {
   return res.data
 }
 
-const getBookById = async (id: string | number) => {
+const getBookById = async (id: Book["id"]) => {
   const res = await api.get<Book>(`/api/v1/books/:id`, {
     params: { id },
   })
