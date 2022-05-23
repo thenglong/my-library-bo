@@ -2,10 +2,10 @@ import React from "react"
 
 import ReactDOM from "react-dom/client"
 
+import App from "app"
 import AppFaviconHelmet from "components/app-favicon-helmet"
 import AppProvider from "components/app-provider"
 
-import App from "./App"
 import reportWebVitals from "./reportWebVitals"
 
 // global css

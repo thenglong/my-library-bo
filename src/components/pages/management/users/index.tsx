@@ -1,14 +1,23 @@
+import { useCallback, useState } from "react"
+
 import { Grid } from "@mui/material"
 import { Helmet } from "react-helmet-async"
 
 import Footer from "components/footer"
 import PageTitleWrapper from "components/page-title-wrapper"
-import UserResults from "components/pages/management/users/user-results"
+import UserResults, {
+  UserRoleOptions,
+} from "components/pages/management/users/user-results"
 import UsersPageHeader from "components/pages/management/users/users-page-header"
 import useUsersQuery from "hooks/queries/use-users-query"
 
 const ManagementUsers = () => {
-  const { data: users } = useUsersQuery()
+  const [role, setRole] = useState<UserRoleOptions>("all")
+  const { data } = useUsersQuery(role)
+
+  const handleChangeRole = useCallback((role: UserRoleOptions) => {
+    setRole(role)
+  }, [])
 
   return (
     <>
@@ -30,7 +39,11 @@ const ManagementUsers = () => {
         spacing={4}
       >
         <Grid item xs={12}>
-          <UserResults users={users || []} />
+          <UserResults
+            users={data || []}
+            selectedRole={role}
+            onRoleChange={handleChangeRole}
+          />
         </Grid>
       </Grid>
       <Footer />

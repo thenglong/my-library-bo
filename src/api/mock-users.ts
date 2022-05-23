@@ -214,8 +214,15 @@ const users: User[] = [
   },
 ]
 
-mock.onGet("/api/v1/users").reply(() => {
-  return [200, users.slice(0, 10)]
+mock.onGet("/api/v1/users").reply((config) => {
+  const role = config.params.role as UserRole | "all"
+
+  let userResult: User[] = users
+  if (role && role !== "all") {
+    userResult = users.filter((user) => user.role === role)
+  }
+
+  return [200, userResult.slice(0, 10)]
 })
 
 mock.onGet("/api/v1/users/:id").reply((config) => {

@@ -1,9 +1,15 @@
 import api from "api/_api"
 import "./mock-users"
-import { User } from "typings/api-model"
+import { User, UserRole } from "typings/api-model"
 
-const getUsers = async () => {
-  const res = await api.get<User[]>("/api/v1/users")
+interface GetUserParams {
+  role: UserRole | "all"
+}
+
+const getUsers = async ({ role }: GetUserParams) => {
+  const res = await api.get<User[]>("/api/v1/users", {
+    params: { role },
+  })
   return res.data
 }
 

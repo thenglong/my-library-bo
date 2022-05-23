@@ -159,7 +159,7 @@ const UsersGridView = ({
                         alignItems="flex-start"
                         justifyContent="space-between"
                       >
-                        <UserRoleLabel role={user.role} />
+                        <UserRoleLabel role={t(user.role)} />
                         <IconButton
                           color="primary"
                           sx={{

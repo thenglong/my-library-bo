@@ -151,7 +151,7 @@ const UsersPageHeader = () => {
       <Grid container justifyContent="space-between" alignItems="center">
         <Grid item>
           <Typography variant="h3" component="h3" gutterBottom>
-            {t("Users Management")}
+            {t("Users")}
           </Typography>
           <Typography variant="subtitle2">
             {t(
@@ -168,7 +168,7 @@ const UsersPageHeader = () => {
             variant="contained"
             startIcon={<AddTwoToneIcon fontSize="small" />}
           >
-            {t("Create user")}
+            {t("Create a new user")}
           </Button>
         </Grid>
       </Grid>

@@ -92,19 +92,25 @@ const tabs = [
   },
 ]
 
+export type UserRoleOptions = UserRole | "all"
+
 interface UserResultsProps {
   users: User[]
+  onRoleChange: (role: UserRoleOptions) => void
+  selectedRole: UserRoleOptions
 }
 
-const UserResults = ({ users }: UserResultsProps) => {
+const UserResults = ({
+  users,
+  onRoleChange,
+  selectedRole,
+}: UserResultsProps) => {
   const [selectedUserIds, setSelectedUserIds] = useState<User["id"][]>([])
   const { t } = useTranslation()
   const { enqueueSnackbar } = useSnackbar()
 
-  const [roleTab, setRoleTab] = useState<UserRole | "all">("all")
-
   const handleTabsChange = (_event: SyntheticEvent, tabsValue: string) => {
-    setRoleTab(tabsValue as UserRole)
+    onRoleChange(tabsValue as UserRole)
     setSelectedUserIds([])
   }
 
@@ -172,11 +178,11 @@ const UserResults = ({ users }: UserResultsProps) => {
           onChange={handleTabsChange}
           scrollButtons="auto"
           textColor="secondary"
-          value={roleTab || "all"}
+          value={selectedRole || "all"}
           variant="scrollable"
         >
           {tabs.map((tab) => (
-            <Tab key={tab.value} value={tab.value} label={tab.label} />
+            <Tab key={tab.value} value={tab.value} label={t(tab.label)} />
           ))}
         </TabsWrapper>
         <ToggleButtonGroup
