@@ -15,10 +15,10 @@ import {
   Typography,
   useTheme,
 } from "@mui/material"
-import { ReactComponent as KHFlag } from "country-flag-icons/3x2/KH.svg"
-import { ReactComponent as USFlag } from "country-flag-icons/3x2/US.svg"
 import { useTranslation } from "react-i18next"
 
+import { ReactComponent as KHFlag } from "assets/svgs/country-flags/KH.svg"
+import { ReactComponent as USFlag } from "assets/svgs/country-flags/US.svg"
 import internationalization from "i18n/i18n"
 
 const SectionHeading = styled(Typography)(
