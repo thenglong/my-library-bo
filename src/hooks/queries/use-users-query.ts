@@ -22,7 +22,7 @@ const useUsersQuery = () => {
         search: debounceSearch,
       }),
     {
-      suspense: false,
+      suspense: true,
       keepPreviousData: true,
       onSuccess: (data) => {
         if (data) {

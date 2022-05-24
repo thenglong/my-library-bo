@@ -1,65 +1,32 @@
-import { MouseEvent, SyntheticEvent, useCallback } from "react"
+import {
+  MouseEvent,
+  SyntheticEvent,
+  useCallback,
+  useDeferredValue,
+} from "react"
 
 import {
-  Close as CloseIcon,
   GridViewTwoTone as GridViewTwoToneIcon,
   TableRowsTwoTone as TableRowsTwoToneIcon,
 } from "@mui/icons-material"
 import {
-  Avatar,
   Box,
-  Button,
-  Dialog,
   styled,
   Tab,
   Tabs,
   ToggleButton,
   ToggleButtonGroup,
-  Typography,
-  Zoom,
 } from "@mui/material"
-import { useSnackbar } from "notistack"
 import { useTranslation } from "react-i18next"
 
+import ConfirmDeleteUserDialog from "components/pages/management/users/confirm-delete-user-dialog"
 import UsersGridView from "components/pages/management/users/users-grid-view"
 import UsersTableView from "components/pages/management/users/users-table-view"
-import Transition from "components/transition"
 import { VIEW_ORIENTATION } from "constants/common-constants"
+import useUsersQuery from "hooks/queries/use-users-query"
 import useActions from "hooks/redux/use-actions"
 import { useTypedSelector } from "hooks/redux/use-typed-selector"
-import { User, UserRole } from "typings/api-model"
-
-const DialogWrapper = styled(Dialog)(
-  () => `
-      .MuiDialog-paper {
-        overflow: visible;
-      }
-`
-)
-
-const AvatarError = styled(Avatar)(
-  ({ theme }) => `
-      background-color: ${theme.colors.error.lighter};
-      color: ${theme.colors.error.main};
-      width: ${theme.spacing(12)};
-      height: ${theme.spacing(12)};
-
-      .MuiSvgIcon-root {
-        font-size: ${theme.typography.pxToRem(45)};
-      }
-`
-)
-
-const ErrorButton = styled(Button)(
-  ({ theme }) => `
-     background: ${theme.colors.error.main};
-     color: ${theme.palette.error.contrastText};
-
-     &:hover {
-        background: ${theme.colors.error.dark};
-     }
-    `
-)
+import { UserRole } from "typings/api-model"
 
 const TabsWrapper = styled(Tabs)(
   ({ theme }) => `
@@ -94,19 +61,16 @@ const tabs = [
   },
 ]
 
-interface UserResultsProps {
-  users: User[]
-}
-
-const UserResults = ({ users }: UserResultsProps) => {
+const UserResults = () => {
+  const { data } = useUsersQuery()
+  const users = useDeferredValue(data?.items || [])
   const { t } = useTranslation()
-  const { enqueueSnackbar } = useSnackbar()
 
-  const { viewOrientation, selectedRole, isConfirmDeleteModalOpen } =
-    useTypedSelector((state) => state.user)
+  const { viewOrientation, selectedRole } = useTypedSelector(
+    (state) => state.user
+  )
 
-  const { changeViewOrientation, changeRole, closeConfirmDeleteModal } =
-    useActions()
+  const { changeViewOrientation, changeRole } = useActions()
 
   const handleTabsChange = (_event: SyntheticEvent, tabsValue: string) => {
     changeRole(tabsValue as UserRole)
@@ -118,18 +82,6 @@ const UserResults = ({ users }: UserResultsProps) => {
     },
     [changeViewOrientation]
   )
-
-  const handleDeleteCompleted = () => {
-    closeConfirmDeleteModal()
-    enqueueSnackbar(t("The user account has been removed"), {
-      variant: "success",
-      anchorOrigin: {
-        vertical: "top",
-        horizontal: "right",
-      },
-      TransitionComponent: Zoom,
-    })
-  }
 
   return (
     <>
@@ -175,62 +127,7 @@ const UserResults = ({ users }: UserResultsProps) => {
         <UsersGridView users={users} />
       )}
 
-      <DialogWrapper
-        open={isConfirmDeleteModalOpen}
-        maxWidth="sm"
-        fullWidth
-        TransitionComponent={Transition}
-        keepMounted
-        onClose={closeConfirmDeleteModal}
-      >
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          flexDirection="column"
-          p={5}
-        >
-          <AvatarError>
-            <CloseIcon />
-          </AvatarError>
-
-          <Typography
-            align="center"
-            sx={{
-              py: 4,
-              px: 6,
-            }}
-            variant="h3"
-          >
-            {t("Are you sure you want to permanently delete this user account")}
-            ?
-          </Typography>
-
-          <Box>
-            <Button
-              variant="text"
-              size="large"
-              sx={{
-                mx: 1,
-              }}
-              onClick={closeConfirmDeleteModal}
-            >
-              {t("Cancel")}
-            </Button>
-            <ErrorButton
-              onClick={handleDeleteCompleted}
-              size="large"
-              sx={{
-                mx: 1,
-                px: 3,
-              }}
-              variant="contained"
-            >
-              {t("Delete")}
-            </ErrorButton>
-          </Box>
-        </Box>
-      </DialogWrapper>
+      <ConfirmDeleteUserDialog />
     </>
   )
 }
