@@ -59,7 +59,7 @@ interface UsersGridViewProps {
 
 const UsersGridView = ({ users }: UsersGridViewProps) => {
   const { t } = useTranslation()
-  const { selectedUserIds, filter, totalUsers } = useTypedSelector(
+  const { selectedUserIds, pageFilter, totalUsers, search } = useTypedSelector(
     (state) => state.user
   )
   const {
@@ -114,7 +114,7 @@ const UsersGridView = ({ users }: UsersGridViewProps) => {
                 my: 0,
                 ml: users.length !== 0 ? 2 : 0,
               }}
-              value={filter.search}
+              value={search}
               onChange={(event) => changeSearch(event.target.value)}
               fullWidth
               InputProps={{
@@ -212,7 +212,7 @@ const UsersGridView = ({ users }: UsersGridViewProps) => {
                             }}
                             variant="subtitle2"
                           >
-                            user.jobtitle
+                            {user.jobTitle}
                           </Typography>
                           <Typography
                             sx={{
@@ -261,13 +261,7 @@ const UsersGridView = ({ users }: UsersGridViewProps) => {
               <Typography component="span" variant="subtitle1">
                 {t("Showing")}
               </Typography>{" "}
-              <b>{10}</b> {t("of")}{" "}
-              <b>
-                {
-                  10
-                  // TODO
-                }
-              </b>{" "}
+              <b>{pageFilter.perPage}</b> {t("of")} <b>{totalUsers}</b>{" "}
               <b>{t("users")}</b>
             </Box>
             <TablePagination
@@ -279,8 +273,8 @@ const UsersGridView = ({ users }: UsersGridViewProps) => {
               onRowsPerPageChange={(event) => {
                 changeRowsPerPage(+event.target.value)
               }}
-              page={(filter.page as number) - 1} // base on mui doc, this start from 0
-              rowsPerPage={filter.perPage as number}
+              page={(pageFilter.page as number) - 1} // base on mui doc, this start from 0
+              rowsPerPage={pageFilter.perPage as number}
               rowsPerPageOptions={[5, 10, 15]}
             />
           </Card>

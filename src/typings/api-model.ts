@@ -1,5 +1,4 @@
-export interface Filterable {
-  search?: string
+export interface PageFilterable {
   page?: number
   perPage?: number
 }
@@ -30,8 +29,12 @@ export interface User {
   avatar: string
   email: string
   address: string
+  phone?: string
   role: UserRole
   description: string
+  jobTitle?: string
+  createdAt: string | Date
+  updatedAt: string | Date
 }
 
 export interface Book {

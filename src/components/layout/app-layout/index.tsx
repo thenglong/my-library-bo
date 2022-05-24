@@ -1,8 +1,9 @@
 import { Suspense } from "react"
 
-import { Box, alpha, lighten, useTheme } from "@mui/material"
+import { alpha, Box, lighten, useTheme } from "@mui/material"
 import { Outlet } from "react-router-dom"
 
+import FetchingLinearProgress from "components/layout/app-layout/fetching-linear-progress"
 import Header from "components/layout/app-layout/header"
 import Sidebar from "components/layout/app-layout/sidebar"
 import SuspenseLoader from "components/suspense-loader"
@@ -40,6 +41,7 @@ const AppLayout = () => {
         }}
       >
         <Header />
+        <FetchingLinearProgress />
         <Sidebar />
         <Box
           sx={{

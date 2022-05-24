@@ -1,10 +1,11 @@
 import api from "api/_api"
 import "./mock-users"
-import { Filterable, Pageable, User, UserRole } from "typings/api-model"
+import { PageFilterable, Pageable, User, UserRole } from "typings/api-model"
 
 interface GetUsers {
   role?: UserRole | "all"
-  filter: Filterable
+  pageFilter: PageFilterable
+  search: string
 }
 
 const getUsers = async (params: GetUsers) => {

@@ -78,7 +78,7 @@ const TabsWrapper = styled(Tabs)(
 const tabs = [
   {
     value: "all",
-    label: "All users",
+    label: "All Users",
   },
   {
     value: UserRole.ADMIN,

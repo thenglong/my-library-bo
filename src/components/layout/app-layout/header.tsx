@@ -46,6 +46,7 @@ const Header = () => {
 
   return (
     <HeaderWrapper
+      component="header"
       display="flex"
       alignItems="center"
       sx={{

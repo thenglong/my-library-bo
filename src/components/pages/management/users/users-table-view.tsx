@@ -40,7 +40,7 @@ interface UsersTableViewProps {
 
 const UsersTableView = ({ users }: UsersTableViewProps) => {
   const { t } = useTranslation()
-  const { selectedUserIds, filter, totalUsers } = useTypedSelector(
+  const { selectedUserIds, pageFilter, totalUsers, search } = useTypedSelector(
     (state) => state.user
   )
 
@@ -69,7 +69,7 @@ const UsersTableView = ({ users }: UsersTableViewProps) => {
       <Box p={2}>
         {!isSelectedBulkActions && (
           <TextField
-            value={filter.search}
+            value={search}
             onChange={(event) => changeSearch(event.target.value)}
             sx={{
               m: 0,
@@ -162,7 +162,7 @@ const UsersTableView = ({ users }: UsersTableViewProps) => {
                               {user.name}
                             </Link>
                             <Typography noWrap variant="subtitle2">
-                              user.jobtitle
+                              {user.jobTitle}
                             </Typography>
                           </Box>
                         </Box>
@@ -218,8 +218,8 @@ const UsersTableView = ({ users }: UsersTableViewProps) => {
               onRowsPerPageChange={(event) => {
                 changeRowsPerPage(+event.target.value)
               }}
-              page={(filter.page as number) - 1} // base on mui doc, this start from 0
-              rowsPerPage={filter.perPage as number}
+              page={(pageFilter.page as number) - 1} // base on mui doc, this start from 0
+              rowsPerPage={pageFilter.perPage as number}
               rowsPerPageOptions={[5, 10, 15]}
             />
           </Box>

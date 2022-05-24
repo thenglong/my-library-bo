@@ -1,9 +1,8 @@
-import { Filterable } from "typings/api-model"
+import { PageFilterable } from "typings/api-model"
 
-export const DEFAULT_FILTER: Filterable = {
+export const DEFAULT_FILTER: PageFilterable = {
   perPage: 10,
   page: 1,
-  search: "",
 }
 
 export enum VIEW_ORIENTATION {

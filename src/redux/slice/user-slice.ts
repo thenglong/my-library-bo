@@ -1,13 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 import { DEFAULT_FILTER, VIEW_ORIENTATION } from "constants/common-constants"
-import { Filterable, User, UserRole } from "typings/api-model"
+import { PageFilterable, User, UserRole } from "typings/api-model"
 
 export type UserRoleOptions = UserRole | "all"
 
 export interface UserState {
+  search: string
   selectedRole: UserRoleOptions
-  filter: Filterable
+  pageFilter: PageFilterable
   viewOrientation: VIEW_ORIENTATION
   selectedUserIds: User["id"][]
   totalUsers: number
@@ -15,7 +16,8 @@ export interface UserState {
 }
 
 const initialState: UserState = {
-  filter: DEFAULT_FILTER,
+  search: "",
+  pageFilter: DEFAULT_FILTER,
   selectedRole: "all",
   viewOrientation: VIEW_ORIENTATION.TABLE,
   selectedUserIds: [],
@@ -33,7 +35,7 @@ export const userSlice = createSlice({
     changeRole: (state, action: PayloadAction<UserRoleOptions>) => {
       state.selectedRole = action.payload
       state.selectedUserIds = []
-      state.filter = DEFAULT_FILTER
+      state.pageFilter = DEFAULT_FILTER
     },
     toggleSelectAllUsers: (state, action: PayloadAction<User["id"][]>) => {
       state.selectedUserIds = state.selectedUserIds.length ? [] : action.payload
@@ -49,13 +51,14 @@ export const userSlice = createSlice({
       state.selectedUserIds = selectedUserIds
     },
     changePage: (state, action: PayloadAction<number>) => {
-      state.filter.page = action.payload
+      state.pageFilter.page = action.payload
     },
     changeRowsPerPage: (state, action: PayloadAction<number>) => {
-      state.filter.perPage = action.payload
+      state.pageFilter.perPage = action.payload
     },
     changeSearch: (state, action: PayloadAction<string>) => {
-      state.filter.search = action.payload
+      state.pageFilter.page = 1
+      state.search = action.payload
     },
     setTotalUsers: (state, action: PayloadAction<number>) => {
       state.totalUsers = action.payload

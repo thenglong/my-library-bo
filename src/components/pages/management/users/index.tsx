@@ -8,11 +8,9 @@ import PageTitleWrapper from "components/page-title-wrapper"
 import UserResults from "components/pages/management/users/user-results"
 import UsersPageHeader from "components/pages/management/users/users-page-header"
 import useUsersQuery from "hooks/queries/use-users-query"
-import { useTypedSelector } from "hooks/redux/use-typed-selector"
 
 const ManagementUsers = () => {
-  const { selectedRole, filter } = useTypedSelector((state) => state.user)
-  const { data } = useUsersQuery(selectedRole, filter)
+  const { data } = useUsersQuery()
   const users = useDeferredValue(data?.items || [])
 
   return (
