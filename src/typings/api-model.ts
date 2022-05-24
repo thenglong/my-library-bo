@@ -1,3 +1,21 @@
+export interface Filterable {
+  search?: string
+  page?: number
+  perPage?: number
+}
+
+export interface Pageable<T> {
+  items: T[]
+  currentPage: number
+  perPage: number
+  totalItems: number
+  totalPages: number
+  hasNext: boolean
+  hasPrevious: boolean
+  nextPage: number | null
+  previousPage: number | null
+}
+
 type Id = number | string
 
 export enum UserRole {

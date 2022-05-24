@@ -41,6 +41,11 @@ interface UsersTableViewProps {
   onConfirmDelete: () => void
   onSelectAll: (event: ChangeEvent<HTMLInputElement>) => void
   selectedUserIds: User["id"][]
+  onPageChange: (page: number) => void
+  page: number
+  onRowsPerPageChange: (perPage: number) => void
+  perPage: number
+  totalUsers: number
 }
 
 const UsersTableView = ({
@@ -52,6 +57,11 @@ const UsersTableView = ({
   isSelectedAll,
   isSelectedBulkActions,
   onConfirmDelete,
+  page,
+  perPage,
+  onRowsPerPageChange,
+  onPageChange,
+  totalUsers,
 }: UsersTableViewProps) => {
   const { t } = useTranslation()
 
@@ -200,21 +210,15 @@ const UsersTableView = ({
           <Box p={2}>
             <TablePagination
               component="div"
-              count={1000}
-              onPageChange={() => {
-                // TODO
+              count={totalUsers}
+              onPageChange={(_event, page) => {
+                onPageChange(page + 1) // plus one bcuz it is indexed from 0
               }}
-              onRowsPerPageChange={() => {
-                // TODO
+              onRowsPerPageChange={(event) => {
+                onRowsPerPageChange(+event.target.value)
               }}
-              page={
-                1
-                // TODO
-              }
-              rowsPerPage={
-                10
-                // TODO
-              }
+              page={page - 1} // base on mui doc, this start from 0
+              rowsPerPage={perPage}
               rowsPerPageOptions={[5, 10, 15]}
             />
           </Box>

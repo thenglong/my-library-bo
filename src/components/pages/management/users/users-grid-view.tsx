@@ -60,6 +60,11 @@ interface UsersGridViewProps {
   onConfirmDelete: () => void
   onSelectAll: (event: ChangeEvent<HTMLInputElement>) => void
   selectedUserIds: Book["id"][]
+  onPageChange: (page: number) => void
+  page: number
+  onRowsPerPageChange: (perPage: number) => void
+  perPage: number
+  totalUsers: number
 }
 
 const UsersGridView = ({
@@ -71,6 +76,11 @@ const UsersGridView = ({
   onSelectOne,
   isSelectedBulkActions,
   onConfirmDelete: _,
+  onRowsPerPageChange,
+  perPage,
+  page,
+  onPageChange,
+  totalUsers,
 }: UsersGridViewProps) => {
   const { t } = useTranslation()
 
@@ -263,19 +273,15 @@ const UsersGridView = ({
             </Box>
             <TablePagination
               component="div"
-              count={
-                10
-                // TODO
-              }
-              onPageChange={() => {
-                // TODO
+              count={totalUsers}
+              onPageChange={(_event, page) => {
+                onPageChange(page + 1) // plus one bcuz it is indexed from 0
               }}
-              onRowsPerPageChange={() => {
-                // TODO
+              onRowsPerPageChange={(event) => {
+                onRowsPerPageChange(+event.target.value)
               }}
-              page={1}
-              rowsPerPage={10}
-              labelRowsPerPage=""
+              page={page - 1} // base on mui doc, this start from 0
+              rowsPerPage={perPage}
               rowsPerPageOptions={[5, 10, 15]}
             />
           </Card>

@@ -98,12 +98,22 @@ interface UserResultsProps {
   users: User[]
   onRoleChange: (role: UserRoleOptions) => void
   selectedRole: UserRoleOptions
+  onPageChange: (page: number) => void
+  page: number
+  onRowsPerPageChange: (perPage: number) => void
+  perPage: number
+  totalUsers: number
 }
 
 const UserResults = ({
   users,
   onRoleChange,
   selectedRole,
+  page,
+  perPage,
+  onRowsPerPageChange,
+  onPageChange,
+  totalUsers,
 }: UserResultsProps) => {
   const [selectedUserIds, setSelectedUserIds] = useState<User["id"][]>([])
   const { t } = useTranslation()
@@ -212,6 +222,11 @@ const UserResults = ({
           onConfirmDelete={handleConfirmDelete}
           onSelectAll={handleSelectAllUsers}
           selectedUserIds={selectedUserIds}
+          onRowsPerPageChange={onRowsPerPageChange}
+          page={page}
+          onPageChange={onPageChange}
+          perPage={perPage}
+          totalUsers={totalUsers}
         />
       )}
       {toggleView === "grid_view" && (
@@ -224,6 +239,11 @@ const UserResults = ({
           onConfirmDelete={handleConfirmDelete}
           onSelectAll={handleSelectAllUsers}
           selectedUserIds={selectedUserIds}
+          onRowsPerPageChange={onRowsPerPageChange}
+          page={page}
+          onPageChange={onPageChange}
+          perPage={perPage}
+          totalUsers={totalUsers}
         />
       )}
       {!toggleView && (

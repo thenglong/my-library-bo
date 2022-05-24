@@ -1,6 +1,7 @@
 import khmerGenerator from "khmer-name-generator"
 
-import { User, UserRole } from "typings/api-model"
+import { Filterable, User, UserRole } from "typings/api-model"
+import { makePagable } from "utils/api-utils"
 import { getRandomInt } from "utils/number-utils"
 
 import { mock } from "./_api"
@@ -216,13 +217,19 @@ const users: User[] = [
 
 mock.onGet("/api/v1/users").reply((config) => {
   const role = config.params.role as UserRole | "all"
+  const filter = config.params.filter as Filterable
 
   let userResult: User[] = users
   if (role && role !== "all") {
     userResult = users.filter((user) => user.role === role)
   }
+  const userResponse = makePagable<User>(
+    userResult,
+    filter.perPage,
+    filter.page
+  )
 
-  return [200, userResult.slice(0, 10)]
+  return [200, userResponse]
 })
 
 mock.onGet("/api/v1/users/:id").reply((config) => {

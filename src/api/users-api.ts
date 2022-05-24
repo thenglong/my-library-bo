@@ -1,14 +1,15 @@
 import api from "api/_api"
 import "./mock-users"
-import { User, UserRole } from "typings/api-model"
+import { Filterable, Pageable, User, UserRole } from "typings/api-model"
 
-interface GetUserParams {
-  role: UserRole | "all"
+interface GetUsers {
+  role?: UserRole | "all"
+  filter: Filterable
 }
 
-const getUsers = async ({ role }: GetUserParams) => {
-  const res = await api.get<User[]>("/api/v1/users", {
-    params: { role },
+const getUsers = async (params: GetUsers) => {
+  const res = await api.get<Pageable<User>>("/api/v1/users", {
+    params: params,
   })
   return res.data
 }
