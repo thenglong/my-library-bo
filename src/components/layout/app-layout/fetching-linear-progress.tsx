@@ -6,7 +6,15 @@ const FetchingLinearProgress = () => {
   const theme = useTheme()
 
   return (
-    <Box sx={{ mt: theme.header.height, height: "6px" }}>
+    <Box
+      sx={{
+        mt: theme.header.height,
+        height: "6px",
+        position: "fixed",
+        width: "100%",
+        zIndex: 6,
+      }}
+    >
       {isFetching ? <LinearProgress /> : null}
     </Box>
   )

@@ -3,7 +3,7 @@ import { faker } from "@faker-js/faker" // TODO: why is this not working?
 import khmerGenerator from "khmer-name-generator"
 
 import { PageFilterable, User, UserRole } from "typings/api-model"
-import { makePagable } from "utils/api-utils"
+import { makePageable } from "utils/api-utils"
 import { getRandomInt } from "utils/number-utils"
 
 import { mock } from "./_api"
@@ -57,7 +57,7 @@ mock.onGet("/api/v1/users").reply((config) => {
     })
   }
 
-  const userResponse = makePagable<User>(
+  const userResponse = makePageable<User>(
     userResult,
     pageFilter.perPage,
     pageFilter.page

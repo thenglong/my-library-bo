@@ -1,6 +1,6 @@
 import { Pageable } from "typings/api-model"
 
-export const makePagable = <T>(
+export const makePageable = <T>(
   totalResult: T[],
   perPage = 10,
   currentPage = 1

@@ -27,6 +27,7 @@ import useUsersQuery from "hooks/queries/use-users-query"
 import useActions from "hooks/redux/use-actions"
 import { useTypedSelector } from "hooks/redux/use-typed-selector"
 import { UserRole } from "typings/api-model"
+import baseLogger from "utils/logger-utils"
 
 const TabsWrapper = styled(Tabs)(
   ({ theme }) => `
@@ -61,6 +62,8 @@ const tabs = [
   },
 ]
 
+const logger = baseLogger.withTag("UserResults")
+
 const UserResults = () => {
   const { data } = useUsersQuery()
   const users = useDeferredValue(data?.items || [])
@@ -73,11 +76,13 @@ const UserResults = () => {
   const { changeViewOrientation, changeRole } = useActions()
 
   const handleTabsChange = (_event: SyntheticEvent, tabsValue: string) => {
+    logger.debug(`handleTabsChange: ${tabsValue}`)
     changeRole(tabsValue as UserRole)
   }
 
   const handleViewOrientation = useCallback(
     (_event: MouseEvent<HTMLElement>, newValue: string) => {
+      logger.debug(`handleViewOrientation: ${newValue}`)
       if (newValue) changeViewOrientation(newValue as VIEW_ORIENTATION)
     },
     [changeViewOrientation]
