@@ -30,46 +30,47 @@ import { Link as RouterLink } from "react-router-dom"
 
 import UserRoleLabel from "components/pages/management/users/user-role-label"
 import UsersBulkActions from "components/pages/management/users/users-bulk-actions"
+import useActions from "hooks/redux/use-actions"
+import { useTypedSelector } from "hooks/redux/use-typed-selector"
 import { User } from "typings/api-model"
 
 interface UsersTableViewProps {
-  isSelectedBulkActions: boolean
   users: User[]
-  isSelectedSome: boolean
-  isSelectedAll: boolean
-  onSelectOne: (id: User["id"]) => void
-  onConfirmDelete: () => void
-  onSelectAll: (event: ChangeEvent<HTMLInputElement>) => void
-  selectedUserIds: User["id"][]
-  onPageChange: (page: number) => void
-  page: number
-  onRowsPerPageChange: (perPage: number) => void
-  perPage: number
-  totalUsers: number
 }
 
-const UsersTableView = ({
-  selectedUserIds,
-  isSelectedSome,
-  onSelectAll,
-  onSelectOne,
-  users,
-  isSelectedAll,
-  isSelectedBulkActions,
-  onConfirmDelete,
-  page,
-  perPage,
-  onRowsPerPageChange,
-  onPageChange,
-  totalUsers,
-}: UsersTableViewProps) => {
+const UsersTableView = ({ users }: UsersTableViewProps) => {
   const { t } = useTranslation()
+  const { selectedUserIds, filter, totalUsers } = useTypedSelector(
+    (state) => state.user
+  )
+
+  const {
+    changePage,
+    changeSearch,
+    changeRowsPerPage,
+    toggleSelectAUser,
+    toggleSelectAllUsers,
+    openConfirmDeleteModal,
+  } = useActions()
+
+  const isSelectedBulkActions = selectedUserIds.length > 0
+  const isSelectedSome =
+    selectedUserIds.length > 0 && selectedUserIds.length < users.length
+  const isSelectedAll = selectedUserIds.length === users.length
+
+  const handleSelectAllUsers = (event: ChangeEvent<HTMLInputElement>) => {
+    toggleSelectAllUsers(
+      event.target.checked ? users.map((user) => user.id) : []
+    )
+  }
 
   return (
     <Card>
       <Box p={2}>
         {!isSelectedBulkActions && (
           <TextField
+            value={filter.search}
+            onChange={(event) => changeSearch(event.target.value)}
             sx={{
               m: 0,
             }}
@@ -115,7 +116,7 @@ const UsersTableView = ({
                     <Checkbox
                       checked={isSelectedAll}
                       indeterminate={isSelectedSome}
-                      onChange={onSelectAll}
+                      onChange={handleSelectAllUsers}
                     />
                   </TableCell>
                   <TableCell>{t("Username")}</TableCell>
@@ -135,7 +136,7 @@ const UsersTableView = ({
                       <TableCell padding="checkbox">
                         <Checkbox
                           checked={isUserSelected}
-                          onChange={(_event) => onSelectOne(user.id)}
+                          onChange={(_event) => toggleSelectAUser(user.id)}
                           value={isUserSelected}
                         />
                       </TableCell>
@@ -193,7 +194,7 @@ const UsersTableView = ({
                           </Tooltip>
                           <Tooltip title={t("Delete")} arrow>
                             <IconButton
-                              onClick={() => onConfirmDelete()}
+                              onClick={() => openConfirmDeleteModal()}
                               color="primary"
                             >
                               <DeleteTwoToneIcon fontSize="small" />
@@ -212,13 +213,13 @@ const UsersTableView = ({
               component="div"
               count={totalUsers}
               onPageChange={(_event, page) => {
-                onPageChange(page + 1) // plus one bcuz it is indexed from 0
+                changePage(page + 1) // plus one bcuz it is indexed from 0
               }}
               onRowsPerPageChange={(event) => {
-                onRowsPerPageChange(+event.target.value)
+                changeRowsPerPage(+event.target.value)
               }}
-              page={page - 1} // base on mui doc, this start from 0
-              rowsPerPage={perPage}
+              page={(filter.page as number) - 1} // base on mui doc, this start from 0
+              rowsPerPage={filter.perPage as number}
               rowsPerPageOptions={[5, 10, 15]}
             />
           </Box>

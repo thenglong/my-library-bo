@@ -1,47 +1,19 @@
-import { useCallback, useDeferredValue, useState } from "react"
+import { useDeferredValue } from "react"
 
 import { Grid } from "@mui/material"
 import { Helmet } from "react-helmet-async"
 
 import Footer from "components/footer"
 import PageTitleWrapper from "components/page-title-wrapper"
-import UserResults, {
-  UserRoleOptions,
-} from "components/pages/management/users/user-results"
+import UserResults from "components/pages/management/users/user-results"
 import UsersPageHeader from "components/pages/management/users/users-page-header"
 import useUsersQuery from "hooks/queries/use-users-query"
-import { Filterable } from "typings/api-model"
-
-const DEFAULT_FILTER: Filterable = {
-  perPage: 10,
-  page: 1,
-  search: "",
-}
+import { useTypedSelector } from "hooks/redux/use-typed-selector"
 
 const ManagementUsers = () => {
-  const [filter, setFilter] = useState<Filterable>(DEFAULT_FILTER)
-  const [role, setRole] = useState<UserRoleOptions>("all")
-  const { data } = useUsersQuery(role, filter)
+  const { selectedRole, filter } = useTypedSelector((state) => state.user)
+  const { data } = useUsersQuery(selectedRole, filter)
   const users = useDeferredValue(data?.items || [])
-
-  const handleChangeRole = useCallback((role: UserRoleOptions) => {
-    setRole(role)
-    setFilter(DEFAULT_FILTER)
-  }, [])
-
-  const handlePageChange = useCallback(
-    (page: number) => {
-      setFilter({ ...filter, page })
-    },
-    [filter]
-  )
-
-  const handleChangeRolePerPage = useCallback(
-    (perPage: number) => {
-      setFilter({ ...filter, perPage })
-    },
-    [filter]
-  )
 
   return (
     <>
@@ -63,16 +35,7 @@ const ManagementUsers = () => {
         spacing={4}
       >
         <Grid item xs={12}>
-          <UserResults
-            users={users}
-            selectedRole={role}
-            onRoleChange={handleChangeRole}
-            onPageChange={handlePageChange}
-            perPage={filter.perPage || 10}
-            page={filter.page || 1}
-            onRowsPerPageChange={handleChangeRolePerPage}
-            totalUsers={data?.totalItems || 0}
-          />
+          <UserResults users={users} />
         </Grid>
       </Grid>
       <Footer />

@@ -26,7 +26,9 @@ import { Link as RouterLink } from "react-router-dom"
 
 import UserRoleLabel from "components/pages/management/users/user-role-label"
 import UsersBulkActions from "components/pages/management/users/users-bulk-actions"
-import { Book, User } from "typings/api-model"
+import useActions from "hooks/redux/use-actions"
+import { useTypedSelector } from "hooks/redux/use-typed-selector"
+import { User } from "typings/api-model"
 
 const CardWrapper = styled(Card)(
   ({ theme }) => `
@@ -53,36 +55,31 @@ const CardWrapper = styled(Card)(
 
 interface UsersGridViewProps {
   users: User[]
-  isSelectedBulkActions: boolean
-  isSelectedSome: boolean
-  isSelectedAll: boolean
-  onSelectOne: (id: Book["id"]) => void
-  onConfirmDelete: () => void
-  onSelectAll: (event: ChangeEvent<HTMLInputElement>) => void
-  selectedUserIds: Book["id"][]
-  onPageChange: (page: number) => void
-  page: number
-  onRowsPerPageChange: (perPage: number) => void
-  perPage: number
-  totalUsers: number
 }
 
-const UsersGridView = ({
-  users,
-  selectedUserIds,
-  isSelectedAll,
-  isSelectedSome,
-  onSelectAll,
-  onSelectOne,
-  isSelectedBulkActions,
-  onConfirmDelete: _,
-  onRowsPerPageChange,
-  perPage,
-  page,
-  onPageChange,
-  totalUsers,
-}: UsersGridViewProps) => {
+const UsersGridView = ({ users }: UsersGridViewProps) => {
   const { t } = useTranslation()
+  const { selectedUserIds, filter, totalUsers } = useTypedSelector(
+    (state) => state.user
+  )
+  const {
+    changePage,
+    changeSearch,
+    changeRowsPerPage,
+    toggleSelectAUser,
+    toggleSelectAllUsers,
+  } = useActions()
+
+  const isSelectedBulkActions = selectedUserIds.length > 0
+  const isSelectedSome =
+    selectedUserIds.length > 0 && selectedUserIds.length < users.length
+  const isSelectedAll = selectedUserIds.length === users.length
+
+  const handleSelectAllUsers = (event: ChangeEvent<HTMLInputElement>) => {
+    toggleSelectAllUsers(
+      event.target.checked ? users.map((user) => user.id) : []
+    )
+  }
 
   return (
     <>
@@ -100,7 +97,7 @@ const UsersGridView = ({
                   <Checkbox
                     checked={isSelectedAll}
                     indeterminate={isSelectedSome}
-                    onChange={onSelectAll}
+                    onChange={handleSelectAllUsers}
                   />
                 </Tooltip>
               </Box>
@@ -117,6 +114,8 @@ const UsersGridView = ({
                 my: 0,
                 ml: users.length !== 0 ? 2 : 0,
               }}
+              value={filter.search}
+              onChange={(event) => changeSearch(event.target.value)}
               fullWidth
               InputProps={{
                 startAdornment: (
@@ -239,7 +238,7 @@ const UsersGridView = ({
                         </Typography>
                         <Checkbox
                           checked={isUserSelected}
-                          onChange={(_event) => onSelectOne(user.id)}
+                          onChange={(_event) => toggleSelectAUser(user.id)}
                           value={isUserSelected}
                         />
                       </Box>
@@ -275,13 +274,13 @@ const UsersGridView = ({
               component="div"
               count={totalUsers}
               onPageChange={(_event, page) => {
-                onPageChange(page + 1) // plus one bcuz it is indexed from 0
+                changePage(page + 1) // plus one bcuz it is indexed from 0
               }}
               onRowsPerPageChange={(event) => {
-                onRowsPerPageChange(+event.target.value)
+                changeRowsPerPage(+event.target.value)
               }}
-              page={page - 1} // base on mui doc, this start from 0
-              rowsPerPage={perPage}
+              page={(filter.page as number) - 1} // base on mui doc, this start from 0
+              rowsPerPage={filter.perPage as number}
               rowsPerPageOptions={[5, 10, 15]}
             />
           </Card>

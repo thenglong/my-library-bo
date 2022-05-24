@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit"
 import logger from "redux-logger"
 
+import userSlice from "redux/slice/user-slice"
+
 export const store = configureStore({
   reducer: {
-    // reducer
+    user: userSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
   devTools: process.env.NODE_ENV !== "production",
