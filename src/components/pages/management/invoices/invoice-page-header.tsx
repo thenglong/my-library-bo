@@ -75,16 +75,9 @@ const InvoicePageHeader = () => {
   const itemsList = [
     {
       id: 1,
-      name: "Design services for March",
+      name: "Borrow harry poter book",
       quantity: 1,
-      price: 8945,
-      currency: "$",
-    },
-    {
-      id: 2,
-      name: "Website migration services",
-      quantity: 3,
-      price: 2367,
+      price: 1,
       currency: "$",
     },
   ]

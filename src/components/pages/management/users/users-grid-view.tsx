@@ -192,9 +192,10 @@ const UsersGridView = ({ users }: UsersGridViewProps) => {
                             <Link
                               variant="h5"
                               component={RouterLink}
-                              to={`/${
-                                location.pathname.split("/")[1]
-                              }/management/users/single/${user.id}`}
+                              // to={`/${
+                              //   location.pathname.split("/")[1]
+                              // }/management/users/single/${user.id}`}
+                              to="#"
                             >
                               {user.name}
                             </Link>{" "}

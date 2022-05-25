@@ -345,9 +345,10 @@ const InvoiceResults = ({ invoices = [] }: InvoiceResultsProps) => {
                             <Tooltip title={t("View")} arrow>
                               <IconButton
                                 component={RouterLink}
-                                to={`/${
-                                  location.pathname.split("/")[1]
-                                }/management/invoices/single/${invoice.id}`}
+                                // to={`/${
+                                //   location.pathname.split("/")[1]
+                                // }/management/invoices/single/${invoice.id}`}
+                                to="#"
                                 color="primary"
                               >
                                 <LaunchTwoToneIcon fontSize="small" />

@@ -155,9 +155,10 @@ const UsersTableView = ({ users }: UsersTableViewProps) => {
                             <Link
                               variant="h5"
                               component={RouterLink}
-                              to={`/${
-                                location.pathname.split("/")[1]
-                              }/management/users/single/${user.id}`}
+                              // to={`/${
+                              //   location.pathname.split("/")[1]
+                              // }/management/users/single/${user.id}`}
+                              to="#"
                             >
                               {user.name}
                             </Link>
@@ -184,9 +185,10 @@ const UsersTableView = ({ users }: UsersTableViewProps) => {
                           <Tooltip title={t("View")} arrow>
                             <IconButton
                               component={RouterLink}
-                              to={`/${
-                                location.pathname.split("/")[1]
-                              }/management/users/single/${user.id}`}
+                              // to={`/${
+                              //   location.pathname.split("/")[1]
+                              // }/management/users/single/${user.id}`}
+                              to="#"
                               color="primary"
                             >
                               <LaunchTwoToneIcon fontSize="small" />
