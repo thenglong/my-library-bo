@@ -57,18 +57,17 @@ mock.onGet("/api/v1/users").reply((config) => {
     })
   }
 
-  const userResponse = makePageable<User>(
+  const userPageable = makePageable<User>(
     userResult,
     pageFilter.perPage,
     pageFilter.page
   )
 
-  return [200, userResponse]
+  return [200, userPageable]
 })
 
 mock.onGet("/api/v1/users/:id").reply((config) => {
   const { id } = config.params
   const user = users.find((user) => user.id === +id)
-
   return [200, user]
 })

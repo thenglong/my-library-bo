@@ -26,8 +26,8 @@ import { Link as RouterLink } from "react-router-dom"
 
 import UserRoleLabel from "components/pages/management/users/user-role-label"
 import UsersBulkActions from "components/pages/management/users/users-bulk-actions"
-import useActions from "hooks/redux/use-actions"
 import { useTypedSelector } from "hooks/redux/use-typed-selector"
+import useUserActions from "hooks/redux/use-user-actions"
 import { User } from "typings/api-model"
 
 const CardWrapper = styled(Card)(
@@ -68,7 +68,7 @@ const UsersGridView = ({ users }: UsersGridViewProps) => {
     changeRowsPerPage,
     toggleSelectAUser,
     toggleSelectAllUsers,
-  } = useActions()
+  } = useUserActions()
 
   const isSelectedBulkActions = selectedUserIds.length > 0
   const isSelectedSome =

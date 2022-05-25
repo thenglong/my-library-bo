@@ -28,31 +28,39 @@ import { useTranslation } from "react-i18next"
 
 import BookStatusLabel from "components/pages/management/books/book-status-label"
 import BulkActions from "components/pages/management/books/bulk-actions"
+import useBookActions from "hooks/redux/use-book-actions"
+import { useTypedSelector } from "hooks/redux/use-typed-selector"
 import { Book } from "typings/api-model"
 import { getRandomInt } from "utils/number-utils"
 
 interface BookTableViewProps {
-  isSelectedBulkActions: boolean
   books: Book[]
-  isSelectedSome: boolean
-  isSelectedAll: boolean
-  onSelectOne: (id: Book["id"]) => void
-  onConfirmDelete: () => void
-  onSelectAll: (event: ChangeEvent<HTMLInputElement>) => void
-  selectedBookIds: Book["id"][]
 }
 
-const BookTableView = ({
-  isSelectedBulkActions,
-  books,
-  onConfirmDelete,
-  isSelectedAll,
-  isSelectedSome,
-  onSelectAll,
-  selectedBookIds,
-  onSelectOne,
-}: BookTableViewProps) => {
+const BookTableView = ({ books }: BookTableViewProps) => {
   const { t } = useTranslation()
+
+  const { selectedBookIds, pageFilter, totalBooks } = useTypedSelector(
+    (state) => state.book
+  )
+  const {
+    changePage,
+    changeRowsPerPage,
+    toggleSelectAllBooks,
+    toggleSelectABook,
+    openConfirmDeleteModal,
+  } = useBookActions()
+
+  const isSelectedBulkActions = selectedBookIds.length > 0
+  const isSelectedSome =
+    selectedBookIds.length > 0 && selectedBookIds.length < books.length
+  const isSelectedAll = selectedBookIds.length === books.length
+
+  const handleSelectAllBooks = (event: ChangeEvent<HTMLInputElement>) => {
+    toggleSelectAllBooks(
+      event.target.checked ? books.map((book) => book.id) : []
+    )
+  }
 
   return (
     <Card>
@@ -115,7 +123,7 @@ const BookTableView = ({
                     <Checkbox
                       checked={isSelectedAll}
                       indeterminate={isSelectedSome}
-                      onChange={onSelectAll}
+                      onChange={handleSelectAllBooks}
                     />
                   </TableCell>
                   <TableCell>{t("Cover")}</TableCell>
@@ -141,13 +149,13 @@ const BookTableView = ({
                       <TableCell padding="checkbox">
                         <Checkbox
                           checked={isBookSelected}
-                          onChange={(_) => onSelectOne(book.id)}
+                          onChange={(_) => toggleSelectABook(book.id)}
                           value={isBookSelected}
                         />
                       </TableCell>
                       <TableCell>
                         <Image
-                          src={`${process.env.PUBLIC_URL}/${book.imageLink}`}
+                          src={`${process.env.PUBLIC_URL}/${book.coverImageUrl}`}
                           showLoading={<CircularProgress />}
                           style={{ height: 100, width: 70 }}
                         />
@@ -158,10 +166,10 @@ const BookTableView = ({
                         </Typography>
                       </TableCell>
                       <TableCell>
-                        {["Social", "Love", "Tech"].map((value) => {
+                        {book.categories?.map((category, index) => {
                           return (
-                            <span key={value}>
-                              <Link href="#">{value}</Link>,{" "}
+                            <span key={index}>
+                              <Link href="#">{category}</Link>,{" "}
                             </span>
                           )
                         })}
@@ -174,18 +182,22 @@ const BookTableView = ({
                         >
                           {t("Last Rental")}:{" "}
                           <b>
-                            {formatDistance(
-                              new Date(),
-                              addDays(new Date(), getRandomInt(1, 30)),
-                              {
-                                addSuffix: true,
-                              }
-                            )}
+                            {book.lastRentalDate &&
+                              formatDistance(
+                                new Date(),
+                                addDays(
+                                  new Date(book.lastRentalDate),
+                                  getRandomInt(1, 30)
+                                ),
+                                {
+                                  addSuffix: true,
+                                }
+                              )}
                           </b>
                         </Typography>
                         <Typography noWrap color="text.secondary">
                           {t("Created At")}:{" "}
-                          {format(new Date(), "MMMM dd yyyy")}
+                          {format(new Date(book.createdAt), "MMMM dd yyyy")}
                         </Typography>
                       </TableCell>
                       <TableCell>
@@ -233,7 +245,7 @@ const BookTableView = ({
                           </Tooltip>
                           <Tooltip title={t("Delete")} arrow>
                             <IconButton
-                              onClick={() => onConfirmDelete()}
+                              onClick={() => openConfirmDeleteModal()}
                               color="primary"
                             >
                               <DeleteTwoToneIcon fontSize="small" />
@@ -250,15 +262,15 @@ const BookTableView = ({
           <Box p={2}>
             <TablePagination
               component="div"
-              count={books.length}
-              onPageChange={() => {
-                //
+              count={totalBooks}
+              onPageChange={(_event, page) => {
+                changePage(page + 1) // plus one bcuz it is indexed from 0
               }}
-              onRowsPerPageChange={() => {
-                //
+              onRowsPerPageChange={(event) => {
+                changeRowsPerPage(+event.target.value)
               }}
-              page={1} // TODO
-              rowsPerPage={10} // TODO
+              page={(pageFilter.page as number) - 1} // base on mui doc, this start from 0
+              rowsPerPage={pageFilter.perPage as number}
               rowsPerPageOptions={[5, 10, 15]}
             />
           </Box>

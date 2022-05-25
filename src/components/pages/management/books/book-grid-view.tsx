@@ -13,30 +13,34 @@ import { useTranslation } from "react-i18next"
 
 import BookGridCard from "components/pages/management/books/book-grid-card"
 import BulkActions from "components/pages/management/books/bulk-actions"
+import useBookActions from "hooks/redux/use-book-actions"
+import { useTypedSelector } from "hooks/redux/use-typed-selector"
 import { Book } from "typings/api-model"
 
 interface BookGridViewProps {
-  isSelectedBulkActions: boolean
   books: Book[]
-  isSelectedSome: boolean
-  isSelectedAll: boolean
-  onSelectOne: (id: Book["id"]) => void
-  onConfirmDelete: () => void
-  onSelectAll: (event: ChangeEvent<HTMLInputElement>) => void
-  selectedBookIds: Book["id"][]
 }
 
-const BookGridView = ({
-  books,
-  selectedBookIds,
-  isSelectedAll,
-  isSelectedSome,
-  onSelectAll,
-  onSelectOne,
-  isSelectedBulkActions,
-  onConfirmDelete,
-}: BookGridViewProps) => {
+const BookGridView = ({ books }: BookGridViewProps) => {
   const { t } = useTranslation()
+
+  const { selectedBookIds, pageFilter, totalBooks } = useTypedSelector(
+    (state) => state.book
+  )
+  const { changePage, changeRowsPerPage, toggleSelectAllBooks } =
+    useBookActions()
+
+  const isSelectedBulkActions = selectedBookIds.length > 0
+  const isSelectedSome =
+    selectedBookIds.length > 0 && selectedBookIds.length < books.length
+  const isSelectedAll = selectedBookIds.length === books.length
+
+  const handleSelectAllBooks = (event: ChangeEvent<HTMLInputElement>) => {
+    toggleSelectAllBooks(
+      event.target.checked ? books.map((book) => book.id) : []
+    )
+  }
+
   return (
     <>
       {books.length !== 0 && (
@@ -57,7 +61,7 @@ const BookGridView = ({
                   <Checkbox
                     checked={isSelectedAll}
                     indeterminate={isSelectedSome}
-                    onChange={onSelectAll}
+                    onChange={handleSelectAllBooks}
                   />
                 </Tooltip>
               </Box>
@@ -69,15 +73,15 @@ const BookGridView = ({
               {!isSelectedBulkActions && (
                 <TablePagination
                   component="div"
-                  count={books.length}
-                  onPageChange={() => {
-                    // handlePageChange
+                  count={totalBooks}
+                  onPageChange={(_event, page) => {
+                    changePage(page + 1) // plus one bcuz it is indexed from 0
                   }}
-                  onRowsPerPageChange={() => {
-                    //handleLimitChange
+                  onRowsPerPageChange={(event) => {
+                    changeRowsPerPage(+event.target.value)
                   }}
-                  page={1} // TODO
-                  rowsPerPage={10} // TODO
+                  page={(pageFilter.page as number) - 1} // base on mui doc, this start from 0
+                  rowsPerPage={pageFilter.perPage as number}
                   rowsPerPageOptions={[5, 10, 15]}
                 />
               )}
@@ -101,13 +105,7 @@ const BookGridView = ({
         <>
           <Grid container spacing={3}>
             {books.map((book) => (
-              <BookGridCard
-                key={book.id}
-                book={book}
-                isSelected={selectedBookIds.includes(book.id)}
-                onConfirmDelete={onConfirmDelete}
-                onSelect={onSelectOne}
-              />
+              <BookGridCard key={book.id} book={book} />
             ))}
           </Grid>
           <Card
@@ -127,16 +125,15 @@ const BookGridView = ({
             </Box>
             <TablePagination
               component="div"
-              count={books.length}
-              onPageChange={() => {
-                // TODO
+              count={totalBooks}
+              onPageChange={(_event, page) => {
+                changePage(page + 1) // plus one bcuz it is indexed from 0
               }}
-              onRowsPerPageChange={() => {
-                // TODO
+              onRowsPerPageChange={(event) => {
+                changeRowsPerPage(+event.target.value)
               }}
-              page={1}
-              rowsPerPage={10}
-              labelRowsPerPage=""
+              page={(pageFilter.page as number) - 1} // base on mui doc, this start from 0
+              rowsPerPage={pageFilter.perPage as number}
               rowsPerPageOptions={[5, 10, 15]}
             />
           </Card>

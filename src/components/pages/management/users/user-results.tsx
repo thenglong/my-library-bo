@@ -24,8 +24,8 @@ import UsersGridView from "components/pages/management/users/users-grid-view"
 import UsersTableView from "components/pages/management/users/users-table-view"
 import { VIEW_ORIENTATION } from "constants/common-constants"
 import useUsersQuery from "hooks/queries/use-users-query"
-import useActions from "hooks/redux/use-actions"
 import { useTypedSelector } from "hooks/redux/use-typed-selector"
+import useUserActions from "hooks/redux/use-user-actions"
 import { UserRole } from "typings/api-model"
 import baseLogger from "utils/logger-utils"
 
@@ -73,7 +73,7 @@ const UserResults = () => {
     (state) => state.user
   )
 
-  const { changeViewOrientation, changeRole } = useActions()
+  const { changeViewOrientation, changeRole } = useUserActions()
 
   const handleTabsChange = (_event: SyntheticEvent, tabsValue: string) => {
     logger.debug(`handleTabsChange: ${tabsValue}`)

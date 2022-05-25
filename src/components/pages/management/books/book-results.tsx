@@ -1,18 +1,14 @@
-import { ChangeEvent, MouseEvent, useState } from "react"
+import { MouseEvent, useCallback, useDeferredValue } from "react"
 
 import {
-  Close as CloseIcon,
   GridViewTwoTone as GridViewTwoToneIcon,
   SearchTwoTone as SearchTwoToneIcon,
   TableRowsTwoTone as TableRowsTwoToneIcon,
 } from "@mui/icons-material"
 import {
   Autocomplete,
-  Avatar,
   Box,
-  Button,
   Card,
-  Dialog,
   FormControl,
   Grid,
   IconButton,
@@ -33,40 +29,15 @@ import { useTranslation } from "react-i18next"
 
 import BookGridView from "components/pages/management/books/book-grid-view"
 import BookTableView from "components/pages/management/books/book-table-view"
-import Transition from "components/transition"
-import { Book } from "typings/api-model"
+import { VIEW_ORIENTATION } from "constants/common-constants"
+import useBooksQuery from "hooks/queries/use-books-query"
+import useBookActions from "hooks/redux/use-book-actions"
+import { useTypedSelector } from "hooks/redux/use-typed-selector"
+import { BookCategoryOptions } from "redux/slice/book-slice"
+import { Book_Category } from "typings/api-model"
+import _logger from "utils/logger-utils"
 
-const DialogWrapper = styled(Dialog)(
-  () => `
-        .MuiDialog-paper {
-          overflow: visible;
-        }
-  `
-)
-
-const AvatarError = styled(Avatar)(
-  ({ theme }) => `
-        background-color: ${theme.colors.error.lighter};
-        color: ${theme.colors.error.main};
-        width: ${theme.spacing(12)};
-        height: ${theme.spacing(12)};
-  
-        .MuiSvgIcon-root {
-          font-size: ${theme.typography.pxToRem(45)};
-        }
-  `
-)
-
-const ButtonError = styled(Button)(
-  ({ theme }) => `
-       background: ${theme.colors.error.main};
-       color: ${theme.palette.error.contrastText};
-  
-       &:hover {
-          background: ${theme.colors.error.dark};
-       }
-      `
-)
+const logger = _logger.withTag("BookResults")
 
 export const IconButtonError = styled(IconButton)(
   ({ theme }) => `
@@ -80,22 +51,28 @@ export const IconButtonError = styled(IconButton)(
   `
 )
 
-interface BookResults {
-  books: Book[]
-}
+const bookCategories = [
+  { title: Book_Category.SCIENCE },
+  { title: Book_Category.POETRY },
+  { title: Book_Category.FICTION },
+  { title: Book_Category.NON_FICTION },
+]
 
-const BookResults = ({ books }: BookResults) => {
-  const [selectedBooks, setSelectedBooks] = useState<Book["id"][]>([])
+const BookResults = () => {
+  const { data } = useBooksQuery()
+  const books = useDeferredValue(data?.items || [])
   const { t } = useTranslation()
   const { enqueueSnackbar } = useSnackbar()
 
-  const bookCategories = [
-    { title: "Development" },
-    { title: "Design Book" },
-    { title: "Marketing Research" },
-    { title: "Software" },
-  ]
-
+  const {
+    changeViewOrientation,
+    closeConfirmDeleteModal,
+    changeCategory,
+    changeSearch,
+  } = useBookActions()
+  const { viewOrientation, selectedCategory, search } = useTypedSelector(
+    (state) => state.book
+  )
   const statusOptions = [
     {
       id: "available",
@@ -107,47 +84,8 @@ const BookResults = ({ books }: BookResults) => {
     },
   ]
 
-  const handleSelectAllBooks = (event: ChangeEvent<HTMLInputElement>) => {
-    setSelectedBooks(event.target.checked ? books.map((book) => book.id) : [])
-  }
-
-  const handleSelectOneBook = (bookId: Book["id"]) => {
-    if (!selectedBooks.includes(bookId)) {
-      setSelectedBooks((prevSelected) => [...prevSelected, bookId])
-    } else {
-      setSelectedBooks((prevSelected) =>
-        prevSelected.filter((id) => id !== bookId)
-      )
-    }
-  }
-
-  const isSelectedBulkActions = selectedBooks.length > 0
-  const isSelectedSomeBooks =
-    selectedBooks.length > 0 && selectedBooks.length < books.length
-  const isSelectedAllBooks = selectedBooks.length === books.length
-
-  const [toggleView, setToggleView] = useState("table_view")
-
-  const handleViewOrientation = (
-    _event: MouseEvent<HTMLElement>,
-    newValue: string
-  ) => {
-    setToggleView(newValue)
-  }
-
-  const [openConfirmDelete, setOpenConfirmDelete] = useState(false)
-
-  const handleConfirmDelete = () => {
-    setOpenConfirmDelete(true)
-  }
-
-  const closeConfirmDelete = () => {
-    setOpenConfirmDelete(false)
-  }
-
-  const handleDeleteCompleted = () => {
-    setOpenConfirmDelete(false)
-
+  const _handleDeleteCompleted = () => {
+    closeConfirmDeleteModal()
     enqueueSnackbar(t("The books has been deleted successfully"), {
       variant: "success",
       anchorOrigin: {
@@ -157,6 +95,14 @@ const BookResults = ({ books }: BookResults) => {
       TransitionComponent: Zoom,
     })
   }
+
+  const handleViewOrientation = useCallback(
+    (_event: MouseEvent<HTMLElement>, newValue: string) => {
+      logger.debug(`handleViewOrientation: ${newValue}`)
+      if (newValue) changeViewOrientation(newValue as VIEW_ORIENTATION)
+    },
+    [changeViewOrientation]
+  )
 
   return (
     <>
@@ -170,6 +116,8 @@ const BookResults = ({ books }: BookResults) => {
           <Grid item xs={12}>
             <Box p={1}>
               <TextField
+                value={search}
+                onChange={(event) => changeSearch(event.target.value)}
                 sx={{
                   m: 0,
                 }}
@@ -189,11 +137,16 @@ const BookResults = ({ books }: BookResults) => {
           <Grid item xs={12} sm={6} md={6}>
             <Box p={1}>
               <Autocomplete
-                multiple
+                // multiple // TODO: implement multiple
                 sx={{
                   m: 0,
                 }}
                 limitTags={2}
+                value={{ title: selectedCategory }}
+                onChange={(event, newValue) => {
+                  logger.debug(`onChange: ${newValue}`)
+                  changeCategory(newValue?.title || ("" as BookCategoryOptions))
+                }}
                 options={bookCategories}
                 getOptionLabel={(option) => option.title}
                 renderInput={(params) => (
@@ -231,14 +184,14 @@ const BookResults = ({ books }: BookResults) => {
           >
             <Box p={1}>
               <ToggleButtonGroup
-                value={toggleView}
+                value={viewOrientation}
                 exclusive
                 onChange={handleViewOrientation}
               >
-                <ToggleButton disableRipple value="table_view">
+                <ToggleButton disableRipple value={VIEW_ORIENTATION.TABLE}>
                   <TableRowsTwoToneIcon />
                 </ToggleButton>
-                <ToggleButton disableRipple value="grid_view">
+                <ToggleButton disableRipple value={VIEW_ORIENTATION.GRID}>
                   <GridViewTwoToneIcon />
                 </ToggleButton>
               </ToggleButtonGroup>
@@ -247,33 +200,15 @@ const BookResults = ({ books }: BookResults) => {
         </Grid>
       </Card>
 
-      {toggleView === "table_view" && (
-        <BookTableView
-          books={books}
-          onSelectOne={handleSelectOneBook}
-          isSelectedAll={isSelectedAllBooks}
-          isSelectedBulkActions={isSelectedBulkActions}
-          onConfirmDelete={handleConfirmDelete}
-          selectedBookIds={selectedBooks}
-          isSelectedSome={isSelectedSomeBooks}
-          onSelectAll={handleSelectAllBooks}
-        />
+      {viewOrientation === VIEW_ORIENTATION.TABLE && (
+        <BookTableView books={books} />
       )}
 
-      {toggleView === "grid_view" && (
-        <BookGridView
-          books={books}
-          onSelectOne={handleSelectOneBook}
-          isSelectedAll={isSelectedAllBooks}
-          isSelectedBulkActions={isSelectedBulkActions}
-          onConfirmDelete={handleConfirmDelete}
-          selectedBookIds={selectedBooks}
-          isSelectedSome={isSelectedSomeBooks}
-          onSelectAll={handleSelectAllBooks}
-        />
+      {viewOrientation === VIEW_ORIENTATION.GRID && (
+        <BookGridView books={books} />
       )}
 
-      {!toggleView && (
+      {!viewOrientation && (
         <Card
           sx={{
             textAlign: "center",
@@ -297,75 +232,75 @@ const BookResults = ({ books }: BookResults) => {
         </Card>
       )}
 
-      <DialogWrapper
-        open={openConfirmDelete}
-        maxWidth="sm"
-        fullWidth
-        TransitionComponent={Transition}
-        keepMounted
-        onClose={closeConfirmDelete}
-      >
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          flexDirection="column"
-          p={5}
-        >
-          <AvatarError>
-            <CloseIcon />
-          </AvatarError>
+      {/*<DialogWrapper*/}
+      {/*  open={openConfirmDelete}*/}
+      {/*  maxWidth="sm"*/}
+      {/*  fullWidth*/}
+      {/*  TransitionComponent={Transition}*/}
+      {/*  keepMounted*/}
+      {/*  onClose={closeConfirmDelete}*/}
+      {/*>*/}
+      {/*  <Box*/}
+      {/*    display="flex"*/}
+      {/*    alignItems="center"*/}
+      {/*    justifyContent="center"*/}
+      {/*    flexDirection="column"*/}
+      {/*    p={5}*/}
+      {/*  >*/}
+      {/*    <AvatarError>*/}
+      {/*      <CloseIcon />*/}
+      {/*    </AvatarError>*/}
 
-          <Typography
-            align="center"
-            sx={{
-              pt: 4,
-              px: 6,
-            }}
-            variant="h3"
-          >
-            {t("Do you really want to delete this book")}?
-          </Typography>
+      {/*    <Typography*/}
+      {/*      align="center"*/}
+      {/*      sx={{*/}
+      {/*        pt: 4,*/}
+      {/*        px: 6,*/}
+      {/*      }}*/}
+      {/*      variant="h3"*/}
+      {/*    >*/}
+      {/*      {t("Do you really want to delete this book")}?*/}
+      {/*    </Typography>*/}
 
-          <Typography
-            align="center"
-            sx={{
-              pt: 2,
-              pb: 4,
-              px: 6,
-            }}
-            fontWeight="normal"
-            color="text.secondary"
-            variant="h4"
-          >
-            {t("You won't be able to revert after deletion")}
-          </Typography>
+      {/*    <Typography*/}
+      {/*      align="center"*/}
+      {/*      sx={{*/}
+      {/*        pt: 2,*/}
+      {/*        pb: 4,*/}
+      {/*        px: 6,*/}
+      {/*      }}*/}
+      {/*      fontWeight="normal"*/}
+      {/*      color="text.secondary"*/}
+      {/*      variant="h4"*/}
+      {/*    >*/}
+      {/*      {t("You won't be able to revert after deletion")}*/}
+      {/*    </Typography>*/}
 
-          <Box>
-            <Button
-              variant="text"
-              size="large"
-              sx={{
-                mx: 1,
-              }}
-              onClick={closeConfirmDelete}
-            >
-              {t("Cancel")}
-            </Button>
-            <ButtonError
-              onClick={handleDeleteCompleted}
-              size="large"
-              sx={{
-                mx: 1,
-                px: 3,
-              }}
-              variant="contained"
-            >
-              {t("Delete")}
-            </ButtonError>
-          </Box>
-        </Box>
-      </DialogWrapper>
+      {/*    <Box>*/}
+      {/*      <Button*/}
+      {/*        variant="text"*/}
+      {/*        size="large"*/}
+      {/*        sx={{*/}
+      {/*          mx: 1,*/}
+      {/*        }}*/}
+      {/*        onClick={closeConfirmDelete}*/}
+      {/*      >*/}
+      {/*        {t("Cancel")}*/}
+      {/*      </Button>*/}
+      {/*      <ButtonError*/}
+      {/*        onClick={handleDeleteCompleted}*/}
+      {/*        size="large"*/}
+      {/*        sx={{*/}
+      {/*          mx: 1,*/}
+      {/*          px: 3,*/}
+      {/*        }}*/}
+      {/*        variant="contained"*/}
+      {/*      >*/}
+      {/*        {t("Delete")}*/}
+      {/*      </ButtonError>*/}
+      {/*    </Box>*/}
+      {/*  </Box>*/}
+      {/*</DialogWrapper>*/}
     </>
   )
 }

@@ -37,16 +37,27 @@ export interface User {
   updatedAt: string | Date
 }
 
+export enum Book_Category {
+  FICTION = "Fiction",
+  NON_FICTION = "Non-Fiction",
+  POETRY = "Poetry",
+  SCIENCE = "Science",
+}
+
 export interface Book {
   id: Id
   title: string
   author: string
   country: string
-  imageLink: string
+  coverImageUrl: string
   language: string
-  link: string
+  description?: string
   pages: number
   year: number
+  categories?: string[]
+  createdAt: string | Date
+  updatedAt: string | Date
+  lastRentalDate?: string | Date
 }
 
 export type InvoiceStatus = "pending" | "completed" | "draft" | "progress"

@@ -1,54 +1,54 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 import { DEFAULT_FILTER, VIEW_ORIENTATION } from "constants/common-constants"
-import { PageFilterable, User, UserRole } from "typings/api-model"
+import { Book, Book_Category, PageFilterable } from "typings/api-model"
 
-export type UserRoleOptions = UserRole | "all"
+export type BookCategoryOptions = Book_Category | ""
 
-export interface UserState {
+export interface BookState {
   search: string
-  selectedRole: UserRoleOptions
+  selectedCategory: BookCategoryOptions
   pageFilter: PageFilterable
   viewOrientation: VIEW_ORIENTATION
-  selectedUserIds: User["id"][]
-  totalUsers: number
+  selectedBookIds: Book["id"][]
+  totalBooks: number
   isConfirmDeleteModalOpen: boolean
 }
 
-const initialState: UserState = {
+const initialState: BookState = {
   search: "",
   pageFilter: DEFAULT_FILTER,
-  selectedRole: "all",
+  selectedCategory: "",
   viewOrientation: VIEW_ORIENTATION.TABLE,
-  selectedUserIds: [],
-  totalUsers: 0,
+  selectedBookIds: [],
+  totalBooks: 0,
   isConfirmDeleteModalOpen: false,
 }
 
-const userSlice = createSlice({
-  name: "users",
+const bookSlice = createSlice({
+  name: "books",
   initialState,
   reducers: {
     changeViewOrientation: (state, action: PayloadAction<VIEW_ORIENTATION>) => {
       state.viewOrientation = action.payload
     },
-    changeRole: (state, action: PayloadAction<UserRoleOptions>) => {
-      state.selectedRole = action.payload
-      state.selectedUserIds = []
+    changeCategory: (state, action: PayloadAction<BookCategoryOptions>) => {
+      state.selectedCategory = action.payload
+      state.selectedBookIds = []
       state.pageFilter = DEFAULT_FILTER
     },
-    toggleSelectAllUsers: (state, action: PayloadAction<User["id"][]>) => {
-      state.selectedUserIds = state.selectedUserIds.length ? [] : action.payload
+    toggleSelectAllBooks: (state, action: PayloadAction<Book["id"][]>) => {
+      state.selectedBookIds = state.selectedBookIds.length ? [] : action.payload
     },
-    toggleSelectAUser: (state, action: PayloadAction<User["id"]>) => {
-      const { selectedUserIds } = state
-      const index = selectedUserIds.indexOf(action.payload)
+    toggleSelectABook: (state, action: PayloadAction<Book["id"]>) => {
+      const { selectedBookIds } = state
+      const index = selectedBookIds.indexOf(action.payload)
       if (index > -1) {
-        selectedUserIds.splice(index, 1)
+        selectedBookIds.splice(index, 1)
       } else {
-        selectedUserIds.push(action.payload)
+        selectedBookIds.push(action.payload)
       }
-      state.selectedUserIds = selectedUserIds
+      state.selectedBookIds = selectedBookIds
     },
     changePage: (state, action: PayloadAction<number>) => {
       state.pageFilter.page = action.payload
@@ -60,8 +60,8 @@ const userSlice = createSlice({
       state.pageFilter.page = 1
       state.search = action.payload
     },
-    setTotalUsers: (state, action: PayloadAction<number>) => {
-      state.totalUsers = action.payload
+    setTotalBooks: (state, action: PayloadAction<number>) => {
+      state.totalBooks = action.payload
     },
     openConfirmDeleteModal: (state) => {
       state.isConfirmDeleteModalOpen = true
@@ -72,4 +72,4 @@ const userSlice = createSlice({
   },
 })
 
-export default userSlice
+export default bookSlice

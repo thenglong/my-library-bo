@@ -2,14 +2,14 @@ import { useQuery } from "react-query"
 import { useDebounce } from "use-debounce"
 
 import userApi from "api/users-api"
-import useActions from "hooks/redux/use-actions"
 import { useTypedSelector } from "hooks/redux/use-typed-selector"
+import useUserActions from "hooks/redux/use-user-actions"
 
 const useUsersQuery = () => {
   const { selectedRole, pageFilter, search } = useTypedSelector(
     (state) => state.user
   )
-  const { setTotalUsers } = useActions()
+  const { setTotalUsers } = useUserActions()
 
   const [debounceSearch] = useDebounce(search, 500)
 

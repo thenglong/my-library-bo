@@ -1,9 +1,22 @@
 import api from "api/_api"
 import "./mock-books"
-import { Book } from "typings/api-model"
+import {
+  Book,
+  Book_Category,
+  Pageable,
+  PageFilterable,
+} from "typings/api-model"
 
-const getBooks = async () => {
-  const res = await api.get<Book[]>("/api/v1/books")
+interface GetBooks {
+  category?: Book_Category | ""
+  pageFilter: PageFilterable
+  search: string
+}
+
+const getBooks = async (params: GetBooks) => {
+  const res = await api.get<Pageable<Book>>("/api/v1/books", {
+    params,
+  })
   return res.data
 }
 

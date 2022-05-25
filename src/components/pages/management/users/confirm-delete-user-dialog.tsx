@@ -9,8 +9,8 @@ import {
   ErrorButton,
 } from "components/pages/management/users/confirm-delete-user-dialog-styled"
 import Transition from "components/transition"
-import useActions from "hooks/redux/use-actions"
 import { useTypedSelector } from "hooks/redux/use-typed-selector"
+import useUserActions from "hooks/redux/use-user-actions"
 
 const ConfirmDeleteUserDialog = () => {
   const { enqueueSnackbar } = useSnackbar()
@@ -18,7 +18,7 @@ const ConfirmDeleteUserDialog = () => {
 
   const { isConfirmDeleteModalOpen } = useTypedSelector((state) => state.user)
 
-  const { closeConfirmDeleteModal } = useActions()
+  const { closeConfirmDeleteModal } = useUserActions()
 
   const handleDeleteCompleted = () => {
     closeConfirmDeleteModal()

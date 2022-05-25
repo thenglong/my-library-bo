@@ -4,7 +4,7 @@ import { Navigate, RouteObject } from "react-router-dom"
 
 const Users = lazy(() => import("components/pages/management/users"))
 const SingleUser = lazy(() => import("components/pages/management/users/single"))
-const Books = lazy(() => import("components/pages/management/books/book-page"))
+const Books = lazy(() => import("components/pages/management/books"))
 const Invoices = lazy(() => import("components/pages/management/invoices"))
 const SingleInvoice = lazy(() => import("components/pages/management/invoices/single"))
 

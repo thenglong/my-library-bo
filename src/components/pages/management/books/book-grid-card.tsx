@@ -19,6 +19,8 @@ import { useTranslation } from "react-i18next"
 import { IconButtonError } from "components/pages/management/books/book-results"
 import BookStatusLabel from "components/pages/management/books/book-status-label"
 import Text from "components/text"
+import useBookActions from "hooks/redux/use-book-actions"
+import { useTypedSelector } from "hooks/redux/use-typed-selector"
 import { Book } from "typings/api-model"
 import { getRandomInt } from "utils/number-utils"
 
@@ -47,18 +49,15 @@ const CardWrapper = styled(Card)(
 
 interface BookGridCardProps {
   book: Book
-  isSelected: boolean
-  onConfirmDelete: () => void
-  onSelect: (id: Book["id"]) => void
 }
 
-const BookGridCard = ({
-  book,
-  isSelected,
-  onConfirmDelete,
-  onSelect,
-}: BookGridCardProps) => {
+const BookGridCard = ({ book }: BookGridCardProps) => {
   const { t } = useTranslation()
+
+  const { selectedBookIds } = useTypedSelector((state) => state.book)
+  const { toggleSelectABook, openConfirmDeleteModal } = useBookActions()
+
+  const isSelected = selectedBookIds.includes(book.id)
 
   return (
     <Grid item xs={12} sm={6} md={3} key={book.id}>
@@ -96,7 +95,7 @@ const BookGridCard = ({
             <Checkbox
               checked={isSelected}
               onChange={(_event) => {
-                onSelect(book.id)
+                toggleSelectABook(book.id)
               }}
               value={isSelected}
             />
@@ -108,7 +107,7 @@ const BookGridCard = ({
               maxWidth: "100%",
               aspectRatio: "3/5",
             }}
-            image={`${process.env.PUBLIC_URL}/${book.imageLink}`}
+            image={`${process.env.PUBLIC_URL}/${book.coverImageUrl}`}
           />
           <Divider />
           <Box p={2}>
@@ -185,7 +184,10 @@ const BookGridCard = ({
                 {t("Edit")}
               </Button>
               <Tooltip title={t("Delete")} arrow>
-                <IconButtonError onClick={onConfirmDelete} color="primary">
+                <IconButtonError
+                  onClick={openConfirmDeleteModal}
+                  color="primary"
+                >
                   <DeleteTwoToneIcon fontSize="small" />
                 </IconButtonError>
               </Tooltip>
