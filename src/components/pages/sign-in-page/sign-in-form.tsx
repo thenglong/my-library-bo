@@ -26,8 +26,8 @@ const GoogleLogoWrapper = styled(GoogleLogo)(
 )
 
 const defaultValues = {
-  email: "liz.demo@mailinator.com",
-  password: "123123",
+  email: "",
+  password: "",
   staySignedIn: true,
 }
 
