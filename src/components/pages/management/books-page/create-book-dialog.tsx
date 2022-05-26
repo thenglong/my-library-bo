@@ -1,19 +1,14 @@
-import { useState } from "react"
-
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup"
 import {
   CheckTwoTone as CheckTwoToneIcon,
   CloseTwoTone as CloseTwoToneIcon,
   CloudUploadTwoTone as CloudUploadTwoToneIcon,
 } from "@mui/icons-material"
-import { DatePicker } from "@mui/lab"
 import {
   Alert,
   Autocomplete,
-  Avatar,
   Box,
   Button,
-  Chip,
   CircularProgress,
   Dialog,
   DialogContent,
@@ -44,7 +39,7 @@ import {
   EditorWrapper,
 } from "components/pages/management/books-page/create-book-dialog-styled"
 
-const bookTags = [
+const bookCategories = [
   { title: "Development" },
   { title: "Design Book" },
   { title: "Marketing Research" },
@@ -58,6 +53,9 @@ interface CreateBookDialogProps {
 
 const defaultValues = {
   title: "",
+  author: "",
+  edition: "",
+  publisher: "",
 }
 
 const validationSchema = yup.object().shape({
@@ -68,29 +66,6 @@ const CreateBookDialog = ({ isOpen, onClose }: CreateBookDialogProps) => {
   const { t } = useTranslation()
   const { enqueueSnackbar } = useSnackbar()
   const theme = useTheme()
-
-  const members = [
-    {
-      avatar: "/static/images/avatars/1.jpg",
-      name: "Maren Lipshutz",
-    },
-    {
-      avatar: "/static/images/avatars/2.jpg",
-      name: "Zain Vetrovs",
-    },
-    {
-      avatar: "/static/images/avatars/3.jpg",
-      name: "Hanna Siphron",
-    },
-    {
-      avatar: "/static/images/avatars/4.jpg",
-      name: "Cristofer Aminoff",
-    },
-    {
-      avatar: "/static/images/avatars/5.jpg",
-      name: "Maria Calzoni",
-    },
-  ]
 
   const {
     acceptedFiles,
@@ -112,8 +87,6 @@ const CreateBookDialog = ({ isOpen, onClose }: CreateBookDialogProps) => {
       <Divider />
     </ListItem>
   ))
-
-  const [value, setValue] = useState(null)
 
   const _handleCreateBookSuccess = () => {
     enqueueSnackbar(t("A new book has been created successfully"), {
@@ -200,6 +173,114 @@ const CreateBookDialog = ({ isOpen, onClose }: CreateBookDialogProps) => {
                 errorMessage={errors.title?.message}
               />
             </Grid>
+            <Grid
+              item
+              xs={12}
+              sm={4}
+              md={3}
+              justifyContent="flex-end"
+              textAlign={{ sm: "right" }}
+            >
+              <Box
+                pr={3}
+                sx={{
+                  pt: `${theme.spacing(2)}`,
+                  pb: { xs: 1, md: 0 },
+                }}
+                alignSelf="center"
+              >
+                <b>{t("Author")}:</b>
+              </Box>
+            </Grid>
+            <Grid
+              sx={{
+                mb: `${theme.spacing(3)}`,
+              }}
+              item
+              xs={12}
+              sm={8}
+              md={9}
+            >
+              <ControlledTextField
+                isError={Boolean(errors.author)}
+                placeholder="Author here..."
+                name="author"
+                control={control}
+                errorMessage={errors.author?.message}
+              />
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              sm={4}
+              md={3}
+              justifyContent="flex-end"
+              textAlign={{ sm: "right" }}
+            >
+              <Box
+                pr={3}
+                sx={{
+                  pt: `${theme.spacing(2)}`,
+                  pb: { xs: 1, md: 0 },
+                }}
+                alignSelf="center"
+              >
+                <b>{t("Edition")}:</b>
+              </Box>
+            </Grid>
+            <Grid
+              sx={{
+                mb: `${theme.spacing(3)}`,
+              }}
+              item
+              xs={12}
+              sm={8}
+              md={9}
+            >
+              <ControlledTextField
+                isError={Boolean(errors.edition)}
+                placeholder="Edition here..."
+                name="edition"
+                control={control}
+                errorMessage={errors.edition?.message}
+              />
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              sm={4}
+              md={3}
+              justifyContent="flex-end"
+              textAlign={{ sm: "right" }}
+            >
+              <Box
+                pr={3}
+                sx={{
+                  pt: `${theme.spacing(2)}`,
+                  pb: { xs: 1, md: 0 },
+                }}
+                alignSelf="center"
+              >
+                <b>{t("Publisher")}:</b>
+              </Box>
+            </Grid>
+            <Grid
+              sx={{
+                mb: `${theme.spacing(3)}`,
+              }}
+              item
+              xs={12}
+              sm={8}
+              md={9}
+            >
+              <ControlledTextField
+                isError={Boolean(errors.publisher)}
+                placeholder="Publisher here..."
+                name="publisher"
+                control={control}
+                errorMessage={errors.publisher?.message}
+              />
+            </Grid>
             <Grid item xs={12} sm={4} md={3} textAlign={{ sm: "right" }}>
               <Box
                 pr={3}
@@ -239,7 +320,7 @@ const CreateBookDialog = ({ isOpen, onClose }: CreateBookDialogProps) => {
                 }}
                 alignSelf="center"
               >
-                <b>{t("Tags")}:</b>
+                <b>{t("Categories")}:</b>
               </Box>
             </Grid>
             <Grid
@@ -257,7 +338,7 @@ const CreateBookDialog = ({ isOpen, onClose }: CreateBookDialogProps) => {
                   m: 0,
                 }}
                 limitTags={2}
-                options={bookTags}
+                options={bookCategories}
                 getOptionLabel={(option) => option.title}
                 renderInput={(params) => (
                   <TextField
@@ -276,7 +357,7 @@ const CreateBookDialog = ({ isOpen, onClose }: CreateBookDialogProps) => {
                   pb: { xs: 1, md: 0 },
                 }}
               >
-                <b>{t("Upload files")}:</b>
+                <b>{t("Cover")}:</b>
               </Box>
             </Grid>
             <Grid
@@ -355,128 +436,23 @@ const CreateBookDialog = ({ isOpen, onClose }: CreateBookDialogProps) => {
                 </>
               )}
             </Grid>
-            <Grid
-              item
-              xs={12}
-              sm={4}
-              md={3}
-              justifyContent="flex-end"
-              textAlign={{ sm: "right" }}
-            >
-              <Box
-                pr={3}
-                sx={{
-                  pt: `${theme.spacing(2)}`,
-                  pb: { xs: 1, md: 0 },
-                }}
-                alignSelf="center"
-              >
-                <b>{t("Members")}:</b>
-              </Box>
-            </Grid>
-            <Grid
-              sx={{
-                mb: `${theme.spacing(3)}`,
-              }}
-              item
-              xs={12}
-              sm={8}
-              md={9}
-            >
-              <Autocomplete
-                multiple
-                sx={{
-                  m: 0,
-                }}
-                limitTags={2}
-                options={members}
-                renderOption={(props, option) => (
-                  <li {...props}>
-                    <Avatar
-                      sx={{
-                        mr: 1,
-                      }}
-                      src={option.avatar}
-                    />
-                    {option.name}
-                  </li>
-                )}
-                getOptionLabel={(option) => option.name}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    variant="outlined"
-                    fullWidth
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    placeholder={t("Select book members...")}
-                  />
-                )}
-                renderTags={(members, getTagProps) =>
-                  members.map((member, index) => (
-                    <Chip
-                      label={member.name}
-                      {...getTagProps({ index })}
-                      key={member.name}
-                      avatar={<Avatar src={member.avatar} />}
-                    />
-                  ))
-                }
-              />
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              sm={4}
-              md={3}
-              justifyContent="flex-end"
-              textAlign={{ sm: "right" }}
-            >
-              <Box
-                pr={3}
-                sx={{
-                  pt: `${theme.spacing(2)}`,
-                  pb: { xs: 1, md: 0 },
-                }}
-                alignSelf="center"
-              >
-                <b>{t("Due Date")}:</b>
-              </Box>
-            </Grid>
-            <Grid
-              sx={{
-                mb: `${theme.spacing(3)}`,
-              }}
-              item
-              xs={12}
-              sm={8}
-              md={9}
-            >
-              <DatePicker
-                value={value}
-                onChange={(newValue) => {
-                  setValue(newValue)
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    placeholder={t("Select due date...")}
-                    {...params}
-                  />
-                )}
-              />
-            </Grid>
 
-            <Grid item xs={12} sm={4} md={3} textAlign={{ sm: "right" }} />
             <Grid
               sx={{
                 mb: `${theme.spacing(3)}`,
+                textAlign: "right",
               }}
               item
               xs={12}
-              sm={8}
-              md={9}
             >
+              <Button
+                color="secondary"
+                size="large"
+                variant="outlined"
+                onClick={onClose}
+              >
+                {t("Cancel")}
+              </Button>
               <Button
                 sx={{
                   mr: 2,
@@ -490,14 +466,6 @@ const CreateBookDialog = ({ isOpen, onClose }: CreateBookDialogProps) => {
                 size="large"
               >
                 {t("Create Book")}
-              </Button>
-              <Button
-                color="secondary"
-                size="large"
-                variant="outlined"
-                onClick={onClose}
-              >
-                {t("Cancel")}
               </Button>
             </Grid>
           </Grid>

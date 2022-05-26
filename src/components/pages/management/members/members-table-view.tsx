@@ -31,8 +31,8 @@ import { Link as RouterLink } from "react-router-dom"
 
 import MemberStatusLabel from "components/pages/management/members/member-status-label"
 import UsersBulkActions from "components/pages/management/users/users-bulk-actions"
+import useMemberActions from "hooks/redux/use-member-actions"
 import { useTypedSelector } from "hooks/redux/use-typed-selector"
-import useUserActions from "hooks/redux/use-user-actions"
 import { Member } from "typings/api-model"
 
 interface MembersTableViewProps {
@@ -48,10 +48,10 @@ const MembersTableView = ({ members }: MembersTableViewProps) => {
     changePage,
     changeSearch,
     changeRowsPerPage,
-    toggleSelectAUser,
-    toggleSelectAllUsers,
+    toggleSelectAMember,
+    toggleSelectAllMembers,
     openConfirmDeleteModal,
-  } = useUserActions()
+  } = useMemberActions()
 
   const isSelectedBulkActions = selectedMemberIds.length > 0
   const isSelectedSome =
@@ -59,7 +59,7 @@ const MembersTableView = ({ members }: MembersTableViewProps) => {
   const isSelectedAll = selectedMemberIds.length === members.length
 
   const handleSelectAllUsers = (event: ChangeEvent<HTMLInputElement>) => {
-    toggleSelectAllUsers(
+    toggleSelectAllMembers(
       event.target.checked ? members.map((user) => user.id) : []
     )
   }
@@ -141,7 +141,7 @@ const MembersTableView = ({ members }: MembersTableViewProps) => {
                       <TableCell padding="checkbox">
                         <Checkbox
                           checked={isMemberSelected}
-                          onChange={(_event) => toggleSelectAUser(member.id)}
+                          onChange={(_event) => toggleSelectAMember(member.id)}
                           value={isMemberSelected}
                         />
                       </TableCell>

@@ -1,92 +1,49 @@
+// eslint-disable-next-line import/no-unresolved
+import { faker } from "@faker-js/faker" // TODO
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup"
-import { CloudUploadTwoTone as CloudUploadTwoToneIcon } from "@mui/icons-material"
 import { DatePicker } from "@mui/lab"
 import {
-  Autocomplete,
-  Avatar,
-  Box,
   Button,
   CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  Divider,
+  FormControl,
   Grid,
-  IconButton,
-  Switch,
+  InputLabel,
+  MenuItem,
+  Select,
   TextField,
   Typography,
-  Zoom,
 } from "@mui/material"
-import { useSnackbar } from "notistack"
 import { useForm } from "react-hook-form"
 import { useTranslation } from "react-i18next"
 import * as Yup from "yup"
 
-import ControlledTextField from "components/controlled-text-field"
-import {
-  AvatarWrapper,
-  ButtonUploadWrapper,
-  Input,
-} from "components/pages/management/members/create-member-dialog-styled"
-import { UserRole } from "typings/api-model"
-
-const roles = [UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.CUSTOMER]
-
 const defaultValues = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  password: "",
-  phone: "",
-  address: "",
-  description: "",
-  dob: new Date() as Date | null,
-  pob: "",
+  userId: 1,
+  startDate: new Date() as Date | null,
+  endDate: new Date() as Date | null,
 }
 
 const validationSchema = Yup.object().shape({
-  firstName: Yup.string().max(255).required("The first name field is required"),
-  lastName: Yup.string().max(255).required("The last name field is required"),
-  address: Yup.string(),
-  description: Yup.string(),
-  phone: Yup.string(),
-  dob: Yup.mixed(),
-  pob: Yup.mixed(),
-  email: Yup.string()
-    .email("The email provided should be a valid email address")
-    .max(255)
-    .required("The email field is required"),
-  password: Yup.string().max(255).required("The password field is required"),
+  userId: Yup.mixed(),
+  startDate: Yup.mixed(),
+  endDate: Yup.mixed(),
 })
 
-interface CreateUserDialogProps {
+interface CreateMemberDialogProps {
   open: boolean
   onClose: () => void
 }
 
-const CreateMemberDialog = ({ open, onClose }: CreateUserDialogProps) => {
+const CreateMemberDialog = ({ open, onClose }: CreateMemberDialogProps) => {
   const { t } = useTranslation()
-  const { enqueueSnackbar } = useSnackbar()
-
-  const _handleCreateUserSuccess = () => {
-    enqueueSnackbar(t("The user account was created successfully"), {
-      variant: "success",
-      anchorOrigin: {
-        vertical: "top",
-        horizontal: "right",
-      },
-      TransitionComponent: Zoom,
-    })
-
-    onClose()
-  }
 
   const {
     handleSubmit,
-    formState: { errors, isSubmitting },
-    control,
+    formState: { isSubmitting },
     watch,
     setValue,
   } = useForm<typeof defaultValues>({
@@ -99,19 +56,17 @@ const CreateMemberDialog = ({ open, onClose }: CreateUserDialogProps) => {
   })
 
   return (
-    <Dialog fullWidth maxWidth="md" open={open} onClose={onClose}>
+    <Dialog fullWidth maxWidth="sm" open={open} onClose={onClose}>
       <DialogTitle
         sx={{
           p: 3,
         }}
       >
         <Typography variant="h4" gutterBottom>
-          {t("Create a new user")}
+          {t("Create a new member")}
         </Typography>
         <Typography variant="subtitle2">
-          {t(
-            "Fill in the fields below to create and add a new user to the site"
-          )}
+          {t("Fill in the fields below to create and add a new member")}
         </Typography>
       </DialogTitle>
 
@@ -123,161 +78,59 @@ const CreateMemberDialog = ({ open, onClose }: CreateUserDialogProps) => {
           }}
         >
           <Grid container spacing={3}>
-            <Grid item xs={12} lg={7}>
+            <Grid item xs={12}>
               <Grid container spacing={3}>
-                <Grid item xs={12} md={6}>
-                  <ControlledTextField
-                    isError={Boolean(errors.firstName)}
-                    label={t("First name")}
-                    name="firstName"
-                    control={control}
-                    errorMessage={errors.firstName?.message}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <ControlledTextField
-                    isError={Boolean(errors.lastName)}
-                    label={t("Last name")}
-                    name="lastName"
-                    control={control}
-                    errorMessage={errors.lastName?.message}
-                  />
-                </Grid>
                 <Grid item xs={12}>
-                  <ControlledTextField
-                    isError={Boolean(errors.email)}
-                    label={t("Email address")}
-                    name="email"
-                    control={control}
-                    errorMessage={errors.email?.message}
-                  />
-                </Grid>{" "}
-                <Grid item xs={12}>
-                  <ControlledTextField
-                    isError={Boolean(errors.password)}
-                    type="password"
-                    label={t("Password")}
-                    name="password"
-                    control={control}
-                    errorMessage={errors.password?.message}
-                  />
+                  <FormControl fullWidth>
+                    <InputLabel id="userId">Select Customer</InputLabel>
+                    <Select labelId="userid" label="Select Customer">
+                      {new Array(20).fill(0).map((_, index) => {
+                        const name =
+                          faker.name.firstName() + " " + faker.name.lastName()
+                        return (
+                          <MenuItem key={index} value={name}>
+                            {name}
+                          </MenuItem>
+                        )
+                      })}
+                    </Select>
+                  </FormControl>
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <DatePicker
-                    value={watch("dob")}
+                    value={watch("startDate")}
                     onChange={(newValue) => {
-                      setValue("dob", newValue)
+                      setValue("startDate", newValue)
                     }}
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        placeholder={t("Select date...")}
+                        placeholder={t("Select end date...")}
                         margin="normal"
+                        label="Start Date"
                         variant="outlined"
                       />
                     )}
                   />
                 </Grid>
                 <Grid item xs={12} md={6}>
-                  <Autocomplete
-                    disablePortal
-                    options={roles}
-                    getOptionLabel={(option) => option}
+                  <DatePicker
+                    value={watch("endDate")}
+                    onChange={(newValue) => {
+                      setValue("endDate", newValue)
+                    }}
                     renderInput={(params) => (
                       <TextField
                         {...params}
+                        placeholder={t("Select end date...")}
+                        label="End Date"
                         margin="normal"
                         variant="outlined"
-                        fullWidth
-                        label={t("User role")}
                       />
                     )}
                   />
                 </Grid>
-                <Grid item xs={12}>
-                  <ControlledTextField
-                    isError={Boolean(errors.phone)}
-                    label={t("Phone Number")}
-                    name="phone"
-                    control={control}
-                    errorMessage={errors.phone?.message}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <ControlledTextField
-                    isError={Boolean(errors.address)}
-                    label={t("Address")}
-                    name="address"
-                    control={control}
-                    errorMessage={errors.address?.message}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <ControlledTextField
-                    isError={Boolean(errors.description)}
-                    label={t("Description")}
-                    name="description"
-                    control={control}
-                    errorMessage={errors.description?.message}
-                    multiline
-                    minRows={3}
-                  />
-                </Grid>
               </Grid>
-            </Grid>
-            <Grid item xs={12} lg={5} justifyContent="center">
-              <Box
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                flexDirection="column"
-                mt={3}
-              >
-                <AvatarWrapper>
-                  <Avatar variant="rounded" src="" />
-                  <ButtonUploadWrapper>
-                    <Input
-                      accept="image/*"
-                      id="icon-button-file"
-                      name="icon-button-file"
-                      type="file"
-                    />
-                    <label htmlFor="icon-button-file">
-                      <IconButton component="span" color="primary">
-                        <CloudUploadTwoToneIcon />
-                      </IconButton>
-                    </label>
-                  </ButtonUploadWrapper>
-                </AvatarWrapper>
-                <Divider
-                  flexItem
-                  sx={{
-                    m: 4,
-                  }}
-                />
-              </Box>
-              <Divider
-                flexItem
-                sx={{
-                  m: 4,
-                }}
-              />
-              <Box
-                display="flex"
-                alignItems="center"
-                flexDirection="column"
-                justifyContent="space-between"
-              >
-                <Typography
-                  variant="h4"
-                  sx={{
-                    pb: 1,
-                  }}
-                >
-                  {t("Active")}
-                </Typography>
-                <Switch name="public" color="primary" />
-              </Box>
             </Grid>
           </Grid>
         </DialogContent>

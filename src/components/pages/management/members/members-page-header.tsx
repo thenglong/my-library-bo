@@ -4,17 +4,17 @@ import { AddTwoTone as AddTwoToneIcon } from "@mui/icons-material"
 import { Button, Grid, Typography } from "@mui/material"
 import { useTranslation } from "react-i18next"
 
-import CreateUserDialog from "components/pages/management/users/create-user-dialog"
+import CreateMemberDialog from "components/pages/management/members/create-member-dialog"
 
 const MembersPageHeader = () => {
   const { t } = useTranslation()
   const [open, setOpen] = useState(false)
 
-  const handleOpenCreateUser = () => {
+  const handleOpenCreateMember = () => {
     setOpen(true)
   }
 
-  const handleOpenCloseUser = () => {
+  const handleOpenCloseMember = () => {
     setOpen(false)
   }
 
@@ -36,7 +36,7 @@ const MembersPageHeader = () => {
             sx={{
               mt: { xs: 2, sm: 0 },
             }}
-            onClick={handleOpenCreateUser}
+            onClick={handleOpenCreateMember}
             variant="contained"
             startIcon={<AddTwoToneIcon fontSize="small" />}
           >
@@ -44,7 +44,7 @@ const MembersPageHeader = () => {
           </Button>
         </Grid>
       </Grid>
-      <CreateUserDialog open={open} onClose={handleOpenCloseUser} />
+      <CreateMemberDialog open={open} onClose={handleOpenCloseMember} />
     </>
   )
 }

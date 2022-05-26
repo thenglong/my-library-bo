@@ -29,6 +29,7 @@ import { useTranslation } from "react-i18next"
 
 import BookGridView from "components/pages/management/books-page/book-grid-view"
 import BookTableView from "components/pages/management/books-page/book-table-view"
+import ConfirmDeleteBookDialog from "components/pages/management/books-page/confirm-delete-book-dialog"
 import { VIEW_ORIENTATION } from "constants/common-constants"
 import useBooksQuery from "hooks/queries/use-books-query"
 import useBookActions from "hooks/redux/use-book-actions"
@@ -232,75 +233,7 @@ const BookResults = () => {
         </Card>
       )}
 
-      {/*<DialogWrapper*/}
-      {/*  open={openConfirmDelete}*/}
-      {/*  maxWidth="sm"*/}
-      {/*  fullWidth*/}
-      {/*  TransitionComponent={Transition}*/}
-      {/*  keepMounted*/}
-      {/*  onClose={closeConfirmDelete}*/}
-      {/*>*/}
-      {/*  <Box*/}
-      {/*    display="flex"*/}
-      {/*    alignItems="center"*/}
-      {/*    justifyContent="center"*/}
-      {/*    flexDirection="column"*/}
-      {/*    p={5}*/}
-      {/*  >*/}
-      {/*    <AvatarError>*/}
-      {/*      <CloseIcon />*/}
-      {/*    </AvatarError>*/}
-
-      {/*    <Typography*/}
-      {/*      align="center"*/}
-      {/*      sx={{*/}
-      {/*        pt: 4,*/}
-      {/*        px: 6,*/}
-      {/*      }}*/}
-      {/*      variant="h3"*/}
-      {/*    >*/}
-      {/*      {t("Do you really want to delete this book")}?*/}
-      {/*    </Typography>*/}
-
-      {/*    <Typography*/}
-      {/*      align="center"*/}
-      {/*      sx={{*/}
-      {/*        pt: 2,*/}
-      {/*        pb: 4,*/}
-      {/*        px: 6,*/}
-      {/*      }}*/}
-      {/*      fontWeight="normal"*/}
-      {/*      color="text.secondary"*/}
-      {/*      variant="h4"*/}
-      {/*    >*/}
-      {/*      {t("You won't be able to revert after deletion")}*/}
-      {/*    </Typography>*/}
-
-      {/*    <Box>*/}
-      {/*      <Button*/}
-      {/*        variant="text"*/}
-      {/*        size="large"*/}
-      {/*        sx={{*/}
-      {/*          mx: 1,*/}
-      {/*        }}*/}
-      {/*        onClick={closeConfirmDelete}*/}
-      {/*      >*/}
-      {/*        {t("Cancel")}*/}
-      {/*      </Button>*/}
-      {/*      <ButtonError*/}
-      {/*        onClick={handleDeleteCompleted}*/}
-      {/*        size="large"*/}
-      {/*        sx={{*/}
-      {/*          mx: 1,*/}
-      {/*          px: 3,*/}
-      {/*        }}*/}
-      {/*        variant="contained"*/}
-      {/*      >*/}
-      {/*        {t("Delete")}*/}
-      {/*      </ButtonError>*/}
-      {/*    </Box>*/}
-      {/*  </Box>*/}
-      {/*</DialogWrapper>*/}
+      <ConfirmDeleteBookDialog />
     </>
   )
 }

@@ -1,9 +1,6 @@
 import { ChangeEvent } from "react"
 
-import {
-  DeleteTwoTone as DeleteTwoToneIcon,
-  LaunchTwoTone as LaunchTwoToneIcon,
-} from "@mui/icons-material"
+import { DeleteTwoTone as DeleteTwoToneIcon } from "@mui/icons-material"
 import {
   Box,
   Card,
@@ -238,11 +235,6 @@ const BookTableView = ({ books }: BookTableViewProps) => {
                       </TableCell>
                       <TableCell align="center">
                         <Typography noWrap>
-                          <Tooltip title={t("View")} arrow>
-                            <IconButton color="primary">
-                              <LaunchTwoToneIcon fontSize="small" />
-                            </IconButton>
-                          </Tooltip>
                           <Tooltip title={t("Delete")} arrow>
                             <IconButton
                               onClick={() => openConfirmDeleteModal()}
