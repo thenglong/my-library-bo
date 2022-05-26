@@ -3,8 +3,8 @@ import { Helmet } from "react-helmet-async"
 
 import Footer from "components/footer"
 import PageTitleWrapper from "components/page-title-wrapper"
-import MemberResults from "components/pages/management/members/member-results"
-import MembersPageHeader from "components/pages/management/members/members-page-header"
+import MemberResults from "components/pages/management/members-page/member-results"
+import MembersPageHeader from "components/pages/management/members-page/members-page-header"
 
 const ManagementMembersPage = () => {
   return (

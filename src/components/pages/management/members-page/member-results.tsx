@@ -2,7 +2,7 @@ import { useDeferredValue } from "react"
 
 import { Box } from "@mui/material"
 
-import MembersTableView from "components/pages/management/members/members-table-view"
+import MembersTableView from "components/pages/management/members-page/members-table-view"
 import ConfirmDeleteUserDialog from "components/pages/management/users/confirm-delete-user-dialog"
 import useMembersQuery from "hooks/queries/use-members-query"
 

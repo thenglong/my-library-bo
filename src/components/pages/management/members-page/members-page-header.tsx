@@ -4,7 +4,7 @@ import { AddTwoTone as AddTwoToneIcon } from "@mui/icons-material"
 import { Button, Grid, Typography } from "@mui/material"
 import { useTranslation } from "react-i18next"
 
-import CreateMemberDialog from "components/pages/management/members/create-member-dialog"
+import CreateMemberDialog from "components/pages/management/members-page/create-member-dialog"
 
 const MembersPageHeader = () => {
   const { t } = useTranslation()

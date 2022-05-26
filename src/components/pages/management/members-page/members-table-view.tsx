@@ -29,7 +29,7 @@ import { format } from "date-fns"
 import { useTranslation } from "react-i18next"
 import { Link as RouterLink } from "react-router-dom"
 
-import MemberStatusLabel from "components/pages/management/members/member-status-label"
+import MemberStatusLabel from "components/pages/management/members-page/member-status-label"
 import UsersBulkActions from "components/pages/management/users/users-bulk-actions"
 import useMemberActions from "hooks/redux/use-member-actions"
 import { useTypedSelector } from "hooks/redux/use-typed-selector"
