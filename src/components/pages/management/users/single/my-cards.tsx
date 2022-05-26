@@ -1,85 +1,15 @@
-import { useState } from "react"
-
-import {
-  AddTwoTone as AddTwoToneIcon,
-  DeleteTwoTone as DeleteTwoToneIcon,
-} from "@mui/icons-material"
 import {
   Box,
-  Grid,
-  Radio,
-  FormControlLabel,
-  Typography,
   Card,
   CardHeader,
   Divider,
-  lighten,
-  CardActionArea,
-  CardContent,
-  Tooltip,
-  IconButton,
-  Zoom,
-  Avatar,
+  Grid,
   styled,
+  Typography,
 } from "@mui/material"
-import { useSnackbar } from "notistack"
 import { useTranslation } from "react-i18next"
 
-const AvatarAddWrapper = styled(Avatar)(
-  ({ theme }) => `
-          background: ${theme.colors.alpha.black[5]};
-          color: ${theme.colors.primary.main};
-          width: ${theme.spacing(8)};
-          height: ${theme.spacing(8)};
-  `
-)
-
-const CardLogo = styled("img")(
-  ({ theme }) => `
-        border: 1px solid ${theme.colors.alpha.black[30]};
-        border-radius: ${theme.general.borderRadius};
-        padding: ${theme.spacing(1)};
-        margin-right: ${theme.spacing(2)};
-        background: ${theme.colors.alpha.white[100]};
-  `
-)
-
-const CardAddAction = styled(Card)(
-  ({ theme }) => `
-          border: ${theme.colors.primary.main} dashed 1px;
-          height: 100%;
-          color: ${theme.colors.primary.main};
-          box-shadow: none;
-          transition: ${theme.transitions.create(["all"])};
-          
-          .MuiCardActionArea-root {
-            height: 100%;
-            justify-content: center;
-            align-items: center;
-            display: flex;
-          }
-          
-          .MuiTouchRipple-root {
-            opacity: .2;
-          }
-          
-          &:hover {
-            border-color: ${theme.colors.alpha.black[70]};
-          }
-  `
-)
-
-const IconButtonError = styled(IconButton)(
-  ({ theme }) => `
-       background: ${theme.colors.error.lighter};
-       color: ${theme.colors.error.main};
-       padding: ${theme.spacing(0.5)};
-  
-       &:hover {
-        background: ${lighten(theme.colors.error.lighter, 0.4)};
-       }
-  `
-)
+import Logo from "components/logo"
 
 const CardCc = styled(Card)(
   ({ theme }) => `
@@ -91,36 +21,10 @@ const CardCc = styled(Card)(
 
 const MyCards = () => {
   const { t } = useTranslation()
-  const { enqueueSnackbar } = useSnackbar()
-
-  const data = {
-    savedCards: 7,
-  }
-
-  const [selectedValue, setSelectedValue] = useState("a")
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-
-  const handleChange = (event: any) => {
-    setSelectedValue(event.target.value)
-  }
-
-  const handleDelete = () => {
-    enqueueSnackbar(t("The card has been removed successfully"), {
-      variant: "success",
-      anchorOrigin: {
-        vertical: "top",
-        horizontal: "right",
-      },
-      TransitionComponent: Zoom,
-    })
-  }
 
   return (
-    <Card>
-      <CardHeader
-        subheader={`${data.savedCards} ${t("saved cards")}`}
-        title={t("Cards")}
-      />
+    <Card sx={{ height: "100%" }}>
+      <CardHeader subheader={t("Member card")} />
       <Divider />
       <Box p={3}>
         <Grid container spacing={3}>
@@ -133,10 +37,7 @@ const MyCards = () => {
               }}
             >
               <Box display="flex" alignItems="center">
-                <CardLogo
-                  src="/static/images/placeholders/logo/visa.png"
-                  alt="Visa"
-                />
+                <Logo />
                 <Box>
                   <Typography variant="h3" fontWeight="normal">
                     •••• 6879
@@ -149,101 +50,7 @@ const MyCards = () => {
                   </Typography>
                 </Box>
               </Box>
-              <Box
-                pt={3}
-                display="flex"
-                alignItems="center"
-                justifyContent="space-between"
-              >
-                <FormControlLabel
-                  value="a"
-                  control={
-                    <Radio
-                      checked={selectedValue === "a"}
-                      onChange={handleChange}
-                      value="a"
-                      color="primary"
-                      name="primary-card"
-                    />
-                  }
-                  label={t("Primary")}
-                />
-                <Tooltip arrow title={t("Remove this card")}>
-                  <IconButtonError onClick={() => handleDelete()}>
-                    <DeleteTwoToneIcon fontSize="small" />
-                  </IconButtonError>
-                </Tooltip>
-              </Box>
             </CardCc>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <CardCc
-              sx={{
-                px: 2,
-                pt: 2,
-                pb: 1,
-              }}
-            >
-              <Box display="flex" alignItems="center">
-                <CardLogo
-                  src="/static/images/placeholders/logo/mastercard.png"
-                  alt="Visa"
-                />
-                <Box>
-                  <Typography variant="h3" fontWeight="normal">
-                    •••• 4634
-                  </Typography>
-                  <Typography variant="subtitle2">
-                    {t("Expires")}:{" "}
-                    <Typography component="span" color="text.primary">
-                      6/22
-                    </Typography>
-                  </Typography>
-                </Box>
-              </Box>
-              <Box
-                pt={3}
-                display="flex"
-                alignItems="center"
-                justifyContent="space-between"
-              >
-                <FormControlLabel
-                  value="b"
-                  control={
-                    <Radio
-                      checked={selectedValue === "b"}
-                      onChange={handleChange}
-                      value="b"
-                      color="primary"
-                      name="primary-card"
-                    />
-                  }
-                  label={t("Primary")}
-                />
-                <Tooltip arrow title={t("Remove this card")}>
-                  <IconButtonError onClick={() => handleDelete()}>
-                    <DeleteTwoToneIcon fontSize="small" />
-                  </IconButtonError>
-                </Tooltip>
-              </Box>
-            </CardCc>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Tooltip arrow title={t("Click to add a new card")}>
-              <CardAddAction>
-                <CardActionArea
-                  sx={{
-                    px: 1,
-                  }}
-                >
-                  <CardContent>
-                    <AvatarAddWrapper>
-                      <AddTwoToneIcon fontSize="large" />
-                    </AvatarAddWrapper>
-                  </CardContent>
-                </CardActionArea>
-              </CardAddAction>
-            </Tooltip>
           </Grid>
         </Grid>
       </Box>

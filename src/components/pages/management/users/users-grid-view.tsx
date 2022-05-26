@@ -124,7 +124,7 @@ const UsersGridView = ({ users }: UsersGridViewProps) => {
                   </InputAdornment>
                 ),
               }}
-              placeholder={t("Search by name, email or username...")}
+              placeholder={t("Search by name, email...")}
               margin="normal"
               variant="outlined"
             />
@@ -192,10 +192,9 @@ const UsersGridView = ({ users }: UsersGridViewProps) => {
                             <Link
                               variant="h5"
                               component={RouterLink}
-                              // to={`/${
-                              //   location.pathname.split("/")[1]
-                              // }/management/users/single/${user.id}`}
-                              to="#"
+                              to={`/${
+                                location.pathname.split("/")[1]
+                              }/management/users/single/${user.id}`}
                             >
                               {user.name}
                             </Link>{" "}
@@ -204,7 +203,7 @@ const UsersGridView = ({ users }: UsersGridViewProps) => {
                               variant="body2"
                               color="text.secondary"
                             >
-                              (user.username)
+                              ({user.role})
                             </Typography>
                           </Box>
                           <Typography
@@ -235,7 +234,7 @@ const UsersGridView = ({ users }: UsersGridViewProps) => {
                         justifyContent="space-between"
                       >
                         <Typography>
-                          <b>user.posts</b> {t("posts")}
+                          <b>{t("Phone")}</b> {user.phone}
                         </Typography>
                         <Checkbox
                           checked={isUserSelected}

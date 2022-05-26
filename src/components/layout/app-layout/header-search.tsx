@@ -134,6 +134,9 @@ const searchTerms: SearchTerm = {
   ],
 }
 
+/*
+ *  TODO: add search to application
+ */
 const HeaderSearch = () => {
   const { t } = useTranslation()
   const theme = useTheme()

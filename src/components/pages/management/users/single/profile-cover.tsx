@@ -1,28 +1,23 @@
 import {
   ArrowBackTwoTone as ArrowBackTwoToneIcon,
-  ArrowForwardTwoTone as ArrowForwardTwoToneIcon,
-  MoreHorizTwoTone as MoreHorizTwoToneIcon,
   UploadTwoTone as UploadTwoToneIcon,
 } from "@mui/icons-material"
 import {
-  Box,
-  Typography,
-  Card,
-  Tooltip,
   Avatar,
-  CardMedia,
-  Button,
+  Box,
+  Card,
   IconButton,
   styled,
+  Tooltip,
+  Typography,
 } from "@mui/material"
 import { useTranslation } from "react-i18next"
-import { useNavigate, useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 
 import { User } from "typings/api-model"
 
 const AvatarWrapper = styled(Card)(
   ({ theme }) => `
-  
       position: relative;
       overflow: visible;
       display: inline-block;
@@ -57,24 +52,6 @@ const ButtonUploadWrapper = styled(Box)(
           background: ${theme.colors.primary.dark};
         }
       }
-  `
-)
-
-const CardCover = styled(Card)(
-  ({ theme }) => `
-      position: relative;
-  
-      .MuiCardMedia-root {
-        height: ${theme.spacing(26)};
-      }
-  `
-)
-
-const CardCoverAction = styled(Box)(
-  ({ theme }) => `
-      position: absolute;
-      right: ${theme.spacing(2)};
-      bottom: ${theme.spacing(2)};
   `
 )
 
@@ -115,29 +92,7 @@ const ProfileCover = ({ user }: ProfileCoverProps) => {
           </Typography>
         </Box>
       </Box>
-      <CardCover>
-        {/*TODO */}
-        <CardMedia image="https://source.unsplash.com/random/?city,night" />
-        <CardCoverAction>
-          <input
-            hidden
-            accept="image/*"
-            id="change-cover"
-            multiple
-            type="file"
-          />
-          <label htmlFor="change-cover">
-            <Button
-              startIcon={<UploadTwoToneIcon />}
-              variant="contained"
-              component="span"
-            >
-              {t("Change cover")}
-            </Button>
-          </label>
-        </CardCoverAction>
-      </CardCover>
-      <AvatarWrapper>
+      <AvatarWrapper sx={{ mt: 5 }}>
         <Avatar variant="rounded" alt={user.name} src={user.avatar} />
         <ButtonUploadWrapper>
           <input
@@ -158,7 +113,6 @@ const ProfileCover = ({ user }: ProfileCoverProps) => {
         <Typography gutterBottom variant="h4">
           {user.name}
         </Typography>
-        <Typography variant="subtitle2">{user.description}</Typography>
         <Typography
           sx={{
             py: 2,
@@ -166,48 +120,9 @@ const ProfileCover = ({ user }: ProfileCoverProps) => {
           variant="subtitle2"
           color="text.primary"
         >
-          user.jobtitle | user.location | user.followers {t("followers")}
+          {user.jobTitle}
         </Typography>
-        <Box
-          display={{ xs: "block", md: "flex" }}
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          <Box>
-            <Button size="small" variant="contained">
-              {t("Follow")}
-            </Button>
-            <Button
-              size="small"
-              sx={{
-                mx: 1,
-              }}
-              variant="outlined"
-            >
-              {t("View website")}
-            </Button>
-            <IconButton
-              color="primary"
-              sx={{
-                p: 0.5,
-              }}
-            >
-              <MoreHorizTwoToneIcon />
-            </IconButton>
-          </Box>
-          <Button
-            sx={{
-              mt: { xs: 2, md: 0 },
-            }}
-            size="small"
-            variant="text"
-            endIcon={<ArrowForwardTwoToneIcon />}
-          >
-            {t("See all")}
-            {` ${"user.followers"} `}
-            {t("connections")}
-          </Button>
-        </Box>
+        <Typography variant="subtitle2">{user.description}</Typography>
       </Box>
     </>
   )

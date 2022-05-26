@@ -94,9 +94,6 @@ const InvoiceBulkActions = () => {
           <ListItemButton>
             <ListItemText primary={t("Bulk delete selected")} />
           </ListItemButton>
-          <ListItemButton>
-            <ListItemText primary={t("Resend email notification")} />
-          </ListItemButton>
         </List>
       </Menu>
     </>

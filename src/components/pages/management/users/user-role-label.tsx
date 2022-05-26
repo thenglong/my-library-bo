@@ -19,7 +19,7 @@ const UserRoleLabel = ({ role }: UserRoleLabelProps) => {
       color: "error",
     },
     [UserRole.LIBRARIAN]: {
-      text: "Library Manager",
+      text: "Librarian",
       color: "warning",
     },
     [UserRole.CUSTOMER]: {

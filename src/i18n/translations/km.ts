@@ -36,7 +36,7 @@ const km = {
   "Create a new user": "បង្កើតអ្នកប្រើប្រាស់ថ្មី",
   "All Users": "ទាំងអស់",
   Administrators: "អ្នកគ្រប់គ្រងទូទៅ",
-  "Library Managers": "អ្នកគ្រប់គ្រងបណ្ណាល័យ",
+  Librarian: "អ្នកគ្រប់គ្រងបណ្ណាល័យ",
   Customers: "អតិថិជន",
   "Fill in the fields below to create and add a new user to the site":
     "សូមបំពេញព័ត៌មានខាងក្រោមដើម្បីគណនី",

@@ -81,7 +81,10 @@ const UsersTableView = ({ users }: UsersTableViewProps) => {
                 </InputAdornment>
               ),
             }}
-            placeholder={t("Search by name, email or username...")}
+            inputProps={{
+              autoComplete: "nope",
+            }}
+            placeholder={t("Search by name, email...")}
             fullWidth
             margin="normal"
             variant="outlined"
@@ -119,11 +122,10 @@ const UsersTableView = ({ users }: UsersTableViewProps) => {
                       onChange={handleSelectAllUsers}
                     />
                   </TableCell>
-                  <TableCell>{t("Username")}</TableCell>
                   <TableCell>{t("Name")}</TableCell>
                   <TableCell>{t("Email")}</TableCell>
-                  <TableCell align="center">{t("Posts")}</TableCell>
-                  <TableCell>{t("Location")}</TableCell>
+                  <TableCell align="center">{t("Phone")}</TableCell>
+                  <TableCell>{t("Address")}</TableCell>
                   <TableCell>{t("Role")}</TableCell>
                   <TableCell align="center">{t("Actions")}</TableCell>
                 </TableRow>
@@ -141,9 +143,6 @@ const UsersTableView = ({ users }: UsersTableViewProps) => {
                         />
                       </TableCell>
                       <TableCell>
-                        <Typography variant="h5">user.username</Typography>
-                      </TableCell>
-                      <TableCell>
                         <Box display="flex" alignItems="center">
                           <Avatar
                             sx={{
@@ -155,10 +154,9 @@ const UsersTableView = ({ users }: UsersTableViewProps) => {
                             <Link
                               variant="h5"
                               component={RouterLink}
-                              // to={`/${
-                              //   location.pathname.split("/")[1]
-                              // }/management/users/single/${user.id}`}
-                              to="#"
+                              to={`/${
+                                location.pathname.split("/")[1]
+                              }/management/users/single/${user.id}`}
                             >
                               {user.name}
                             </Link>
@@ -172,7 +170,7 @@ const UsersTableView = ({ users }: UsersTableViewProps) => {
                         <Typography>{user.email}</Typography>
                       </TableCell>
                       <TableCell align="center">
-                        <Typography fontWeight="bold">user.posts</Typography>
+                        <Typography fontWeight="bold">{user.phone}</Typography>
                       </TableCell>
                       <TableCell>
                         <Typography>{user.address}</Typography>
@@ -185,10 +183,9 @@ const UsersTableView = ({ users }: UsersTableViewProps) => {
                           <Tooltip title={t("View")} arrow>
                             <IconButton
                               component={RouterLink}
-                              // to={`/${
-                              //   location.pathname.split("/")[1]
-                              // }/management/users/single/${user.id}`}
-                              to="#"
+                              to={`/${
+                                location.pathname.split("/")[1]
+                              }/management/users/single/${user.id}`}
                               color="primary"
                             >
                               <LaunchTwoToneIcon fontSize="small" />

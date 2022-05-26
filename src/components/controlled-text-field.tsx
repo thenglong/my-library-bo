@@ -20,6 +20,8 @@ interface ControlledTextFieldProps {
   type?: InputHTMLAttributes<HTMLInputTypeAttribute>["type"]
   isError: boolean
   errorMessage?: string
+  multiline?: boolean
+  minRows?: number
 }
 
 const ControlledTextField = ({
@@ -30,6 +32,8 @@ const ControlledTextField = ({
   type,
   isError,
   errorMessage,
+  multiline,
+  minRows,
 }: ControlledTextFieldProps) => {
   const [inputType, setInputType] = useState(type)
 
@@ -50,12 +54,14 @@ const ControlledTextField = ({
           {...field}
           error={isError}
           fullWidth
+          multiline={multiline}
           helperText={t(errorMessage || "")}
           label={t(label || "")}
           placeholder={t(placeholder || "")}
           margin="normal"
           type={inputType}
           variant="outlined"
+          minRows={minRows}
           InputProps={{
             endAdornment:
               type === "password" ? (

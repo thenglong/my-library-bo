@@ -5,19 +5,16 @@ import {
   MenuTwoTone as MenuTwoToneIcon,
 } from "@mui/icons-material"
 import {
-  Box,
   alpha,
-  Stack,
-  lighten,
-  Divider,
+  Box,
   IconButton,
-  Tooltip,
+  lighten,
   styled,
+  Tooltip,
   useTheme,
 } from "@mui/material"
 
 import HeaderButtons from "components/layout/app-layout/header-buttons"
-import HeaderSearch from "components/layout/app-layout/header-search"
 import HeaderUserBox from "components/layout/app-layout/header-user-box"
 import { SidebarContext } from "contexts/SidebarContext"
 
@@ -65,14 +62,7 @@ const Header = () => {
               )}`,
       }}
     >
-      <Stack
-        direction="row"
-        divider={<Divider orientation="vertical" flexItem />}
-        alignItems="center"
-        spacing={2}
-      >
-        <HeaderSearch />
-      </Stack>
+      <div />
       <Box display="flex" alignItems="center">
         <HeaderButtons />
         <HeaderUserBox />

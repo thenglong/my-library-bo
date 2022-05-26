@@ -54,11 +54,15 @@ const tabs = [
   },
   {
     value: UserRole.LIBRARIAN,
-    label: "Library Managers",
+    label: "Librarian",
   },
   {
     value: UserRole.CUSTOMER,
     label: "Customers",
+  },
+  {
+    value: UserRole.CUSTOMER + "_MEMBER",
+    label: "Customers (Member)",
   },
 ]
 
@@ -104,8 +108,8 @@ const UserResults = () => {
           value={selectedRole || "all"}
           variant="scrollable"
         >
-          {tabs.map((tab) => (
-            <Tab key={tab.value} value={tab.value} label={t(tab.label)} />
+          {tabs.map((tab, index) => (
+            <Tab key={index} value={tab.value} label={t(tab.label)} />
           ))}
         </TabsWrapper>
         <ToggleButtonGroup

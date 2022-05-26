@@ -1,21 +1,19 @@
-import { useState, useRef } from "react"
+import { useRef, useState } from "react"
 
 import {
   DeleteTwoTone as DeleteTwoToneIcon,
   MoreVertTwoTone as MoreVertTwoToneIcon,
-  VerifiedUserTwoTone as VerifiedUserTwoToneIcon,
 } from "@mui/icons-material"
 import {
   Box,
-  Menu,
-  Tooltip,
-  IconButton,
   Button,
-  ListItemText,
-  ListItem,
+  IconButton,
   List,
-  Typography,
+  ListItem,
+  ListItemText,
+  Menu,
   styled,
+  Typography,
 } from "@mui/material"
 import { useTranslation } from "react-i18next"
 
@@ -50,17 +48,6 @@ const UsersBulkActions = () => {
           <Typography variant="h5" color="text.secondary">
             {t("Bulk actions")}:
           </Typography>
-          <Tooltip arrow placement="top" title={t("Resend verification email")}>
-            <IconButton
-              color="primary"
-              sx={{
-                ml: 1,
-                p: 1,
-              }}
-            >
-              <VerifiedUserTwoToneIcon />
-            </IconButton>
-          </Tooltip>
           <ButtonError
             sx={{
               ml: 1,
