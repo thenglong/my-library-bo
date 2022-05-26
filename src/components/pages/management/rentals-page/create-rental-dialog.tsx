@@ -102,7 +102,7 @@ const CreateRentalDialog = ({ open, onClose }: CreateRentalDialogProps) => {
                 </Grid>
                 <Grid item xs={12}>
                   <FormControl fullWidth>
-                    <InputLabel id="bookId">Select Customer</InputLabel>
+                    <InputLabel id="bookId">Select Book</InputLabel>
                     <Select labelId="bookId" label="Select Book">
                       {new Array(20).fill(0).map((_, index) => {
                         const bookName = faker.name.firstName()
