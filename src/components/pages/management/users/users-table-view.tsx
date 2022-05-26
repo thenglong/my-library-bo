@@ -124,7 +124,7 @@ const UsersTableView = ({ users }: UsersTableViewProps) => {
                   </TableCell>
                   <TableCell>{t("Name")}</TableCell>
                   <TableCell>{t("Email")}</TableCell>
-                  <TableCell align="center">{t("Phone")}</TableCell>
+                  <TableCell>{t("Phone")}</TableCell>
                   <TableCell>{t("Address")}</TableCell>
                   <TableCell>{t("Role")}</TableCell>
                   <TableCell align="center">{t("Actions")}</TableCell>
@@ -169,9 +169,7 @@ const UsersTableView = ({ users }: UsersTableViewProps) => {
                       <TableCell>
                         <Typography>{user.email}</Typography>
                       </TableCell>
-                      <TableCell align="center">
-                        <Typography fontWeight="bold">{user.phone}</Typography>
-                      </TableCell>
+                      <TableCell>{user.phone}</TableCell>
                       <TableCell>
                         <Typography>{user.address}</Typography>
                       </TableCell>
