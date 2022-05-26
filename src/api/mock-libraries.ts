@@ -23,6 +23,7 @@ export const libraries: Library[] = new Array(100).fill(0).map(() => {
   const library: Library = {
     id: getLibraryId(),
     name: "IBC",
+    logoUrl: faker.image.imageUrl(),
     address: faker.lorem.sentence(),
     phone: faker.phone.phoneNumber(),
     createdAt: faker.date.past(),
@@ -33,7 +34,7 @@ export const libraries: Library[] = new Array(100).fill(0).map(() => {
   return library
 })
 
-mock.onGet("/api/v1/users").reply((config) => {
+mock.onGet("/api/v1/libraries").reply((config) => {
   const status = config.params.status as LibraryStatus | "all"
   const pageFilter = config.params.pageFilter as PageFilterable
   const search = config.params.search as string
@@ -63,7 +64,7 @@ mock.onGet("/api/v1/users").reply((config) => {
   return [200, userPageable]
 })
 
-mock.onGet("/api/v1/users/:id").reply((config) => {
+mock.onGet("/api/v1/libraries/:id").reply((config) => {
   const { id } = config.params
   const library = libraries.find((library) => +library.id === +id)
   return [200, library]

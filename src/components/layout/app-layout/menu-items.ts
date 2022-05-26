@@ -4,6 +4,8 @@ import {
   MenuBook as BookIcon,
   Person as PersonIcon,
   Receipt as ReceiptIcon,
+  LocalLibrary as LibraryIcon,
+  SupervisorAccount as SupervisorAccountIcon,
 } from "@mui/icons-material"
 
 export interface MenuItem {
@@ -25,14 +27,24 @@ const menuItems: MenuItems[] = [
     heading: "Management",
     items: [
       {
+        name: "Rental",
+        icon: SupervisorAccountIcon,
+        link: "/app/management/rentals/list",
+      },
+      {
         name: "Users",
         icon: PersonIcon,
         link: "/app/management/users/list",
       },
       {
         name: "Members",
-        icon: BookIcon,
+        icon: PersonIcon,
         link: "/app/management/members/list",
+      },
+      {
+        name: "Libraries",
+        icon: LibraryIcon,
+        link: "/app/management/libraries/list",
       },
       {
         name: "Books",

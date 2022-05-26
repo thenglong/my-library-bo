@@ -6,7 +6,6 @@ import {
 } from "@mui/icons-material"
 import {
   Alert,
-  Autocomplete,
   Box,
   Button,
   CircularProgress,
@@ -18,7 +17,6 @@ import {
   List,
   ListItem,
   ListItemText,
-  TextField,
   Typography,
   useTheme,
   Zoom,
@@ -27,7 +25,6 @@ import { useSnackbar } from "notistack"
 import { useDropzone } from "react-dropzone"
 import { useForm } from "react-hook-form"
 import { useTranslation } from "react-i18next"
-import ReactQuill from "react-quill"
 import * as yup from "yup"
 
 import ControlledTextField from "components/controlled-text-field"
@@ -36,33 +33,26 @@ import {
   AvatarSuccess,
   AvatarWrapper,
   BoxUploadWrapper,
-  EditorWrapper,
 } from "components/pages/management/books-page/create-book-dialog-styled"
 
-const bookCategories = [
-  { title: "Development" },
-  { title: "Design Book" },
-  { title: "Marketing Research" },
-  { title: "Software" },
-]
-
-interface CreateBookDialogProps {
-  isOpen: boolean
-  onClose: () => void
-}
-
 const defaultValues = {
-  title: "",
-  author: "",
-  edition: "",
-  publisher: "",
+  name: "",
+  address: "",
+  description: "",
+  phone: "",
+  email: "",
 }
 
 const validationSchema = yup.object().shape({
-  title: yup.string().max(255).required("The title field is required"),
+  name: yup.string().max(255).required("The name field is required"),
 })
 
-const CreateBookDialog = ({ isOpen, onClose }: CreateBookDialogProps) => {
+interface CreateLibraryDialogProps {
+  open: boolean
+  onClose: () => void
+}
+
+const CreateLibraryDialog = ({ open, onClose }: CreateLibraryDialogProps) => {
   const { t } = useTranslation()
   const { enqueueSnackbar } = useSnackbar()
   const theme = useTheme()
@@ -89,7 +79,7 @@ const CreateBookDialog = ({ isOpen, onClose }: CreateBookDialogProps) => {
   ))
 
   const _handleCreateBookSuccess = () => {
-    enqueueSnackbar(t("A new book has been created successfully"), {
+    enqueueSnackbar(t("A new library has been created successfully"), {
       variant: "success",
       anchorOrigin: {
         vertical: "top",
@@ -115,17 +105,17 @@ const CreateBookDialog = ({ isOpen, onClose }: CreateBookDialogProps) => {
   })
 
   return (
-    <Dialog fullWidth maxWidth="md" open={isOpen} onClose={onClose}>
+    <Dialog fullWidth maxWidth="md" open={open} onClose={onClose}>
       <DialogTitle
         sx={{
           p: 3,
         }}
       >
         <Typography variant="h4" gutterBottom>
-          {t("Create new book")}
+          {t("Create new library")}
         </Typography>
         <Typography variant="subtitle2">
-          {t("Use this dialog window to add a new book")}
+          {t("Use this dialog window to add a new library")}
         </Typography>
       </DialogTitle>
 
@@ -153,7 +143,7 @@ const CreateBookDialog = ({ isOpen, onClose }: CreateBookDialogProps) => {
                 }}
                 alignSelf="center"
               >
-                <b>{t("Book title")}:</b>
+                <b>{t("Library Name")}:</b>
               </Box>
             </Grid>
             <Grid
@@ -166,11 +156,11 @@ const CreateBookDialog = ({ isOpen, onClose }: CreateBookDialogProps) => {
               md={9}
             >
               <ControlledTextField
-                isError={Boolean(errors.title)}
-                placeholder="Book title here..."
-                name="title"
+                isError={Boolean(errors.name)}
+                placeholder="Library name title here..."
+                name="name"
                 control={control}
-                errorMessage={errors.title?.message}
+                errorMessage={errors.name?.message}
               />
             </Grid>
             <Grid
@@ -189,7 +179,7 @@ const CreateBookDialog = ({ isOpen, onClose }: CreateBookDialogProps) => {
                 }}
                 alignSelf="center"
               >
-                <b>{t("Author")}:</b>
+                <b>{t("Address")}:</b>
               </Box>
             </Grid>
             <Grid
@@ -202,11 +192,11 @@ const CreateBookDialog = ({ isOpen, onClose }: CreateBookDialogProps) => {
               md={9}
             >
               <ControlledTextField
-                isError={Boolean(errors.author)}
-                placeholder="Author here..."
-                name="author"
+                isError={Boolean(errors.address)}
+                placeholder="Address here..."
+                name="address"
                 control={control}
-                errorMessage={errors.author?.message}
+                errorMessage={errors.address?.message}
               />
             </Grid>
             <Grid
@@ -224,69 +214,6 @@ const CreateBookDialog = ({ isOpen, onClose }: CreateBookDialogProps) => {
                   pb: { xs: 1, md: 0 },
                 }}
                 alignSelf="center"
-              >
-                <b>{t("Edition")}:</b>
-              </Box>
-            </Grid>
-            <Grid
-              sx={{
-                mb: `${theme.spacing(3)}`,
-              }}
-              item
-              xs={12}
-              sm={8}
-              md={9}
-            >
-              <ControlledTextField
-                isError={Boolean(errors.edition)}
-                placeholder="Edition here..."
-                name="edition"
-                control={control}
-                errorMessage={errors.edition?.message}
-              />
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              sm={4}
-              md={3}
-              justifyContent="flex-end"
-              textAlign={{ sm: "right" }}
-            >
-              <Box
-                pr={3}
-                sx={{
-                  pt: `${theme.spacing(2)}`,
-                  pb: { xs: 1, md: 0 },
-                }}
-                alignSelf="center"
-              >
-                <b>{t("Publisher")}:</b>
-              </Box>
-            </Grid>
-            <Grid
-              sx={{
-                mb: `${theme.spacing(3)}`,
-              }}
-              item
-              xs={12}
-              sm={8}
-              md={9}
-            >
-              <ControlledTextField
-                isError={Boolean(errors.publisher)}
-                placeholder="Publisher here..."
-                name="publisher"
-                control={control}
-                errorMessage={errors.publisher?.message}
-              />
-            </Grid>
-            <Grid item xs={12} sm={4} md={3} textAlign={{ sm: "right" }}>
-              <Box
-                pr={3}
-                sx={{
-                  pb: { xs: 1, md: 0 },
-                }}
               >
                 <b>{t("Description")}:</b>
               </Box>
@@ -300,9 +227,15 @@ const CreateBookDialog = ({ isOpen, onClose }: CreateBookDialogProps) => {
               sm={8}
               md={9}
             >
-              <EditorWrapper>
-                <ReactQuill />
-              </EditorWrapper>
+              <ControlledTextField
+                isError={Boolean(errors.description)}
+                placeholder="Description here..."
+                name="description"
+                control={control}
+                errorMessage={errors.description?.message}
+                multiline
+                minRows={3}
+              />
             </Grid>
             <Grid
               item
@@ -320,7 +253,7 @@ const CreateBookDialog = ({ isOpen, onClose }: CreateBookDialogProps) => {
                 }}
                 alignSelf="center"
               >
-                <b>{t("Categories")}:</b>
+                <b>{t("Phone Number")}:</b>
               </Box>
             </Grid>
             <Grid
@@ -332,24 +265,52 @@ const CreateBookDialog = ({ isOpen, onClose }: CreateBookDialogProps) => {
               sm={8}
               md={9}
             >
-              <Autocomplete
-                multiple
-                sx={{
-                  m: 0,
-                }}
-                limitTags={2}
-                options={bookCategories}
-                getOptionLabel={(option) => option.title}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    fullWidth
-                    variant="outlined"
-                    placeholder={t("Select book tags...")}
-                  />
-                )}
+              <ControlledTextField
+                isError={Boolean(errors.phone)}
+                placeholder="Phone Number here..."
+                name="phone"
+                control={control}
+                errorMessage={errors.phone?.message}
               />
             </Grid>
+
+            <Grid
+              item
+              xs={12}
+              sm={4}
+              md={3}
+              justifyContent="flex-end"
+              textAlign={{ sm: "right" }}
+            >
+              <Box
+                pr={3}
+                sx={{
+                  pt: `${theme.spacing(2)}`,
+                  pb: { xs: 1, md: 0 },
+                }}
+                alignSelf="center"
+              >
+                <b>{t("Email")}:</b>
+              </Box>
+            </Grid>
+            <Grid
+              sx={{
+                mb: `${theme.spacing(3)}`,
+              }}
+              item
+              xs={12}
+              sm={8}
+              md={9}
+            >
+              <ControlledTextField
+                isError={Boolean(errors.email)}
+                placeholder="Email here..."
+                name="email"
+                control={control}
+                errorMessage={errors.email?.message}
+              />
+            </Grid>
+
             <Grid item xs={12} sm={4} md={3} textAlign={{ sm: "right" }}>
               <Box
                 pr={3}
@@ -357,7 +318,7 @@ const CreateBookDialog = ({ isOpen, onClose }: CreateBookDialogProps) => {
                   pb: { xs: 1, md: 0 },
                 }}
               >
-                <b>{t("Cover")}:</b>
+                <b>{t("Logo")}:</b>
               </Box>
             </Grid>
             <Grid
@@ -475,4 +436,4 @@ const CreateBookDialog = ({ isOpen, onClose }: CreateBookDialogProps) => {
   )
 }
 
-export default CreateBookDialog
+export default CreateLibraryDialog

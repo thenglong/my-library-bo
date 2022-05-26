@@ -5,6 +5,7 @@ import { Navigate, RouteObject } from "react-router-dom"
 const Users = lazy(() => import("components/pages/management/users"))
 const SingleUser = lazy(() => import("components/pages/management/users/single"))
 const Members = lazy(() => import("components/pages/management/members-page"))
+const Libraries = lazy(() => import("components/pages/management/libraries-page"))
 const Books = lazy(() => import("components/pages/management/books-page"))
 const Invoices = lazy(() => import("components/pages/management/invoices-page"))
 const SingleInvoice = lazy(() => import("components/pages/management/invoices-page/single"))
@@ -50,6 +51,19 @@ const managementRoutes: RouteObject[] = [
       {
         path: "list",
         element: <Members />,
+      },
+    ],
+  },
+  {
+    path: "libraries",
+    children: [
+      {
+        path: "",
+        element: <Navigate to="list" replace />,
+      },
+      {
+        path: "list",
+        element: <Libraries />,
       },
     ],
   },

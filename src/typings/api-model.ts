@@ -71,6 +71,7 @@ export interface Library {
   name: string
   address: string
   description: string
+  logoUrl: string
   status: LibraryStatus
   phone: string
   createdAt: string | Date
