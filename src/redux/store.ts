@@ -4,6 +4,7 @@ import logger from "redux-logger"
 import bookSlice from "redux/slice/book-slice"
 import librarySlice from "redux/slice/library-slice"
 import memberSlice from "redux/slice/member-slice"
+import rentalSlice from "redux/slice/rental-slice"
 import userSlice from "redux/slice/user-slice"
 
 export const store = configureStore({
@@ -12,6 +13,7 @@ export const store = configureStore({
     book: bookSlice.reducer,
     member: memberSlice.reducer,
     library: librarySlice.reducer,
+    rental: rentalSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
   devTools: process.env.NODE_ENV !== "production",

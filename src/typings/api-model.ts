@@ -96,6 +96,29 @@ export interface Member {
   updatedAt: string | Date
 }
 
+export enum RentalStatus {
+  PROGRESS = "progress",
+  RETURNED = "returned",
+  PUNISHED = "punished",
+}
+
+export interface Rental {
+  id: Id
+  startDate: Date | string
+  endDate: Date | string
+  price: number
+  finePerDay: number
+  userId: Id
+  user: User
+  bookId: Id
+  book: Book
+  isReturned: boolean
+  returnedAt: Date | string
+  status: RentalStatus
+  createdAt: string | Date
+  updatedAt: string | Date
+}
+
 export type InvoiceStatus = "pending" | "completed" | "draft" | "progress"
 
 export interface Invoice {

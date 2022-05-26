@@ -27,7 +27,7 @@ const getRandomCategory = () => {
   return Array.from(new Set(categories))
 }
 
-const books: Book[] = new Array(100).fill(0).map(() => {
+export const books: Book[] = new Array(100).fill(0).map(() => {
   const coverNumber = getRandomInt(1, 15)
   const titleWordCount = getRandomInt(3, 10)
   const book: Book = {

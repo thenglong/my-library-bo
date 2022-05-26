@@ -6,6 +6,7 @@ const Users = lazy(() => import("components/pages/management/users"))
 const SingleUser = lazy(() => import("components/pages/management/users/single"))
 const Members = lazy(() => import("components/pages/management/members-page"))
 const Libraries = lazy(() => import("components/pages/management/libraries-page"))
+const Rentals = lazy(() => import("components/pages/management/rentals-page"))
 const Books = lazy(() => import("components/pages/management/books-page"))
 const Invoices = lazy(() => import("components/pages/management/invoices-page"))
 const SingleInvoice = lazy(() => import("components/pages/management/invoices-page/single"))
@@ -51,6 +52,19 @@ const managementRoutes: RouteObject[] = [
       {
         path: "list",
         element: <Members />,
+      },
+    ],
+  },
+  {
+    path: "rentals",
+    children: [
+      {
+        path: "",
+        element: <Navigate to="list" replace />,
+      },
+      {
+        path: "list",
+        element: <Rentals />,
       },
     ],
   },
