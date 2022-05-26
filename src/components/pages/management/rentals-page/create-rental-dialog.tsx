@@ -21,13 +21,15 @@ import { useForm } from "react-hook-form"
 import { useTranslation } from "react-i18next"
 import * as Yup from "yup"
 
+import ControlledTextField from "components/controlled-text-field"
+
 const defaultValues = {
   userId: 1,
   bookId: 1,
   startDate: new Date() as Date | null,
   endDate: new Date() as Date | null,
   price: new Date() as Date | null,
-  finePerDay: new Date() as Date | null,
+  finePerDay: 0.25,
 }
 
 const validationSchema = Yup.object().shape({
@@ -35,6 +37,7 @@ const validationSchema = Yup.object().shape({
   bookId: Yup.mixed(),
   startDate: Yup.mixed(),
   endDate: Yup.mixed(),
+  findPerDay: Yup.number(),
 })
 
 interface CreateRentalDialogProps {
@@ -47,9 +50,10 @@ const CreateRentalDialog = ({ open, onClose }: CreateRentalDialogProps) => {
 
   const {
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
     watch,
     setValue,
+    control,
   } = useForm<typeof defaultValues>({
     defaultValues,
     resolver: yupResolver(validationSchema),
@@ -149,6 +153,15 @@ const CreateRentalDialog = ({ open, onClose }: CreateRentalDialogProps) => {
                     )}
                   />
                 </Grid>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <ControlledTextField
+                  isError={Boolean(errors.finePerDay)}
+                  label={t("Fine per day")}
+                  name="finePerDay"
+                  control={control}
+                  errorMessage={errors.finePerDay?.message}
+                />
               </Grid>
             </Grid>
           </Grid>
