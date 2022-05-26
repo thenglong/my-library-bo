@@ -27,8 +27,8 @@ import {
 import { useSnackbar } from "notistack"
 import { useTranslation } from "react-i18next"
 
-import BookGridView from "components/pages/management/books/book-grid-view"
-import BookTableView from "components/pages/management/books/book-table-view"
+import BookGridView from "components/pages/management/books-page/book-grid-view"
+import BookTableView from "components/pages/management/books-page/book-table-view"
 import { VIEW_ORIENTATION } from "constants/common-constants"
 import useBooksQuery from "hooks/queries/use-books-query"
 import useBookActions from "hooks/redux/use-book-actions"

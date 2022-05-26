@@ -5,14 +5,14 @@ import { useNavigate } from "react-router-dom"
 import AppTitleHelmet from "components/app-title-helmet"
 import LanguageSwitcher from "components/layout/app-layout/language-switcher"
 import Logo from "components/logo"
-import LifeQuote from "components/pages/sign-in-page/life-quote"
+import LifeQuote from "components/pages/auth-page/life-quote"
 import {
   Content,
   MainContent,
   SidebarContent,
   SidebarWrapper,
-} from "components/pages/sign-in-page/sign-in-page-styled"
-import SignUpForm from "components/pages/sign-in-page/sign-up-form"
+} from "components/pages/auth-page/sign-in-page-styled"
+import SignUpForm from "components/pages/auth-page/sign-up-form"
 import Scrollbar from "components/scrollbar"
 
 const SignUpPage = () => {

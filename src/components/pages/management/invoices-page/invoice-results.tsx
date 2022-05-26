@@ -40,8 +40,8 @@ import numeral from "numeral"
 import { useTranslation } from "react-i18next"
 import { Link as RouterLink } from "react-router-dom"
 
-import InvoiceBulkActions from "components/pages/management/invoices/invoice-bulk-actions"
-import InvoiceStatusLabel from "components/pages/management/invoices/invoice-status-label"
+import InvoiceBulkActions from "components/pages/management/invoices-page/invoice-bulk-actions"
+import InvoiceStatusLabel from "components/pages/management/invoices-page/invoice-status-label"
 import Transition from "components/transition"
 import { Invoice } from "typings/api-model"
 

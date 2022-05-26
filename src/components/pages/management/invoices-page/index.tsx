@@ -3,9 +3,9 @@ import { Helmet } from "react-helmet-async"
 
 import Footer from "components/footer"
 import PageTitleWrapper from "components/page-title-wrapper"
-import InvoicePageHeader from "components/pages/management/invoices/invoice-page-header"
-import InvoiceResults from "components/pages/management/invoices/invoice-results"
-import InvoiceStatistics from "components/pages/management/invoices/invoice-statistics"
+import InvoicePageHeader from "components/pages/management/invoices-page/invoice-page-header"
+import InvoiceResults from "components/pages/management/invoices-page/invoice-results"
+import InvoiceStatistics from "components/pages/management/invoices-page/invoice-statistics"
 import useInvoicesQuery from "hooks/queries/use-invoices-query"
 
 const ManagementInvoices = () => {

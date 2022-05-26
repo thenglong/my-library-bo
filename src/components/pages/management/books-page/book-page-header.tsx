@@ -4,7 +4,7 @@ import { AddTwoTone as AddTwoToneIcon } from "@mui/icons-material"
 import { Button, Grid, Typography } from "@mui/material"
 import { useTranslation } from "react-i18next"
 
-import CreateBookDialog from "components/pages/management/books/create-book-dialog"
+import CreateBookDialog from "components/pages/management/books-page/create-book-dialog"
 
 const BookPageHeader = () => {
   const { t } = useTranslation()

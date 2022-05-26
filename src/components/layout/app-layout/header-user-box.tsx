@@ -1,23 +1,19 @@
 import { useRef, useState } from "react"
 
 import {
-  ChevronRightTwoTone as ChevronRightTwoToneIcon,
   LockOpenTwoTone as LockOpenTwoToneIcon,
   MonetizationOnTwoTone as MonetizationOnTwoToneIcon,
 } from "@mui/icons-material"
 import {
+  alpha,
   Avatar,
   Box,
   Button,
   Divider,
-  MenuList,
-  alpha,
   IconButton,
-  MenuItem,
-  ListItemText,
   Popover,
-  Typography,
   styled,
+  Typography,
   useTheme,
 } from "@mui/material"
 import { ApexOptions } from "apexcharts"
@@ -28,16 +24,6 @@ import { useNavigate } from "react-router-dom"
 import Text from "components/text"
 import useFirebaseAuthState from "hooks/firebase/use-firebase-auth-state"
 import firebaseService from "services/firebase-service"
-
-const DotLegend = styled("span")(
-  ({ theme }) => `
-    border-radius: 22px;
-    width: ${theme.spacing(1.38)};
-    height: ${theme.spacing(1.4)};
-    display: inline-block;
-    border: ${theme.colors.alpha.white[100]} solid 2px;
-`
-)
 
 const UserBoxButton = styled(IconButton)(
   ({ theme }) => `
@@ -58,32 +44,6 @@ const UserAvatar = styled(Avatar)(
         height: 90%;
         width: 90%;
         border-radius: ${theme.general.borderRadiusLg};
-`
-)
-
-const MenuListWrapperPrimary = styled(MenuList)(
-  ({ theme }) => `
-  padding: ${theme.spacing(2)};
-
-  & .MuiMenuItem-root {
-      border-radius: 50px;
-      padding: ${theme.spacing(1, 1, 1, 2.5)};
-      min-width: 200px;
-      margin-bottom: 2px;
-      position: relative;
-      color: ${theme.colors.alpha.black[100]};
-
-      &.Mui-selected,
-      &:hover,
-      &.MuiButtonBase-root:active {
-          background: ${theme.colors.primary.lighter};
-          color: ${theme.colors.primary.main};
-      }
-
-      &:last-child {
-          margin-bottom: 0;
-      }
-    }
 `
 )
 
@@ -246,68 +206,10 @@ const HeaderUserBox = () => {
           <UserBoxText>
             <UserBoxLabel variant="body1">{user?.displayName}</UserBoxLabel>
             <UserBoxDescription variant="body2">
-              Lorem ipsum.
+              Adminisrator
             </UserBoxDescription>
           </UserBoxText>
         </MenuUserBox>
-        <Divider
-          sx={{
-            mb: 0,
-          }}
-        />
-        <MenuListWrapperPrimary disablePadding>
-          <MenuItem>
-            <ListItemText
-              primaryTypographyProps={{
-                variant: "h5",
-              }}
-              primary={t("My account")}
-            />
-            <ChevronRightTwoToneIcon
-              sx={{
-                color: `${theme.colors.alpha.black[30]}`,
-                opacity: 0.8,
-              }}
-            />
-          </MenuItem>
-          <MenuItem>
-            <ListItemText
-              primaryTypographyProps={{
-                variant: "h5",
-              }}
-              primary={t("Profile settings")}
-            />
-            <Box display="flex" alignItems="center">
-              <DotLegend
-                style={{
-                  background: `${theme.colors.warning.main}`,
-                }}
-              />
-              <ChevronRightTwoToneIcon
-                sx={{
-                  ml: 1,
-                  color: `${theme.colors.alpha.black[30]}`,
-                  opacity: 0.8,
-                }}
-              />
-            </Box>
-          </MenuItem>
-          <MenuItem>
-            <ListItemText
-              primaryTypographyProps={{
-                variant: "h5",
-              }}
-              primary={t("Active tasks")}
-            />
-            <ChevronRightTwoToneIcon
-              sx={{
-                color: `${theme.colors.alpha.black[30]}`,
-                opacity: 0.8,
-              }}
-            />
-          </MenuItem>
-        </MenuListWrapperPrimary>
-        <Divider />
         <Box m={1}>
           <Box px={2} pt={1} pb={0.5} display="flex" alignItems="flex-start">
             <Text color="warning">

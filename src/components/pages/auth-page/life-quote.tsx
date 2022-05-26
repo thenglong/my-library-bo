@@ -1,7 +1,7 @@
 import { Box, Theme, Tooltip, Typography, useTheme } from "@mui/material"
 import Lottie from "lottie-react"
 
-import { CardImage } from "components/pages/sign-in-page/sign-in-page-styled"
+import { CardImage } from "components/pages/auth-page/sign-in-page-styled"
 import bookLover from "data/lottie/book-lover.json"
 import { getInitialImage } from "utils/ui-utils"
 

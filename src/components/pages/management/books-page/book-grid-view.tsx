@@ -11,8 +11,8 @@ import {
 } from "@mui/material"
 import { useTranslation } from "react-i18next"
 
-import BookGridCard from "components/pages/management/books/book-grid-card"
-import BulkActions from "components/pages/management/books/bulk-actions"
+import BookGridCard from "components/pages/management/books-page/book-grid-card"
+import BulkActions from "components/pages/management/books-page/bulk-actions"
 import useBookActions from "hooks/redux/use-book-actions"
 import { useTypedSelector } from "hooks/redux/use-typed-selector"
 import { Book } from "typings/api-model"

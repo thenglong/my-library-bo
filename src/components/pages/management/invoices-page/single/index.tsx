@@ -4,8 +4,8 @@ import { useParams } from "react-router-dom"
 
 import Footer from "components/footer"
 import PageTitleWrapper from "components/page-title-wrapper"
-import InvoiceBody from "components/pages/management/invoices/single/invoice-body"
-import InvoicePageHeader from "components/pages/management/invoices/single/invoice-page-header"
+import InvoiceBody from "components/pages/management/invoices-page/single/invoice-body"
+import InvoicePageHeader from "components/pages/management/invoices-page/single/invoice-page-header"
 import useInvoiceQuery from "hooks/queries/use-invoice-query"
 
 const ManagementInvoicesView = () => {

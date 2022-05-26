@@ -1,6 +1,10 @@
 import { FC } from "react"
 
-import { MenuBook as BookIcon, Person as PersonIcon } from "@mui/icons-material"
+import {
+  MenuBook as BookIcon,
+  Person as PersonIcon,
+  Receipt as ReceiptIcon,
+} from "@mui/icons-material"
 
 export interface MenuItem {
   link?: string
@@ -32,7 +36,7 @@ const menuItems: MenuItems[] = [
       },
       {
         name: "Invoices",
-        icon: BookIcon,
+        icon: ReceiptIcon,
         link: "/app/management/invoices/list",
       },
     ],

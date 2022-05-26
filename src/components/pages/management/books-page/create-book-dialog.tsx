@@ -42,7 +42,7 @@ import {
   AvatarWrapper,
   BoxUploadWrapper,
   EditorWrapper,
-} from "components/pages/management/books/create-book-dialog-styled"
+} from "components/pages/management/books-page/create-book-dialog-styled"
 
 const bookTags = [
   { title: "Development" },
