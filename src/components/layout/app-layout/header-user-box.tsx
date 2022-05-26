@@ -154,7 +154,7 @@ const HeaderUserBox = () => {
       y: {
         title: {
           formatter() {
-            return "Orders:"
+            return "Rent:"
           },
         },
       },
