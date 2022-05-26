@@ -30,6 +30,11 @@ const menuItems: MenuItems[] = [
         link: "/app/management/users/list",
       },
       {
+        name: "Members",
+        icon: BookIcon,
+        link: "/app/management/members/list",
+      },
+      {
         name: "Books",
         icon: BookIcon,
         link: "/app/management/books/list",

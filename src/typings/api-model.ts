@@ -60,6 +60,41 @@ export interface Book {
   lastRentalDate?: string | Date
 }
 
+export enum LibraryStatus {
+  APPROVED = "approved",
+  PENDING = "pending",
+  REJECTED = "rejected",
+}
+
+export interface Library {
+  id: Id
+  name: string
+  address: string
+  description: string
+  status: LibraryStatus
+  phone: string
+  createdAt: string | Date
+  updatedAt: string | Date
+}
+
+export enum MemberStatus {
+  EXPIRED = "expired",
+  ACTIVE = "active",
+}
+
+export interface Member {
+  id: Id
+  libraryId: Id
+  library: Library
+  userId: Id
+  user: User
+  status: MemberStatus
+  startDate: Date | string
+  endDate: Date | string
+  createdAt: string | Date
+  updatedAt: string | Date
+}
+
 export type InvoiceStatus = "pending" | "completed" | "draft" | "progress"
 
 export interface Invoice {

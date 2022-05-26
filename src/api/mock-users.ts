@@ -11,12 +11,12 @@ import { mock } from "./_api"
 let idCounter = 1
 const getUserId = () => idCounter++
 
+const roles = [UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.CUSTOMER]
 const getRandomRoles = () => {
-  const roles = [UserRole.ADMIN, UserRole.LIBRARIAN, UserRole.CUSTOMER]
   return roles[getRandomInt(0, roles.length - 1)]
 }
 
-const users: User[] = new Array(100).fill(0).map(() => {
+export const users: User[] = new Array(100).fill(0).map(() => {
   const avatarNumber = getRandomInt(1, 5)
   const user: User = {
     avatar: `/mock-assets/user-avatars/${avatarNumber}.jpg`,
