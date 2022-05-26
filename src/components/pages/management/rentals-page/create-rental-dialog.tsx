@@ -1,100 +1,55 @@
+// eslint-disable-next-line import/no-unresolved
+import { faker } from "@faker-js/faker" // TODO
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup"
+import { DatePicker } from "@mui/lab"
 import {
-  CheckTwoTone as CheckTwoToneIcon,
-  CloseTwoTone as CloseTwoToneIcon,
-  CloudUploadTwoTone as CloudUploadTwoToneIcon,
-} from "@mui/icons-material"
-import {
-  Alert,
-  Box,
   Button,
   CircularProgress,
   Dialog,
+  DialogActions,
   DialogContent,
   DialogTitle,
-  Divider,
+  FormControl,
   Grid,
-  List,
-  ListItem,
-  ListItemText,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
   Typography,
-  useTheme,
-  Zoom,
 } from "@mui/material"
-import { useSnackbar } from "notistack"
-import { useDropzone } from "react-dropzone"
 import { useForm } from "react-hook-form"
 import { useTranslation } from "react-i18next"
-import * as yup from "yup"
-
-import ControlledTextField from "components/controlled-text-field"
-import {
-  AvatarDanger,
-  AvatarSuccess,
-  AvatarWrapper,
-  BoxUploadWrapper,
-} from "components/pages/management/books-page/create-book-dialog-styled"
+import * as Yup from "yup"
 
 const defaultValues = {
-  name: "",
-  address: "",
-  description: "",
-  phone: "",
-  email: "",
+  userId: 1,
+  bookId: 1,
+  startDate: new Date() as Date | null,
+  endDate: new Date() as Date | null,
+  price: new Date() as Date | null,
+  finePerDay: new Date() as Date | null,
 }
 
-const validationSchema = yup.object().shape({
-  name: yup.string().max(255).required("The name field is required"),
+const validationSchema = Yup.object().shape({
+  userId: Yup.mixed(),
+  bookId: Yup.mixed(),
+  startDate: Yup.mixed(),
+  endDate: Yup.mixed(),
 })
 
-interface CreateLibraryDialogProps {
+interface CreateRentalDialogProps {
   open: boolean
   onClose: () => void
 }
 
-const CreateRentalDialog = ({ open, onClose }: CreateLibraryDialogProps) => {
+const CreateRentalDialog = ({ open, onClose }: CreateRentalDialogProps) => {
   const { t } = useTranslation()
-  const { enqueueSnackbar } = useSnackbar()
-  const theme = useTheme()
-
-  const {
-    acceptedFiles,
-    isDragActive,
-    isDragAccept,
-    isDragReject,
-    getRootProps,
-    getInputProps,
-  } = useDropzone({
-    accept: {
-      image: ["image/jpeg", "image/png"],
-    },
-  })
-
-  const files = acceptedFiles.map((file, index) => (
-    <ListItem disableGutters component="div" key={index}>
-      <ListItemText primary={file.name} />
-      <b>{file.size} bytes</b>
-      <Divider />
-    </ListItem>
-  ))
-
-  const _handleCreateBookSuccess = () => {
-    enqueueSnackbar(t("A new library has been created successfully"), {
-      variant: "success",
-      anchorOrigin: {
-        vertical: "top",
-        horizontal: "right",
-      },
-      TransitionComponent: Zoom,
-    })
-
-    onClose()
-  }
 
   const {
     handleSubmit,
-    formState: { errors, isSubmitting },
-    control,
+    formState: { isSubmitting },
+    watch,
+    setValue,
   } = useForm<typeof defaultValues>({
     defaultValues,
     resolver: yupResolver(validationSchema),
@@ -105,17 +60,17 @@ const CreateRentalDialog = ({ open, onClose }: CreateLibraryDialogProps) => {
   })
 
   return (
-    <Dialog fullWidth maxWidth="md" open={open} onClose={onClose}>
+    <Dialog fullWidth maxWidth="sm" open={open} onClose={onClose}>
       <DialogTitle
         sx={{
           p: 3,
         }}
       >
         <Typography variant="h4" gutterBottom>
-          {t("Create new library")}
+          {t("Create a new rental")}
         </Typography>
         <Typography variant="subtitle2">
-          {t("Use this dialog window to add a new library")}
+          {t("Fill in the fields below to create and add a new rental")}
         </Typography>
       </DialogTitle>
 
@@ -126,311 +81,95 @@ const CreateRentalDialog = ({ open, onClose }: CreateLibraryDialogProps) => {
             p: 3,
           }}
         >
-          <Grid container spacing={0}>
-            <Grid
-              item
-              xs={12}
-              sm={4}
-              md={3}
-              justifyContent="flex-end"
-              textAlign={{ sm: "right" }}
-            >
-              <Box
-                pr={3}
-                sx={{
-                  pt: `${theme.spacing(2)}`,
-                  pb: { xs: 1, md: 0 },
-                }}
-                alignSelf="center"
-              >
-                <b>{t("Library Name")}:</b>
-              </Box>
-            </Grid>
-            <Grid
-              sx={{
-                mb: `${theme.spacing(3)}`,
-              }}
-              item
-              xs={12}
-              sm={8}
-              md={9}
-            >
-              <ControlledTextField
-                isError={Boolean(errors.name)}
-                placeholder="Library name title here..."
-                name="name"
-                control={control}
-                errorMessage={errors.name?.message}
-              />
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              sm={4}
-              md={3}
-              justifyContent="flex-end"
-              textAlign={{ sm: "right" }}
-            >
-              <Box
-                pr={3}
-                sx={{
-                  pt: `${theme.spacing(2)}`,
-                  pb: { xs: 1, md: 0 },
-                }}
-                alignSelf="center"
-              >
-                <b>{t("Address")}:</b>
-              </Box>
-            </Grid>
-            <Grid
-              sx={{
-                mb: `${theme.spacing(3)}`,
-              }}
-              item
-              xs={12}
-              sm={8}
-              md={9}
-            >
-              <ControlledTextField
-                isError={Boolean(errors.address)}
-                placeholder="Address here..."
-                name="address"
-                control={control}
-                errorMessage={errors.address?.message}
-              />
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              sm={4}
-              md={3}
-              justifyContent="flex-end"
-              textAlign={{ sm: "right" }}
-            >
-              <Box
-                pr={3}
-                sx={{
-                  pt: `${theme.spacing(2)}`,
-                  pb: { xs: 1, md: 0 },
-                }}
-                alignSelf="center"
-              >
-                <b>{t("Description")}:</b>
-              </Box>
-            </Grid>
-            <Grid
-              sx={{
-                mb: `${theme.spacing(3)}`,
-              }}
-              item
-              xs={12}
-              sm={8}
-              md={9}
-            >
-              <ControlledTextField
-                isError={Boolean(errors.description)}
-                placeholder="Description here..."
-                name="description"
-                control={control}
-                errorMessage={errors.description?.message}
-                multiline
-                minRows={3}
-              />
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              sm={4}
-              md={3}
-              justifyContent="flex-end"
-              textAlign={{ sm: "right" }}
-            >
-              <Box
-                pr={3}
-                sx={{
-                  pt: `${theme.spacing(2)}`,
-                  pb: { xs: 1, md: 0 },
-                }}
-                alignSelf="center"
-              >
-                <b>{t("Phone Number")}:</b>
-              </Box>
-            </Grid>
-            <Grid
-              sx={{
-                mb: `${theme.spacing(3)}`,
-              }}
-              item
-              xs={12}
-              sm={8}
-              md={9}
-            >
-              <ControlledTextField
-                isError={Boolean(errors.phone)}
-                placeholder="Phone Number here..."
-                name="phone"
-                control={control}
-                errorMessage={errors.phone?.message}
-              />
-            </Grid>
-
-            <Grid
-              item
-              xs={12}
-              sm={4}
-              md={3}
-              justifyContent="flex-end"
-              textAlign={{ sm: "right" }}
-            >
-              <Box
-                pr={3}
-                sx={{
-                  pt: `${theme.spacing(2)}`,
-                  pb: { xs: 1, md: 0 },
-                }}
-                alignSelf="center"
-              >
-                <b>{t("Email")}:</b>
-              </Box>
-            </Grid>
-            <Grid
-              sx={{
-                mb: `${theme.spacing(3)}`,
-              }}
-              item
-              xs={12}
-              sm={8}
-              md={9}
-            >
-              <ControlledTextField
-                isError={Boolean(errors.email)}
-                placeholder="Email here..."
-                name="email"
-                control={control}
-                errorMessage={errors.email?.message}
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={4} md={3} textAlign={{ sm: "right" }}>
-              <Box
-                pr={3}
-                sx={{
-                  pb: { xs: 1, md: 0 },
-                }}
-              >
-                <b>{t("Logo")}:</b>
-              </Box>
-            </Grid>
-            <Grid
-              sx={{
-                mb: `${theme.spacing(3)}`,
-              }}
-              item
-              xs={12}
-              sm={8}
-              md={9}
-            >
-              <BoxUploadWrapper {...getRootProps()}>
-                <input {...getInputProps()} />
-                {isDragAccept && (
-                  <>
-                    <AvatarSuccess variant="rounded">
-                      <CheckTwoToneIcon />
-                    </AvatarSuccess>
-                    <Typography
-                      sx={{
-                        mt: 2,
-                      }}
-                    >
-                      {t("Drop the files to start uploading")}
-                    </Typography>
-                  </>
-                )}
-                {isDragReject && (
-                  <>
-                    <AvatarDanger variant="rounded">
-                      <CloseTwoToneIcon />
-                    </AvatarDanger>
-                    <Typography
-                      sx={{
-                        mt: 2,
-                      }}
-                    >
-                      {t("You cannot upload these file types")}
-                    </Typography>
-                  </>
-                )}
-                {!isDragActive && (
-                  <>
-                    <AvatarWrapper variant="rounded">
-                      <CloudUploadTwoToneIcon />
-                    </AvatarWrapper>
-                    <Typography
-                      sx={{
-                        mt: 2,
-                      }}
-                    >
-                      {t("Drag & drop files here")}
-                    </Typography>
-                  </>
-                )}
-              </BoxUploadWrapper>
-              {files.length > 0 && (
-                <>
-                  <Alert
-                    sx={{
-                      py: 0,
-                      mt: 2,
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Grid container spacing={3}>
+                <Grid item xs={12}>
+                  <FormControl fullWidth>
+                    <InputLabel id="userId">Select Customer</InputLabel>
+                    <Select labelId="userid" label="Select Customer">
+                      {new Array(20).fill(0).map((_, index) => {
+                        const name =
+                          faker.name.firstName() + " " + faker.name.lastName()
+                        return (
+                          <MenuItem key={index} value={name}>
+                            {name}
+                          </MenuItem>
+                        )
+                      })}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                  <FormControl fullWidth>
+                    <InputLabel id="bookId">Select Customer</InputLabel>
+                    <Select labelId="bookId" label="Select Book">
+                      {new Array(20).fill(0).map((_, index) => {
+                        const bookName = faker.name.firstName()
+                        return (
+                          <MenuItem key={index} value={bookName}>
+                            {bookName}
+                          </MenuItem>
+                        )
+                      })}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <DatePicker
+                    value={watch("startDate")}
+                    onChange={(newValue) => {
+                      setValue("startDate", newValue)
                     }}
-                    severity="success"
-                  >
-                    {t("You have uploaded")} <b>{files.length}</b> {t("files")}!
-                  </Alert>
-                  <Divider
-                    sx={{
-                      mt: 2,
-                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        placeholder={t("Select end date...")}
+                        margin="normal"
+                        label="Start Date"
+                        variant="outlined"
+                      />
+                    )}
                   />
-                  <List disablePadding component="div">
-                    {files}
-                  </List>
-                </>
-              )}
-            </Grid>
-
-            <Grid
-              sx={{
-                mb: `${theme.spacing(3)}`,
-                textAlign: "right",
-              }}
-              item
-              xs={12}
-            >
-              <Button
-                sx={{
-                  mr: 2,
-                }}
-                color="secondary"
-                size="large"
-                variant="outlined"
-                onClick={onClose}
-              >
-                {t("Cancel")}
-              </Button>
-              <Button
-                type="submit"
-                startIcon={
-                  isSubmitting ? <CircularProgress size="1rem" /> : null
-                }
-                disabled={isSubmitting}
-                variant="contained"
-                size="large"
-              >
-                {t("Create Book")}
-              </Button>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <DatePicker
+                    value={watch("endDate")}
+                    onChange={(newValue) => {
+                      setValue("endDate", newValue)
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        placeholder={t("Select end date...")}
+                        label="End Date"
+                        margin="normal"
+                        variant="outlined"
+                      />
+                    )}
+                  />
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         </DialogContent>
+        <DialogActions
+          sx={{
+            p: 3,
+          }}
+        >
+          <Button color="secondary" onClick={onClose}>
+            {t("Cancel")}
+          </Button>
+          <Button
+            type="submit"
+            startIcon={isSubmitting ? <CircularProgress size="1rem" /> : null}
+            disabled={isSubmitting}
+            variant="contained"
+          >
+            {t("Create")}
+          </Button>
+        </DialogActions>
       </form>
     </Dialog>
   )
