@@ -37,6 +37,7 @@ export const books: Book[] = new Array(100).fill(0).map(() => {
     year: getRandomInt(1874, 1877),
     author: faker.name.findName(),
     country: faker.address.country(),
+    inStock: getRandomInt(0, 10),
     coverImageUrl: `mock-assets/book-covers/${coverNumber}.jpg`,
     language: getRandomLanguage(),
     pages: getRandomInt(100, 1000),

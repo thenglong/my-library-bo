@@ -169,9 +169,7 @@ const BookGridCard = ({ book }: BookGridCardProps) => {
           >
             <Box display="flex" justifyContent="flex-start">
               <Typography variant="subtitle2">
-                {/* TODO: */}
-                {t("Written by")}{" "}
-                <Text color="black">{book.author.slice(0, 6)}</Text>
+                {t("In Stock: ")} <Text color="black">{book.inStock}</Text>
               </Typography>
             </Box>
             <Box>

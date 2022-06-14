@@ -52,6 +52,7 @@ export interface Book {
   coverImageUrl: string
   language: string
   description?: string
+  inStock: number
   pages: number
   year: number
   categories?: string[]
