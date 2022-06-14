@@ -49,6 +49,10 @@
     "use-debounce": "^8.0.1",
     "yup": "^0.32.11"
   },
+  "overrides": {
+    "react": "$react",
+    "react-dom": "$react-dom"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
