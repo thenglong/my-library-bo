@@ -9,7 +9,7 @@
     "@hookform/resolvers": "^2.8.10",
     "@mui/icons-material": "^5.8.3",
     "@mui/lab": "^5.0.0-alpha.83",
-    "@mui/material": "^5.8.3",
+    "@mui/material": "^5.8.4",
     "@reduxjs/toolkit": "^1.8.2",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
