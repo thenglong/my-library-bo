@@ -22,7 +22,7 @@
     "framer-motion": "^6.3.11",
     "i18next-browser-languagedetector": "^6.1.4",
     "khmer-name-generator": "^2.0.0",
-    "lottie-react": "^2.2.1",
+    "lottie-react": "^2.3.0",
     "mui-image": "^1.0.4",
     "nanoid": "^4.0.0",
     "notistack": "^2.0.5",
