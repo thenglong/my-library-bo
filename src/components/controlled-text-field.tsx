@@ -7,8 +7,7 @@ import {
 
 import { Visibility, VisibilityOff } from "@mui/icons-material"
 import { IconButton, InputAdornment, TextField } from "@mui/material"
-import { Controller } from "react-hook-form"
-import { Control } from "react-hook-form/dist/types/form"
+import { Controller, Control } from "react-hook-form"
 import { useTranslation } from "react-i18next"
 
 interface ControlledTextFieldProps {

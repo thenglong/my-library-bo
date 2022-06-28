@@ -1,8 +1,7 @@
 import { ComponentProps } from "react"
 
 import { Checkbox, FormControlLabel } from "@mui/material"
-import { Controller } from "react-hook-form"
-import { Control } from "react-hook-form/dist/types/form"
+import { Controller, Control } from "react-hook-form"
 
 interface ControlledCheckboxProps {
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
