@@ -166,10 +166,10 @@ const CreateUserDialog = ({ open, onClose }: CreateUserDialogProps) => {
                 <Grid item xs={12} md={6}>
                   <DatePicker
                     value={watch("dob")}
-                    onChange={(newValue) => {
+                    onChange={(newValue: Date) => {
                       setValue("dob", newValue)
                     }}
-                    renderInput={(params) => (
+                    renderInput={(params: any) => (
                       <TextField
                         {...params}
                         placeholder={t("Select date...")}

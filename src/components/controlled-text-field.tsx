@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next"
 
 interface ControlledTextFieldProps {
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  control: Control<any>
+  control: any
   name: string
   label?: string
   placeholder?: string
