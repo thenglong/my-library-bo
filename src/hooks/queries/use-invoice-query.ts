@@ -1,4 +1,4 @@
-import { useQuery } from "react-query"
+import { useQuery } from "@tanstack/react-query"
 
 import invoiceApi from "api/invoices-api"
 import { Invoice } from "typings/api-model"

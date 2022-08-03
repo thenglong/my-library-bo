@@ -1,4 +1,4 @@
-import { useQuery } from "react-query"
+import { useQuery } from "@tanstack/react-query"
 
 import userApi from "api/users-api"
 import { Book } from "typings/api-model"

@@ -3,7 +3,7 @@ import {
   browserLocalPersistence,
   browserSessionPersistence,
 } from "firebase/auth"
-import { useMutation } from "react-query"
+import { useMutation } from "@tanstack/react-query"
 
 import firebaseService from "services/firebase-service"
 

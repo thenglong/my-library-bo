@@ -1,4 +1,4 @@
-import { useQuery } from "react-query"
+import { useQuery } from "@tanstack/react-query"
 import { useDebounce } from "use-debounce"
 
 import memberApi from "api/members-api"

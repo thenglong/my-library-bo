@@ -1,5 +1,5 @@
 import { Box, LinearProgress, useTheme } from "@mui/material"
-import { useIsFetching } from "react-query"
+import { useIsFetching } from "@tanstack/react-query"
 
 const FetchingLinearProgress = () => {
   const isFetching = useIsFetching()
